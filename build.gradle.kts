@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -73,6 +74,11 @@ tasks.withType<KotlinCompile> {
         }
     }
 }
+withType<ShadowJar> {
+    setProperty("zip64", true)
+    manifest.attributes["Main-Class"] = "no.nav.syfo.BootstrapApplicationKt"
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
