@@ -1,16 +1,16 @@
 package no.nav.syfo
 
-import no.nav.syfo.exception.AbstractApiError
-import no.nav.syfo.exception.LogLevel
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.security.token.support.core.jwt.JwtTokenClaims
+import no.nav.syfo.exception.AbstractApiError
+import no.nav.syfo.exception.LogLevel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 
 class TokenValidator(
     @Autowired
     private val tokenValidationContextHolder: TokenValidationContextHolder,
-    private val expectedClientId: String
+    private val expectedClientId: String,
 ) {
     fun validerTokenXClaims(): JwtTokenClaims {
         val context = tokenValidationContextHolder.tokenValidationContext
@@ -31,5 +31,5 @@ class IngenTilgang(override val message: String) : AbstractApiError(
     message = message,
     httpStatus = HttpStatus.FORBIDDEN,
     reason = "INGEN_TILGANG",
-    loglevel = LogLevel.WARN
+    loglevel = LogLevel.WARN,
 )

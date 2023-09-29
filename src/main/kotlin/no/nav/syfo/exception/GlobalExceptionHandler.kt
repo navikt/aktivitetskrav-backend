@@ -28,6 +28,7 @@ class GlobalExceptionHandler {
 
                 ResponseEntity(ApiError(ex.reason), ex.httpStatus)
             }
+
             is JwtTokenInvalidClaimException -> skapResponseEntity(HttpStatus.UNAUTHORIZED)
             is JwtTokenUnauthorizedException -> skapResponseEntity(HttpStatus.UNAUTHORIZED)
             is HttpMediaTypeNotAcceptableException -> skapResponseEntity(HttpStatus.NOT_ACCEPTABLE)
