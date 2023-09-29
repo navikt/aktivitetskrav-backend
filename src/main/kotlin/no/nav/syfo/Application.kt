@@ -1,4 +1,4 @@
-package no.nav.helse.flex
+package no.nav.syfo
 
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -9,5 +9,5 @@ import org.springframework.boot.runApplication
 class Application
 
 fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+    runApplication<no.nav.syfo.Application>(*args)
 }

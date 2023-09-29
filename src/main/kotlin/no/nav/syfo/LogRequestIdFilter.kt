@@ -1,4 +1,4 @@
-package no.nav.helse.flex
+package no.nav.syfo
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpFilter

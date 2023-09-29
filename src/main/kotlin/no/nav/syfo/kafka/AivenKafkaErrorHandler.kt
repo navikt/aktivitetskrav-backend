@@ -1,6 +1,6 @@
-package no.nav.helse.flex.kafka
+package no.nav.syfo.kafka
 
-import no.nav.helse.flex.logger
+import no.nav.syfo.logger
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.ConsumerRecords

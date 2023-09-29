@@ -1,7 +1,7 @@
-package no.nav.helse.flex
+package no.nav.syfo
 
-import no.nav.helse.flex.exception.AbstractApiError
-import no.nav.helse.flex.exception.LogLevel
+import no.nav.syfo.exception.AbstractApiError
+import no.nav.syfo.exception.LogLevel
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.security.token.support.core.jwt.JwtTokenClaims
 import org.springframework.beans.factory.annotation.Autowired

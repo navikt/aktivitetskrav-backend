@@ -1,9 +1,9 @@
-package no.nav.helse.flex.exception
+package no.nav.syfo.exception
 
 import jakarta.servlet.http.HttpServletRequest
-import no.nav.helse.flex.logger
 import no.nav.security.token.support.core.exceptions.JwtTokenInvalidClaimException
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException
+import no.nav.syfo.logger
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.HttpMediaTypeNotAcceptableException
@@ -49,7 +49,7 @@ abstract class AbstractApiError(
     val httpStatus: HttpStatus,
     val reason: String,
     val loglevel: LogLevel,
-    grunn: Throwable? = null
+    grunn: Throwable? = null,
 ) : RuntimeException(message, grunn)
 
 enum class LogLevel {

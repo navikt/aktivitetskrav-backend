@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.10"
 }
 
-group = "no.nav.helse.flex"
+group = "no.nav.syfo"
 version = "1.0.0"
 description = "ditt-sykefravaer-backend"
 java.sourceCompatibility = JavaVersion.VERSION_17
