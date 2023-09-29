@@ -1,10 +1,12 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.gradle.model.internal.core.ModelNodes.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
 }
@@ -74,9 +76,9 @@ tasks.withType<KotlinCompile> {
         }
     }
 }
-withType<ShadowJar> {
+tasks.withType<ShadowJar> {
     setProperty("zip64", true)
-    manifest.attributes["Main-Class"] = "no.nav.syfo.BootstrapApplicationKt"
+    manifest.attributes["Main-Class"] = "no.nav.syfo.ApplicationKt"
 }
 
 tasks.withType<Test> {
