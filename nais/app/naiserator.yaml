@@ -1,10 +1,10 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: ditt-sykefravaer-backend
-  namespace: flex
+  name: aktivitetskrav-backend
+  namespace: team-esyfo
   labels:
-    team: flex
+    team: team-esyfo
 spec:
   image: {{image}}
   replicas:
@@ -46,7 +46,7 @@ spec:
         pointInTimeRecovery: false
         diskAutoresize: true
         databases:
-          - name: ditt-sykefravaer-backend-db
+          - name: aktivitetskrav-backend-db
             users:
               - name: bigquery-datastream
             envVarPrefix: DATABASE

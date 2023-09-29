@@ -10,7 +10,7 @@ plugins {
 
 group = "no.nav.syfo"
 version = "1.0.0"
-description = "ditt-sykefravaer-backend"
+description = "aktivitetskrav-backend"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 ext["okhttp3.version"] = "4.11.0"
