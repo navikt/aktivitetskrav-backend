@@ -6,40 +6,42 @@ metadata:
   labels:
     team: team-esyfo
 spec:
-  image: {{image}}
-  replicas:
-    min: {{replicas_min}}
-    max: {{replicas_max}}
-    cpuThresholdPercentage: 90
+  image: {{ image }}
   port: 8080
   liveness:
-    path: /internal/health
+    path: /isAlive
+    initialDelay: 10
+    timeout: 5
+    periodSeconds: 10
+    failureThreshold: 5
   readiness:
-    path: /internal/health
-  startup:
-    path: /internal/health
-    initialDelay: 40
-  prometheus:
-    enabled: true
-    path: /internal/prometheus
+    path: /isReady
+    initialDelay: 10
+    periodSeconds: 5
+    timeout: 5
   resources:
     limits:
-      memory: {{memory}}
+      memory: 1024Mi
     requests:
-      cpu: {{cpu}}
-      memory: {{memory}}
-  kafka:
-    pool: {{kafkaPool}}
-  tokenx:
+      cpu: 100m
+      memory: 512Mi
+  replicas:
+    min: 1
+    max: 2
+    cpuThresholdPercentage: 90
+  prometheus:
     enabled: true
+    path: /prometheus
   accessPolicy:
     inbound:
       rules:
-        - application: ditt-sykefravaer
+        - application: esyfovarsel-job
+        - application: esyfo-info-frontend
+          namespace: team-esyfo
+          cluster: dev-gcp
   gcp:
     sqlInstances:
       - type: POSTGRES_14
-        tier: {{db_tier}}
         diskType: SSD
         highAvailability: true
         diskSize: 10
@@ -56,19 +58,10 @@ spec:
         flags:
           - name: cloudsql.logical_decoding
             value: "on"
-  env:
-  {{#each env}}
-     - name: {{@key}}
-  value: "{{this}}"
-  {{/each}}
-
-kafkaPool: nav-dev
-environment: dev
-replicas_min: 1
-replicas_max: 2
-cpu: 200m
-memory: 400Mi
-db_tier: db-f1-micro
-env:
-  SPRING_PROFILES_ACTIVE: default
-  AIVEN_KAFKA_AUTO_OFFSET_RESET: latest
+  tokenx:
+    enabled: true
+  kafka:
+    pool: nav-dev
+  leaderElection: true
+  filesFrom:
+    - secret: aktivitetskrav-backend-serviceuser
