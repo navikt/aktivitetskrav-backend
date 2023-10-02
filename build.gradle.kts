@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.gradle.model.internal.core.ModelNodes.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
