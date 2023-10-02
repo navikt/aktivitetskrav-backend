@@ -59,8 +59,9 @@ spec:
   env:
   {{#each env}}
      - name: {{@key}}
-       value: "{{this}}"
+  value: "{{this}}"
   {{/each}}
+
 kafkaPool: nav-dev
 environment: dev
 replicas_min: 1
