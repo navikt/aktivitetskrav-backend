@@ -80,7 +80,6 @@ tasks.withType<ShadowJar> {
     manifest.attributes["Main-Class"] = "no.nav.syfo.ApplicationKt"
 }
 
-// test
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
