@@ -41,6 +41,7 @@ spec:
         diskSize: 10
         pointInTimeRecovery: false
         diskAutoresize: true
+        name: esyfovarsel-backend-db-instance
         databases:
           - name: aktivitetskrav-backend-db
             users:
