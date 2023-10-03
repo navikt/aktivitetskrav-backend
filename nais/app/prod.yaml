@@ -1,3 +1,4 @@
+team: team-esyfo
 kafkaPool: nav-prod
 environment: prod
 replicas_min: 2

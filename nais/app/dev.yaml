@@ -1,3 +1,4 @@
+team: team-esyfo
 kafkaPool: nav-dev
 environment: dev
 replicas_min: 1
