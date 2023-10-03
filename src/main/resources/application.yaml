@@ -8,9 +8,9 @@ spring:
   flyway:
     enabled: true
   datasource:
-    url: "jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}?reWriteBatchedInserts=true"
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: "jdbc:postgresql://${NAIS_DATABASE_AKTIVITETSKRAV-BACKEND_DATABASE_HOST}:${NAIS_DATABASE_AKTIVITETSKRAV-BACKEND_DATABASE_PORT}/${NAIS_DATABASE_AKTIVITETSKRAV-BACKEND_DATABASE_DATABASE}?reWriteBatchedInserts=true"
+    username: ${NAIS_DATABASE_AKTIVITETSKRAV-BACKEND_DATABASE_USERNAME}
+    password: ${NAIS_DATABASE_AKTIVITETSKRAV-BACKEND_DATABASE_PASSWORD}
     hikari:
       minimum-idle: 1
       maximum-pool-size: 5
