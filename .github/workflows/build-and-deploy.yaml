@@ -2,8 +2,8 @@ name: Build & Deploy
 on: push
 
 jobs:
-  jar-app:
-    uses: navikt/teamesyfo-github-actions-workflows/.github/workflows/spring-boot.yaml@add-spring-boot-workflow
+  boot-jar-app:
+    uses: navikt/teamesyfo-github-actions-workflows/.github/workflows/boot-jar-app.yaml@main
     permissions:
       actions: read
       contents: read

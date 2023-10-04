@@ -1,11 +1,9 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
-    id("com.github.johnrengelman.shadow") version "7.1.0"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
 }
@@ -13,7 +11,7 @@ plugins {
 group = "no.nav.syfo"
 version = "1.0.0"
 description = "aktivitetskrav-backend"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 ext["okhttp3.version"] = "4.11.0"
 
@@ -69,15 +67,14 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "19"
         if (System.getenv("CI") == "true") {
             kotlinOptions.allWarningsAsErrors = true
         }
     }
 }
-tasks.withType<ShadowJar> {
-    setProperty("zip64", true)
-    manifest.attributes["Main-Class"] = "no.nav.syfo.ApplicationKt"
+tasks.getByName<Jar>("jar") {
+    enabled = false
 }
 
 tasks.withType<Test> {
