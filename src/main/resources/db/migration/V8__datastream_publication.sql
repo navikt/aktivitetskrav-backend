@@ -1,1 +1,0 @@
-CREATE PUBLICATION ditt_sykefravaer_backend_publication for ALL TABLES;
