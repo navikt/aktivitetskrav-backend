@@ -3,7 +3,7 @@ package no.nav.syfo.kafka
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG
 import org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG
 import org.apache.kafka.clients.producer.ProducerConfig.RETRIES_CONFIG
@@ -19,6 +19,8 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.ContainerProperties
 
+const val aktivitetskravVurderingTopic = "teamsykefravr.aktivitetskrav-vurdering"
+
 @Configuration
 class AivenKafkaConfig(
     @Value("\${KAFKA_BROKERS}") private val kafkaBrokers: String,
@@ -32,7 +34,7 @@ class AivenKafkaConfig(
     private val PKCS12 = "PKCS12"
 
     @Bean
-    fun sykepengesoknadProducer(): KafkaProducer<String, String> {
+    fun aktivtetskravVurderingConusmer(): KafkaConsumer<String, String> {
         val configs = mapOf(
             KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
             VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
@@ -40,7 +42,7 @@ class AivenKafkaConfig(
             RETRIES_CONFIG to 10,
             RETRY_BACKOFF_MS_CONFIG to 100
         ) + commonConfig()
-        return KafkaProducer<String, String>(configs)
+        return KafkaConsumer<String, String>(configs)
     }
 
     fun commonConfig() = mapOf(
@@ -64,7 +66,7 @@ class AivenKafkaConfig(
         aivenKafkaErrorHandler: AivenKafkaErrorHandler
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
-            ConsumerConfig.GROUP_ID_CONFIG to "ditt-sykefravaer-backend-consumer",
+            ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group",
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to kafkaAutoOffsetReset,
             ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
@@ -81,5 +83,3 @@ class AivenKafkaConfig(
         return factory
     }
 }
-
-const val dittSykefravaerMeldingTopic = "flex." + "ditt-sykefravaer-melding"
