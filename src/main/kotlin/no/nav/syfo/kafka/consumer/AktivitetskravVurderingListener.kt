@@ -24,7 +24,7 @@ class AktivitetskravVurderingListener(
         log.info("Received record from topic: $aktivitetskravVurderingTopic")
         try {
             val aktivitetskravVurdering = record.value()
-            aktivitetskravVurderingService.processAktivitetskravVurdering(aktivitetskravVurdering)
+            aktivitetskravVurderingService.processAktivitetskravVurdering(aktivitetskravVurdering.toAktivitetskravVurdering())
             ack.acknowledge()
         } catch (e: RuntimeException) {
             log.error("Error during record processing. Shutting down application ...")
