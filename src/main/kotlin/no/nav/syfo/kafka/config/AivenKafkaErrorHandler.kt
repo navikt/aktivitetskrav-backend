@@ -1,4 +1,4 @@
-package no.nav.syfo.kafka
+package no.nav.syfo.kafka.config
 
 import no.nav.syfo.logger
 import org.apache.kafka.clients.consumer.Consumer
