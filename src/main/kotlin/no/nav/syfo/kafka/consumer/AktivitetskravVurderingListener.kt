@@ -4,6 +4,7 @@ import no.nav.syfo.kafka.config.aktivitetskravVurderingTopic
 import no.nav.syfo.logger
 import no.nav.syfo.service.AktivitetskravVurderingService
 import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.info.JavaInfo.JavaRuntimeEnvironmentInfo
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component
 import kotlin.system.exitProcess
 
 @Component
-class AktivitetskravVurderingListener(
-    val aktivitetskravVurderingService: AktivitetskravVurderingService
+class AktivitetskravVurderingListener @Autowired constructor(
+    private val aktivitetskravVurderingService: AktivitetskravVurderingService
 ) {
 
     private val log = logger()
