@@ -1,4 +1,4 @@
-package no.nav.syfo.kafka
+package no.nav.syfo.kafka.config
 
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
