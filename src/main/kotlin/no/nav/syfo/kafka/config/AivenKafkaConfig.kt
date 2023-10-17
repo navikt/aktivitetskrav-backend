@@ -42,7 +42,7 @@ class AivenKafkaConfig(
     )
 
     @Bean
-    fun aivenKafkaListenerContainerFactory(
+    fun kafkaListenerContainerFactory(
         aivenKafkaErrorHandler: AivenKafkaErrorHandler
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
