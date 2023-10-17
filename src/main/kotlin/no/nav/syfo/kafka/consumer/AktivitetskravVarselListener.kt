@@ -1,8 +1,8 @@
 package no.nav.syfo.kafka.consumer
 
-import no.nav.syfo.kafka.config.aktivitetskravVurderingTopic
-import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
-import no.nav.syfo.kafka.consumer.domain.toAktivitetskravVurdering
+import no.nav.syfo.kafka.config.aktivitetskravVarselTopic
+import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
+import no.nav.syfo.kafka.consumer.domain.toAktivitetskravVarsel
 import no.nav.syfo.logger
 import no.nav.syfo.service.AktivitetskravService
 import org.apache.kafka.clients.consumer.ConsumerRecord
@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component
 import kotlin.system.exitProcess
 
 @Component
-class AktivitetskravVurderingListener @Autowired constructor(
+class AktivitetskravVarselListener @Autowired constructor(
     private val aktivitetskravService: AktivitetskravService
 ) {
-    private val log = logger()
 
-    @KafkaListener(topics = [aktivitetskravVurderingTopic])
+    private val log = logger()
+    @KafkaListener(topics = [aktivitetskravVarselTopic])
     fun listenToAktivitetskravVurderingTopic(
-        record: ConsumerRecord<String, KAktivitetskravVurdering>,
+        record: ConsumerRecord<String, KAktivitetskravVarsel>,
         ack: Acknowledgment
     ) {
-        log.info("Received record from topic: $aktivitetskravVurderingTopic")
+        log.info("Received record from topic: $aktivitetskravVarselTopic")
         try {
             val aktivitetskravVurdering = record.value()
-            aktivitetskravService.processAktivitetskravVurdering(aktivitetskravVurdering.toAktivitetskravVurdering())
+            aktivitetskravService.processAktivitetskravVarsel(aktivitetskravVurdering.toAktivitetskravVarsel())
             ack.acknowledge()
         } catch (e: RuntimeException) {
             log.error("Error during record processing. Shutting down application ...")

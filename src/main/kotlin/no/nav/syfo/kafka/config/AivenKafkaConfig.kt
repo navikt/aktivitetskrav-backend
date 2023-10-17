@@ -12,6 +12,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.ContainerProperties
 
+const val aktivitetskravVarselTopic = "teamsykefravr.aktivitetskrav-varsel"
 const val aktivitetskravVurderingTopic = "teamsykefravr.aktivitetskrav-vurdering"
 
 @Configuration
