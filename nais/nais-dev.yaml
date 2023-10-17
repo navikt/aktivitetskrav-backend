@@ -38,6 +38,10 @@ spec:
     pool: nav-dev
   tokenx:
     enabled: true
+  accessPolicy:
+    inbound:
+      rules:
+        - application: esyfo-proxy
   gcp:
     sqlInstances:
       - type: POSTGRES_14
@@ -64,3 +68,5 @@ spec:
       value: default
     - name: AIVEN_KAFKA_AUTO_OFFSET_RESET
       value: latest
+    - name: ESYFO_PROXY_CLIENT_ID
+      value: dev-gcp:team-esyfo:esyfo-proxy
