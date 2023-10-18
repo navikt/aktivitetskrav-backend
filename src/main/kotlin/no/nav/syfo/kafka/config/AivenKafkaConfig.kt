@@ -48,7 +48,7 @@ class AivenKafkaConfig(
         aivenKafkaErrorHandler: AivenKafkaErrorHandler
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
-            ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group",
+            ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group-test",
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to kafkaAutoOffsetReset,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
