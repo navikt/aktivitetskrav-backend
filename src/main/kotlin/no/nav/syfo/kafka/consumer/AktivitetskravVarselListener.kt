@@ -18,6 +18,7 @@ class AktivitetskravVarselListener @Autowired constructor(
 ) {
 
     private val log = logger()
+
     @KafkaListener(topics = [aktivitetskravVarselTopic])
     fun listenToAktivitetskravVurderingTopic(
         record: ConsumerRecord<String, KAktivitetskravVarsel>,
