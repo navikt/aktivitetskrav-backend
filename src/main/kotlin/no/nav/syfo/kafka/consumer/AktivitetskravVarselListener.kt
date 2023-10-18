@@ -16,7 +16,6 @@ import kotlin.system.exitProcess
 class AktivitetskravVarselListener @Autowired constructor(
     private val aktivitetskravService: AktivitetskravService
 ) {
-
     private val log = logger()
 
     @KafkaListener(topics = [aktivitetskravVarselTopic])
@@ -30,7 +29,7 @@ class AktivitetskravVarselListener @Autowired constructor(
             aktivitetskravService.processAktivitetskravVarsel(aktivitetskravVurdering.toAktivitetskravVarsel())
             ack.acknowledge()
         } catch (e: RuntimeException) {
-            log.error("Error during record processing. Shutting down application ...")
+            log.error("Error during record processing (VARSEL). Shutting down application ...", e)
             exitProcess(1)
         }
     }

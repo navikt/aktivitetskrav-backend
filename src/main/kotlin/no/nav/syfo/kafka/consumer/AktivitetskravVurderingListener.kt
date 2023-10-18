@@ -29,7 +29,7 @@ class AktivitetskravVurderingListener @Autowired constructor(
             aktivitetskravService.processAktivitetskravVurdering(aktivitetskravVurdering.toAktivitetskravVurdering())
             ack.acknowledge()
         } catch (e: RuntimeException) {
-            log.error("Error during record processing. Shutting down application ...")
+            log.error("Error during record processing (VURDERING). Shutting down application ...", e)
             exitProcess(1)
         }
     }
