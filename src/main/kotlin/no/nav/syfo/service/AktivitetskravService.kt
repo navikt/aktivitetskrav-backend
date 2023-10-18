@@ -9,10 +9,10 @@ class AktivitetskravService {
     private val log = logger()
 
     fun processAktivitetskravVurdering(aktivitetskravVurdering: AktivitetskravVurdering) {
-        log.info("Processing aktivtetskrav vurdering: ${aktivitetskravVurdering.uuid}")
+        log.info("Processing aktivitetskrav vurdering: ${aktivitetskravVurdering.uuid}")
     }
 
     fun processAktivitetskravVarsel(aktivitetskravVarsel: AktivitetskravVarsel) {
-        log.info("Processing aktivtetskrav vurdering: ${aktivitetskravVarsel.aktivitetskravUuid}")
+        log.info("Processing aktivitetskrav varsel: ${aktivitetskravVarsel.aktivitetskravUuid}")
     }
 }

@@ -1,5 +1,6 @@
 package no.nav.syfo.kafka.consumer
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.syfo.kafka.config.aktivitetskravVarselTopic
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
 import no.nav.syfo.kafka.consumer.domain.toAktivitetskravVarsel
@@ -15,18 +16,16 @@ import kotlin.system.exitProcess
 @Component
 class AktivitetskravVarselListener @Autowired constructor(
     private val aktivitetskravService: AktivitetskravService
-) {
-    private val log = logger()
-
+): AktivitetkravListener() {
     @KafkaListener(topics = [aktivitetskravVarselTopic])
-    fun listenToAktivitetskravVurderingTopic(
-        record: ConsumerRecord<String, KAktivitetskravVarsel>,
+    override fun listenToTopic(
+        record: ConsumerRecord<String, String>,
         ack: Acknowledgment
     ) {
         log.info("Received record from topic: $aktivitetskravVarselTopic")
         try {
-            val aktivitetskravVurdering = record.value()
-            aktivitetskravService.processAktivitetskravVarsel(aktivitetskravVurdering.toAktivitetskravVarsel())
+            val aktivitetskravVarsel: KAktivitetskravVarsel = objectMapper.readValue(record.value())
+            aktivitetskravService.processAktivitetskravVarsel(aktivitetskravVarsel.toAktivitetskravVarsel())
             ack.acknowledge()
         } catch (e: RuntimeException) {
             log.error("Error during record processing (VARSEL). Shutting down application ...", e)
