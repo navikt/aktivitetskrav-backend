@@ -1,10 +1,11 @@
-package no.nav.syfo.service
+package no.nav.syfo.service.domain
 
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.UUID
 
 data class AktivitetskravVurdering(
-    val uuid: String,
+    val uuid: UUID,
     val personIdent: String,
     val createdAt: OffsetDateTime,
     val status: String,

@@ -1,6 +1,6 @@
 package no.nav.syfo.kafka.consumer.domain
 
-import no.nav.syfo.service.AktivitetskravVarsel
+import no.nav.syfo.service.domain.AktivitetskravVarsel
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.*

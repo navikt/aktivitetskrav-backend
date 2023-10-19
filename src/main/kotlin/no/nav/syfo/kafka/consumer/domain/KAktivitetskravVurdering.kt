@@ -1,11 +1,12 @@
 package no.nav.syfo.kafka.consumer.domain
 
-import no.nav.syfo.service.AktivitetskravVurdering
+import no.nav.syfo.service.domain.AktivitetskravVurdering
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.UUID
 
 data class KAktivitetskravVurdering(
-    val uuid: String,
+    val uuid: UUID,
     val personIdent: String,
     val createdAt: OffsetDateTime,
     val status: String,

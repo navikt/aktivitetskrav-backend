@@ -1,4 +1,4 @@
-package no.nav.syfo.service
+package no.nav.syfo.service.domain
 
 import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
 import java.time.LocalDate
