@@ -1,6 +1,7 @@
 package no.nav.syfo.kafka.consumer.domain
 
 import no.nav.syfo.service.domain.AktivitetskravVarsel
+import java.io.Serializable
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.*
@@ -10,7 +11,7 @@ data class DocumentComponentDTO(
     val key: String? = null,
     val title: String?,
     val texts: List<String>
-)
+) : Serializable
 
 enum class DocumentComponentType {
     HEADER_H1,
@@ -29,7 +30,7 @@ data class KAktivitetskravVarsel(
     val journalpostId: String,
     val svarfrist: LocalDate,
     val document: List<DocumentComponentDTO>
-)
+) : Serializable
 
 fun KAktivitetskravVarsel.toAktivitetskravVarsel() =
     AktivitetskravVarsel(
