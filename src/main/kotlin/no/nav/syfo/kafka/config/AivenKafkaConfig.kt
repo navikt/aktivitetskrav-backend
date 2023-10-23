@@ -1,23 +1,19 @@
-package no.nav.syfo.kafka
+package no.nav.syfo.kafka.config
 
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG
-import org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG
-import org.apache.kafka.clients.producer.ProducerConfig.RETRIES_CONFIG
-import org.apache.kafka.clients.producer.ProducerConfig.RETRY_BACKOFF_MS_CONFIG
-import org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG
 import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.ContainerProperties
+
+const val aktivitetskravVarselTopic = "teamsykefravr.aktivitetskrav-varsel"
+const val aktivitetskravVurderingTopic = "teamsykefravr.aktivitetskrav-vurdering"
 
 @Configuration
 class AivenKafkaConfig(
@@ -30,18 +26,6 @@ class AivenKafkaConfig(
 ) {
     private val JAVA_KEYSTORE = "JKS"
     private val PKCS12 = "PKCS12"
-
-    @Bean
-    fun sykepengesoknadProducer(): KafkaProducer<String, String> {
-        val configs = mapOf(
-            KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-            VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-            ACKS_CONFIG to "all",
-            RETRIES_CONFIG to 10,
-            RETRY_BACKOFF_MS_CONFIG to 100
-        ) + commonConfig()
-        return KafkaProducer<String, String>(configs)
-    }
 
     fun commonConfig() = mapOf(
         BOOTSTRAP_SERVERS_CONFIG to kafkaBrokers
@@ -60,15 +44,15 @@ class AivenKafkaConfig(
     )
 
     @Bean
-    fun aivenKafkaListenerContainerFactory(
+    fun kafkaListenerContainerFactory(
         aivenKafkaErrorHandler: AivenKafkaErrorHandler
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
-            ConsumerConfig.GROUP_ID_CONFIG to "ditt-sykefravaer-backend-consumer",
+            ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group-v1",
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to kafkaAutoOffsetReset,
-            ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
+            ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
             ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "1",
             ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to "600000"
         ) + commonConfig()
@@ -81,5 +65,3 @@ class AivenKafkaConfig(
         return factory
     }
 }
-
-const val dittSykefravaerMeldingTopic = "flex." + "ditt-sykefravaer-melding"
