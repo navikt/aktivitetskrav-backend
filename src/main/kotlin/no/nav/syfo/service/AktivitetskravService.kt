@@ -1,5 +1,6 @@
 package no.nav.syfo.service
 
+import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
 import no.nav.syfo.logger
@@ -24,5 +25,9 @@ class AktivitetskravService @Autowired constructor(
     fun processAktivitetskravVarsel(varsel: KAktivitetskravVarsel) {
         aktivitetskravDAO.storeAktivitetkravVarsel(varsel)
         metric.countAktivitetskravVarselProcessed()
+    }
+
+    fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
+        return aktivitetskravDAO.getAktivitetsplikt(fnr)
     }
 }
