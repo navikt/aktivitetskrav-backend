@@ -14,9 +14,9 @@ data class KAktivitetskravVurdering(
     val arsaker: List<String>,
     val stoppunktAt: LocalDate,
     val updatedBy: String?,
+    val sisteVurderingUuid: UUID,
     val sistVurdert: OffsetDateTime?,
-    val frist: LocalDate?,
-    val internUuid: UUID
+    val frist: LocalDate?
 )
 
 fun KAktivitetskravVurdering.toAktivitetskravVurdering() =
@@ -29,7 +29,7 @@ fun KAktivitetskravVurdering.toAktivitetskravVurdering() =
         arsaker = this.arsaker,
         stoppunktAt = this.stoppunktAt,
         updatedBy = this.updatedBy,
+        sisteVurderingUuid = this.sisteVurderingUuid,
         sistVurdert = this.sistVurdert,
-        frist = this.frist,
-        internUuid = this.internUuid
+        frist = this.frist
     )

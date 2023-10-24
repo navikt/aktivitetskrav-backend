@@ -25,7 +25,8 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
                 stoppunkt_at,
                 updated_by,
                 sist_vurdert,
-                frist
+                frist,
+                siste_vurdering_uuid
             )
             VALUES (
                 :uuid,
@@ -38,7 +39,8 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
                 :stoppunkt_at,
                 :updated_by,
                 :sist_vurdert,
-                :frist
+                :frist,
+                :siste_vurdering_uuid
             )
         """.trimIndent()
         val mapLagreSql = MapSqlParameterSource()
@@ -53,6 +55,7 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
             .addValue("updated_by", vurdering.updatedBy)
             .addValue("sist_vurdert", vurdering.sistVurdert?.toTimestamp())
             .addValue("frist", vurdering.frist?.toDate())
+            .addValue("siste_vurdering_uuid", vurdering.sisteVurderingUuid)
         namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
     }
 
@@ -67,7 +70,8 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
                 created_at,
                 journalpost_id,
                 svarfrist,
-                document
+                document,
+                vurdering_uuid
             )
             VALUES (
                 :uuid,
@@ -77,7 +81,8 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
                 :created_at,
                 :journalpost_id,
                 :svarfrist,
-                :document
+                :document,
+                :vurdering_uuid
             )
         """.trimIndent()
         val mapLagreSql = MapSqlParameterSource()
@@ -89,6 +94,7 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
             .addValue("journalpost_id", varsel.journalpostId)
             .addValue("svarfrist", varsel.svarfrist.toDate())
             .addValue("document", varsel.document.documentsToStr())
+            .addValue("vurdering_uuid", varsel.vurderingUuid)
         namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
     }
 }
