@@ -14,7 +14,7 @@ data class KAktivitetskravVurdering(
     val arsaker: List<String>,
     val stoppunktAt: LocalDate,
     val updatedBy: String?,
-    val sisteVurderingUuid: UUID,
+    val sisteVurderingUuid: UUID?,
     val sistVurdert: OffsetDateTime?,
     val frist: LocalDate?
 )
