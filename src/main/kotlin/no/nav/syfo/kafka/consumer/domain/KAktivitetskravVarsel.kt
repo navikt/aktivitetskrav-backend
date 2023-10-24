@@ -29,7 +29,8 @@ data class KAktivitetskravVarsel(
     val createdAt: OffsetDateTime,
     val journalpostId: String,
     val svarfrist: LocalDate,
-    val document: List<DocumentComponentDTO>
+    val document: List<DocumentComponentDTO>,
+    val internUuid: UUID
 ) : Serializable
 
 fun KAktivitetskravVarsel.toAktivitetskravVarsel() =
@@ -40,5 +41,6 @@ fun KAktivitetskravVarsel.toAktivitetskravVarsel() =
         createdAt = this.createdAt,
         journalpostId = this.journalpostId,
         svarfrist = this.svarfrist,
-        document = this.document
+        document = this.document,
+        internUuid = this.internUuid
     )

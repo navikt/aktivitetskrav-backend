@@ -14,5 +14,6 @@ data class AktivitetskravVurdering(
     val stoppunktAt: LocalDate,
     val updatedBy: String?,
     val sistVurdert: OffsetDateTime?,
-    val frist: LocalDate?
+    val frist: LocalDate?,
+    val internUuid: UUID
 )

@@ -12,5 +12,6 @@ data class AktivitetskravVarsel(
     val createdAt: OffsetDateTime,
     val journalpostId: String,
     val svarfrist: LocalDate,
-    val document: List<DocumentComponentDTO>
+    val document: List<DocumentComponentDTO>,
+    val internUuid: UUID
 )
