@@ -8,6 +8,7 @@ import java.util.*
 data class AktivitetskravVarsel(
     val personIdent: String,
     val aktivitetskravUuid: UUID,
+    val vurderingUuid: UUID,
     val varselUuid: UUID,
     val createdAt: OffsetDateTime,
     val journalpostId: String,
