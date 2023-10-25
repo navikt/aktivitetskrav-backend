@@ -19,11 +19,11 @@ class Metric @Autowired constructor(
 
     fun countEvent(name: String) {
         registry.counter(
-            name,
+            metricPrefix(name),
             Tags.of("type", "info")
         ).increment()
     }
 
     private fun metricPrefix(name: String) =
-        "aktivitetskrav-backend_$name"
+        "aktivitetskrav_backend_$name"
 }
