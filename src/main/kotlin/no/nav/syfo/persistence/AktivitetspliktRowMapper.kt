@@ -16,7 +16,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
 
         return Aktivitetsplikt(
             status = AktivitetspliktStatus.valueOf(status),
-            arsaker = arsaker?.split(",")?.toList() ?: emptyList(),
+            arsaker = arsaker?.split(",") ?: emptyList(),
             sistVurdert = sistVurdert?.toZonedLocalDateTime(),
             fristDato = fristDato?.toZonedLocalDateTime(),
             journalpostId = journalpostId,
