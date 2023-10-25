@@ -1,7 +1,9 @@
 package no.nav.syfo.persistence
 
+import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
@@ -96,5 +98,25 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
             .addValue("document", varsel.document.documentsToStr())
             .addValue("vurdering_uuid", varsel.vurderingUuid)
         namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
+    }
+
+    fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
+        val query = """
+            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, vurdering.frist, varsel.journalpost_id
+            FROM aktivitetskrav_vurdering vurdering
+            LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            WHERE vurdering.person_ident = :person_ident
+            ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST
+            LIMIT 1;
+        """.trimIndent()
+
+        val namedParameters = MapSqlParameterSource()
+            .addValue("person_ident", fnr)
+
+        return try {
+            namedParameterJdbcTemplate.queryForObject(query, namedParameters, AktivitetspliktRowMapper())
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
     }
 }

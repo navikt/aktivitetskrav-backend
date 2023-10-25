@@ -9,16 +9,20 @@ import java.sql.Date
 import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 val jsonWriter = ObjectMapper().apply {
     registerKotlinModule()
     registerModule(JavaTimeModule())
     configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 }
+
 fun List<String>.toStr() = this.joinToString(separator = ",").trim()
 
 fun LocalDate.toDate() = Date.valueOf(this)
 
 fun OffsetDateTime.toTimestamp() = Timestamp.valueOf(this.toLocalDateTime())
+
+fun Timestamp.toZonedLocalDateTime() = this.toInstant().atZone(ZoneOffset.UTC).toLocalDateTime()
 
 fun List<DocumentComponentDTO>.documentsToStr() = jsonWriter.writeValueAsString(this)
