@@ -8,6 +8,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.syfo.kafka.config.aktivitetskravVarselTopic
 import no.nav.syfo.kafka.config.aktivitetskravVurderingTopic
 import no.nav.syfo.logger
+import no.nav.syfo.metric.Metric
 import no.nav.syfo.service.AktivitetskravService
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +19,8 @@ import kotlin.system.exitProcess
 
 @Component
 class AktivitetskravKafkaListener @Autowired constructor(
-    private val aktivitetskravService: AktivitetskravService
+    private val aktivitetskravService: AktivitetskravService,
+    private val metric: Metric
 ) {
     val log = logger()
 
@@ -34,7 +36,7 @@ class AktivitetskravKafkaListener @Autowired constructor(
         ack: Acknowledgment
     ) {
         val topic = record.topic()
-        log.info("Received record from topic: $topic")
+        metric.countRecordReceived()
         try {
             when (topic) {
                 aktivitetskravVurderingTopic ->
@@ -48,6 +50,7 @@ class AktivitetskravKafkaListener @Autowired constructor(
             ack.acknowledge()
         } catch (e: RuntimeException) {
             log.error("Error during record processing from topic $topic. Shutting down application ...", e)
+            metric.countKafkaErrorShutdown()
             exitProcess(1)
         }
     }
