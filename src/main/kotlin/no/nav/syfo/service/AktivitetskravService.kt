@@ -52,10 +52,16 @@ class AktivitetskravService @Autowired constructor(
     private fun getHendelseType(vurderingsStatus: String): HendelseType? {
         when (vurderingsStatus) {
             AktivitetspliktStatus.NY.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY
+            AktivitetspliktStatus.AVVENT.name -> HendelseType.AVVENT
+            AktivitetspliktStatus.UNNTAK.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_UNNTAK
+            AktivitetspliktStatus.OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_OPPFYLT
             AktivitetspliktStatus.FORHANDSVARSEL.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_FORHANDSVARSEL
+            AktivitetspliktStatus.IKKE_OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_OPPFYLT
             AktivitetspliktStatus.IKKE_AKTUELL.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_AKTUELL
+
+//  NY, AVVENT, UNNTAK, OPPFYLT, FORHANDSVARSEL, IKKE_OPPFYLT, IKKE_AKTUELL
         }
-        log.error("[EsyfovarselAK]: Error while mapping vurdering status to hendelse type")
+        log.error("[EsyfovarselAK]: Error while mapping vurdering status [$vurderingsStatus] to hendelse type")
         return null
     }
 }
