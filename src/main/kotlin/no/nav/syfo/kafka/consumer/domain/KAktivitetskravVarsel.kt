@@ -1,6 +1,5 @@
 package no.nav.syfo.kafka.consumer.domain
 
-import no.nav.syfo.service.domain.AktivitetskravVarsel
 import java.io.Serializable
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -32,15 +31,3 @@ data class KAktivitetskravVarsel(
     val svarfrist: LocalDate,
     val document: List<DocumentComponentDTO>
 ) : Serializable
-
-fun KAktivitetskravVarsel.toAktivitetskravVarsel() =
-    AktivitetskravVarsel(
-        personIdent = this.personIdent,
-        aktivitetskravUuid = this.aktivitetskravUuid,
-        vurderingUuid = this.vurderingUuid,
-        varselUuid = this.varselUuid,
-        createdAt = this.createdAt,
-        journalpostId = this.journalpostId,
-        svarfrist = this.svarfrist,
-        document = this.document
-    )

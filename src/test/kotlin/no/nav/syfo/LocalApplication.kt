@@ -34,7 +34,6 @@ class LocalApplication {
         }
 
         val app = SpringApplication(LocalApplication::class.java)
-        app.setAdditionalProfiles("test")
         app.run(*args)
     }
 }

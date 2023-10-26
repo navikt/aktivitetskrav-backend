@@ -7,7 +7,7 @@ import org.flywaydb.core.Flyway
 import java.sql.Connection
 
 class EmbeddedDatabase {
-    private lateinit var pg: EmbeddedPostgres
+    private var pg: EmbeddedPostgres
 
     val hikariDataSource = HikariDataSource(
         HikariConfig().apply {

@@ -1,12 +1,13 @@
 package no.nav.syfo.persistence
 
+import io.kotest.inspectors.forAll
+import io.kotest.matchers.shouldBe
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.testutil.EmbeddedDatabase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
@@ -14,13 +15,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(classes = [LocalApplication::class])
 @DirtiesContext
 class AktivitietskravDAOTest @Autowired constructor(
-    private val jdbcTemplate: JdbcTemplate,
     private val aktivitetskravDAO: AktivitetskravDAO
 ) {
     private lateinit var database: EmbeddedDatabase
 
     @Test
-    fun testInsert() {
-        println("Test")
+    fun testInsertAndFetch() {
+        var nrUpdated = aktivitetskravDAO.storeAktivitetkravVurdering(
+            generateKAktivitetkravVurdering(personIdent = FNR_1)
+        )
+        nrUpdated += aktivitetskravDAO.storeAktivitetkravVurdering(
+            generateKAktivitetkravVurdering(personIdent = FNR_1)
+        )
+        nrUpdated += aktivitetskravDAO.storeAktivitetkravVurdering(
+            generateKAktivitetkravVurdering(personIdent = FNR_2)
+        )
+        nrUpdated shouldBe 3
+
+        aktivitetskravDAO
+            .fetchAktivitetkravVurderingByIdent(FNR_1)
+            .forAll { it.personIdent shouldBe FNR_1 }
     }
 }

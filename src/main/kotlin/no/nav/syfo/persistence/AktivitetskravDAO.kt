@@ -4,16 +4,33 @@ import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
 import org.springframework.dao.EmptyResultDataAccessException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
+import no.nav.syfo.service.domain.AktivitetskravVurdering
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Date
+import java.sql.ResultSet
+import java.sql.Timestamp
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.util.*
 
 @Transactional
 @Repository
-class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTemplate) {
-    fun storeAktivitetkravVurdering(vurdering: KAktivitetskravVurdering) {
+class AktivitetskravDAO(
+    val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
+    val jdbcTemplate: JdbcTemplate
+) {
+    fun storeAktivitetkravVurdering(vurdering: KAktivitetskravVurdering): Int {
         val uuid = UUID.randomUUID()
         val lagreSql = """
             INSERT INTO AKTIVITETSKRAV_VURDERING (
@@ -58,7 +75,7 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
             .addValue("sist_vurdert", vurdering.sistVurdert?.toTimestamp())
             .addValue("frist", vurdering.frist?.toDate())
             .addValue("siste_vurdering_uuid", vurdering.sisteVurderingUuid)
-        namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
+        return namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
     }
 
     fun storeAktivitetkravVarsel(varsel: KAktivitetskravVarsel) {
@@ -99,6 +116,7 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
             .addValue("vurdering_uuid", varsel.vurderingUuid)
         namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
     }
+<<<<<<< HEAD
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
@@ -118,5 +136,44 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
         } catch (e: EmptyResultDataAccessException) {
             null
         }
+=======
+    fun fetchAktivitetkravVurderingByIdent(personIdent: String): List<AktivitetskravVurdering> {
+        return jdbcTemplate.query("SELECT * FROM aktivitetskrav_vurdering WHERE person_ident = ?", aktivitetskravVurderingRowMapper, personIdent)
+    }
+
+    companion object {
+        private val aktivitetskravVurderingRowMapper: RowMapper<AktivitetskravVurdering>
+            get() = RowMapper { rs: ResultSet, _: Int ->
+                AktivitetskravVurdering(
+                    uuid = UUID.fromString(rs.getString("uuid")),
+                    vurderingUuid = UUID.fromString(rs.getString("vurdering_uuid")),
+                    personIdent = rs.getString("person_ident"),
+                    createdAt = rs.getTimestamp("created_at").toOffsetDateTime(),
+                    status = rs.getString("status"),
+                    beskrivelse = rs.getString("beskrivelse"),
+                    arsaker = rs.getString("arsaker"),
+                    stoppunktAt = rs.getDate("stoppunkt_at").toLocalDate(),
+                    updatedBy = rs.getString("updated_by"),
+                    sisteVurderingUuid = UUID.fromString(rs.getString("siste_vurdering_uuid")),
+                    sistVurdert = rs.getTimestamp("sist_vurdert")?.toOffsetDateTime(),
+                    frist = rs.getDate("frist").toLocalDate()
+                )
+            }
+
+        fun LocalDate.toDate() = Date.valueOf(this)
+
+        fun OffsetDateTime.toTimestamp() = Timestamp.valueOf(this.toLocalDateTime())
+
+        private fun Timestamp.toOffsetDateTime() = this.toInstant().atOffset(ZoneOffset.UTC)
+
+        val jsonWriter = ObjectMapper().apply {
+            registerKotlinModule()
+            registerModule(JavaTimeModule())
+            configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        }
+        fun List<String>.toStr() = this.joinToString(separator = ",").trim()
+
+        fun List<DocumentComponentDTO>.documentsToStr() = jsonWriter.writeValueAsString(this)
+>>>>>>> 09437da (Basic DB unit test)
     }
 }
