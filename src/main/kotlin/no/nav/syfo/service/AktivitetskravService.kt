@@ -62,6 +62,7 @@ class AktivitetskravService @Autowired constructor(
 //  NY, AVVENT, UNNTAK, OPPFYLT, FORHANDSVARSEL, IKKE_OPPFYLT, IKKE_AKTUELL
         }
         log.error("[EsyfovarselAK]: Error while mapping vurdering status [$vurderingsStatus] to hendelse type")
+        log.error("[EsyfovarselAK]: Error while mapping AktivitetspliktStatus [${ AktivitetspliktStatus.OPPFYLT.name}] to hendelse type")
         return null
     }
 }
