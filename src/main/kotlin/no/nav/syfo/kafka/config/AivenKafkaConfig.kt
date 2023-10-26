@@ -1,16 +1,24 @@
 package no.nav.syfo.kafka.config
 
+import no.nav.syfo.JacksonKafkaSerializer
+import no.nav.syfo.kafka.domain.EsyfovarselHendelse
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.serialization.StringDeserializer
+import org.apache.kafka.common.serialization.StringSerializer
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.core.DefaultKafkaProducerFactory
+import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.listener.ContainerProperties
 
 const val aktivitetskravVarselTopic = "teamsykefravr.aktivitetskrav-varsel"
@@ -23,13 +31,13 @@ class AivenKafkaConfig(
     @Value("\${KAFKA_SECURITY_PROTOCOL:SSL}") private val kafkaSecurityProtocol: String,
     @Value("\${KAFKA_TRUSTSTORE_PATH}") private val kafkaTruststorePath: String,
     @Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String,
-    @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String
+    @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String,
 ) {
     private val JAVA_KEYSTORE = "JKS"
     private val PKCS12 = "PKCS12"
 
     fun commonConfig() = mapOf(
-        BOOTSTRAP_SERVERS_CONFIG to kafkaBrokers
+        BOOTSTRAP_SERVERS_CONFIG to kafkaBrokers,
     ) + securityConfig()
 
     private fun securityConfig() = mapOf(
@@ -41,12 +49,12 @@ class AivenKafkaConfig(
         SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaCredstorePassword,
         SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to kafkaKeystorePath,
         SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to kafkaCredstorePassword,
-        SslConfigs.SSL_KEY_PASSWORD_CONFIG to kafkaCredstorePassword
+        SslConfigs.SSL_KEY_PASSWORD_CONFIG to kafkaCredstorePassword,
     )
 
     @Bean
     fun kafkaListenerContainerFactory(
-        aivenKafkaErrorHandler: AivenKafkaErrorHandler
+        aivenKafkaErrorHandler: AivenKafkaErrorHandler,
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
             ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group-v2",
@@ -55,7 +63,7 @@ class AivenKafkaConfig(
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
             ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "1",
-            ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to "600000"
+            ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to "600000",
         ) + commonConfig()
         val consumerFactory = DefaultKafkaConsumerFactory<String, String>(config)
 
@@ -64,5 +72,22 @@ class AivenKafkaConfig(
         factory.setCommonErrorHandler(aivenKafkaErrorHandler)
         factory.containerProperties.ackMode = ContainerProperties.AckMode.MANUAL_IMMEDIATE
         return factory
+    }
+
+    @Bean("EsyfovarselProducerFactory")
+    fun producerFactory(): ProducerFactory<String, EsyfovarselHendelse> {
+        return DefaultKafkaProducerFactory(
+            commonConfig() +
+                mapOf(
+                    ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
+                    ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonKafkaSerializer::class.java,
+                    ProducerConfig.ACKS_CONFIG to "all",
+                ),
+        )
+    }
+
+    @Bean("EsyfovarselKafkaTemplate")
+    fun kafkaTemplate(@Qualifier("EsyfovarselProducerFactory") producerFactory: ProducerFactory<String, EsyfovarselHendelse>): KafkaTemplate<String, EsyfovarselHendelse> {
+        return KafkaTemplate(producerFactory)
     }
 }
