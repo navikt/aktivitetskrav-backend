@@ -1,15 +1,15 @@
 package no.nav.syfo.persistence
 
-import no.nav.syfo.api.dto.Aktivitetsplikt
-import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
-import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
-import org.springframework.dao.EmptyResultDataAccessException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
+import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
+import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
 import no.nav.syfo.service.domain.AktivitetskravVurdering
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
@@ -78,7 +78,7 @@ class AktivitetskravDAO(
         return namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
     }
 
-    fun storeAktivitetkravVarsel(varsel: KAktivitetskravVarsel) {
+    fun storeAktivitetkravVarsel(varsel: KAktivitetskravVarsel): Int {
         val uuid = UUID.randomUUID()
         val lagreSql = """
             INSERT INTO AKTIVITETSKRAV_VARSEL (
@@ -114,9 +114,8 @@ class AktivitetskravDAO(
             .addValue("svarfrist", varsel.svarfrist.toDate())
             .addValue("document", varsel.document.documentsToStr())
             .addValue("vurdering_uuid", varsel.vurderingUuid)
-        namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
+        return namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
     }
-<<<<<<< HEAD
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
@@ -136,13 +135,10 @@ class AktivitetskravDAO(
         } catch (e: EmptyResultDataAccessException) {
             null
         }
-=======
-    fun fetchAktivitetkravVurderingByIdent(personIdent: String): List<AktivitetskravVurdering> {
-        return jdbcTemplate.query("SELECT * FROM aktivitetskrav_vurdering WHERE person_ident = ?", aktivitetskravVurderingRowMapper, personIdent)
     }
 
     companion object {
-        private val aktivitetskravVurderingRowMapper: RowMapper<AktivitetskravVurdering>
+        val aktivitetskravVurderingRowMapper: RowMapper<AktivitetskravVurdering>
             get() = RowMapper { rs: ResultSet, _: Int ->
                 AktivitetskravVurdering(
                     uuid = UUID.fromString(rs.getString("uuid")),
@@ -174,6 +170,5 @@ class AktivitetskravDAO(
         fun List<String>.toStr() = this.joinToString(separator = ",").trim()
 
         fun List<DocumentComponentDTO>.documentsToStr() = jsonWriter.writeValueAsString(this)
->>>>>>> 09437da (Basic DB unit test)
     }
 }

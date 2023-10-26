@@ -3,6 +3,7 @@ package no.nav.syfo.persistence
 import io.kotest.inspectors.forAll
 import io.kotest.matchers.shouldBe
 import no.nav.syfo.LocalApplication
+import no.nav.syfo.service.domain.AktivitetskravVurdering
 import no.nav.syfo.testutil.EmbeddedDatabase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -36,4 +37,8 @@ class AktivitietskravDAOTest @Autowired constructor(
             .fetchAktivitetkravVurderingByIdent(FNR_1)
             .forAll { it.personIdent shouldBe FNR_1 }
     }
+}
+
+fun AktivitetskravDAO.fetchAktivitetkravVurderingByIdent(personIdent: String): List<AktivitetskravVurdering> {
+    return jdbcTemplate.query("SELECT * FROM aktivitetskrav_vurdering WHERE person_ident = ?", AktivitetskravDAO.aktivitetskravVurderingRowMapper, personIdent)
 }

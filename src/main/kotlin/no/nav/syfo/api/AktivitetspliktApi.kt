@@ -44,6 +44,5 @@ class AktivitetspliktApi(
             reason = "Ingen aktivitetskrav funnet",
             loglevel = LogLevel.OFF
         )
-
     }
 }
