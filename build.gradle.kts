@@ -28,6 +28,11 @@ val logstashLogbackEncoderVersion = "7.4"
 val kluentVersion = "1.73"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
+val postgresEmbeddedVersion = "0.13.3"
+val mockkVersion = "1.13.8"
+val kotestVersion = "5.6.2"
+val kotestExtensionsVersion = "2.0.0"
+val hikariVersion = "5.0.1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -35,6 +40,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.springframework.kafka:spring-kafka-test")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("no.nav.security:token-client-spring:$tokenSupportVersion")
     implementation("no.nav.security:token-validation-spring:$tokenSupportVersion")
@@ -45,9 +51,21 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")
     implementation("org.hibernate.validator:hibernate-validator")
+    implementation("com.zaxxer:HikariCP:$hikariVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
+
+    testImplementation("no.nav.security:token-validation-spring-test:$tokenSupportVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation("io.kotest.extensions:kotest-assertions-ktor:$kotestExtensionsVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+    }
+    testImplementation("com.opentable.components:otj-pg-embedded:$postgresEmbeddedVersion")
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
