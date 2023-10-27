@@ -6,11 +6,12 @@ import java.util.UUID
 
 data class AktivitetskravVurdering(
     val uuid: UUID,
+    val vurderingUuid: UUID,
     val personIdent: String,
     val createdAt: OffsetDateTime,
     val status: String,
     val beskrivelse: String?,
-    val arsaker: List<String>,
+    val arsaker: String,
     val stoppunktAt: LocalDate,
     val updatedBy: String?,
     val sisteVurderingUuid: UUID?,

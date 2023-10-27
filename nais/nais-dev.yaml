@@ -64,9 +64,5 @@ spec:
           - name: cloudsql.logical_decoding
             value: "on"
   env:
-    - name: SPRING_PROFILES_ACTIVE
-      value: default
-    - name: AIVEN_KAFKA_AUTO_OFFSET_RESET
-      value: latest
     - name: ESYFO_PROXY_CLIENT_ID
       value: dev-gcp:team-esyfo:esyfo-proxy

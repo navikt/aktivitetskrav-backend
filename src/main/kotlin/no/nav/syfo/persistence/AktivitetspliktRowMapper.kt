@@ -19,7 +19,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
             arsaker = arsaker?.split(",") ?: emptyList(),
             sistVurdert = sistVurdert?.toZonedLocalDateTime(),
             fristDato = fristDato?.toZonedLocalDateTime(),
-            journalpostId = journalpostId,
+            journalpostId = journalpostId
         )
     }
 }

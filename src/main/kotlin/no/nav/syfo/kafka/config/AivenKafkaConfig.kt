@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.ContainerProperties
@@ -15,14 +16,14 @@ import org.springframework.kafka.listener.ContainerProperties
 const val aktivitetskravVarselTopic = "teamsykefravr.aktivitetskrav-varsel"
 const val aktivitetskravVurderingTopic = "teamsykefravr.aktivitetskrav-vurdering"
 
+@Profile("remote")
 @Configuration
 class AivenKafkaConfig(
     @Value("\${KAFKA_BROKERS}") private val kafkaBrokers: String,
     @Value("\${KAFKA_SECURITY_PROTOCOL:SSL}") private val kafkaSecurityProtocol: String,
     @Value("\${KAFKA_TRUSTSTORE_PATH}") private val kafkaTruststorePath: String,
     @Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String,
-    @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String,
-    @Value("\${aiven-kafka.auto-offset-reset}") private val kafkaAutoOffsetReset: String
+    @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String
 ) {
     private val JAVA_KEYSTORE = "JKS"
     private val PKCS12 = "PKCS12"
@@ -49,7 +50,7 @@ class AivenKafkaConfig(
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
             ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group-v2",
-            ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to kafkaAutoOffsetReset,
+            ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
