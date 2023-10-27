@@ -50,16 +50,20 @@ class AktivitetskravService @Autowired constructor(
     }
 
     private fun getHendelseType(vurderingsStatus: String): HendelseType? {
-        when (vurderingsStatus) {
-            AktivitetspliktStatus.NY.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY
-            AktivitetspliktStatus.AVVENT.name -> HendelseType.AVVENT
-            AktivitetspliktStatus.UNNTAK.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_UNNTAK
-            AktivitetspliktStatus.OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_OPPFYLT
-            AktivitetspliktStatus.FORHANDSVARSEL.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_FORHANDSVARSEL
-            AktivitetspliktStatus.IKKE_OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_OPPFYLT
-            AktivitetspliktStatus.IKKE_AKTUELL.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_AKTUELL
-
-//  NY, AVVENT, UNNTAK, OPPFYLT, FORHANDSVARSEL, IKKE_OPPFYLT, IKKE_AKTUELL
+        if (vurderingsStatus.equals(AktivitetspliktStatus.NY.name, true)) {
+            return HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY
+        } else if (vurderingsStatus.equals(AktivitetspliktStatus.AVVENT.name, true)) {
+            return HendelseType.AVVENT
+        } else if (vurderingsStatus.equals(AktivitetspliktStatus.UNNTAK.name, true)) {
+            return HendelseType.SM_AKTIVITETSPLIKT_STATUS_UNNTAK
+        } else if (vurderingsStatus.equals(AktivitetspliktStatus.OPPFYLT.name, true)) {
+            return HendelseType.SM_AKTIVITETSPLIKT_STATUS_OPPFYLT
+        } else if (vurderingsStatus.equals(AktivitetspliktStatus.FORHANDSVARSEL.name, true)) {
+            return HendelseType.SM_AKTIVITETSPLIKT_STATUS_FORHANDSVARSEL
+        } else if (vurderingsStatus.equals(AktivitetspliktStatus.IKKE_OPPFYLT.name, true)) {
+            return HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_OPPFYLT
+        } else if (vurderingsStatus.equals(AktivitetspliktStatus.IKKE_AKTUELL.name, true)) {
+            return HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_AKTUELL
         }
         log.error("[EsyfovarselAK]: Error while mapping vurdering status [$vurderingsStatus] to hendelse type")
         log.error("[EsyfovarselAK]: Error while mapping AktivitetspliktStatus [${ AktivitetspliktStatus.OPPFYLT.name}] to hendelse type")
