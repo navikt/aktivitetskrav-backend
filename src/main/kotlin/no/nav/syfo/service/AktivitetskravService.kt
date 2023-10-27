@@ -23,6 +23,7 @@ class AktivitetskravService @Autowired constructor(
     private val log = logger()
 
     fun processAktivitetskravVurdering(kafkaAktivitetskravVurdering: KAktivitetskravVurdering) {
+        log.info("[EsyfovarselAK] processAktivitetskravVurdering record")
         aktivitetskravDAO.storeAktivitetkravVurdering(kafkaAktivitetskravVurdering)
         val vurdering = kafkaAktivitetskravVurdering.toAktivitetskravVurdering()
         val esyfovarselHendelse =

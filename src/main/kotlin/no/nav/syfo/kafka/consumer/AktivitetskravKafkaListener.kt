@@ -20,7 +20,7 @@ import kotlin.system.exitProcess
 @Component
 class AktivitetskravKafkaListener @Autowired constructor(
     private val aktivitetskravService: AktivitetskravService,
-    private val metric: Metric
+    private val metric: Metric,
 ) {
     val log = logger()
 
@@ -33,10 +33,11 @@ class AktivitetskravKafkaListener @Autowired constructor(
     @KafkaListener(topics = [aktivitetskravVarselTopic, aktivitetskravVurderingTopic])
     fun listenToTopic(
         record: ConsumerRecord<String, String>,
-        ack: Acknowledgment
+        ack: Acknowledgment,
     ) {
         val topic = record.topic()
         metric.countRecordReceived()
+        log.info("[EsyfovarselAK] Received record from topic $topic")
         try {
             when (topic) {
                 aktivitetskravVurderingTopic ->
@@ -49,7 +50,7 @@ class AktivitetskravKafkaListener @Autowired constructor(
 
             ack.acknowledge()
         } catch (e: RuntimeException) {
-            log.error("Error during record processing from topic $topic. Shutting down application ...", e)
+            log.error("[EsyfovarselAK] Error during record processing from topic $topic. Shutting down application ...", e)
             metric.countKafkaErrorShutdown()
             exitProcess(1)
         }
