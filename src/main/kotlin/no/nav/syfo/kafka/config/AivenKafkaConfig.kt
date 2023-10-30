@@ -6,6 +6,7 @@ import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
@@ -82,6 +83,7 @@ class AivenKafkaConfig(
                     ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
                     ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonKafkaSerializer::class.java,
                     ProducerConfig.ACKS_CONFIG to "all",
+                    SaslConfigs.SASL_MECHANISM to "PLAIN",
                 ),
         )
     }
