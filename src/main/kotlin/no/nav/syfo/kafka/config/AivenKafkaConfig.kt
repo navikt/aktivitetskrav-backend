@@ -83,6 +83,7 @@ class AivenKafkaConfig(
                     ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
                     ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonKafkaSerializer::class.java,
                     ProducerConfig.ACKS_CONFIG to "all",
+                    ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG to false,
                     SaslConfigs.SASL_MECHANISM to "PLAIN",
                 ),
         )
