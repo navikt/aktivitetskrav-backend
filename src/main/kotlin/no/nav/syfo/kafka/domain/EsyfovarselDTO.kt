@@ -15,7 +15,7 @@ data class ArbeidstakerHendelse(
     override val ferdigstill: Boolean?,
     override var data: Any?,
     val arbeidstakerFnr: String,
-    val orgnummer: String?,
+    val orgnummer: String?
 ) : EsyfovarselHendelse
 
 enum class HendelseType {
@@ -23,7 +23,8 @@ enum class HendelseType {
     SM_AKTIVITETSPLIKT_STATUS_NY,
     SM_AKTIVITETSPLIKT_STATUS_UNNTAK,
     SM_AKTIVITETSPLIKT_STATUS_OPPFYLT,
+    SM_AKTIVITETSPLIKT_STATUS_AUTOMATISK_OPPFYLT,
     SM_AKTIVITETSPLIKT_STATUS_IKKE_OPPFYLT,
     SM_AKTIVITETSPLIKT_STATUS_IKKE_AKTUELL,
-    AVVENT, // TODO: delete
+    AVVENT // TODO: delete
 }

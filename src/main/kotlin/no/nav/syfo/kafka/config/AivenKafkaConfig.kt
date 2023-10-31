@@ -24,25 +24,26 @@ import org.springframework.kafka.listener.ContainerProperties
 
 const val aktivitetskravVarselTopic = "teamsykefravr.aktivitetskrav-varsel"
 const val aktivitetskravVurderingTopic = "teamsykefravr.aktivitetskrav-vurdering"
+const val varselBusTopic = "team-esyfo.varselbus"
 
 @Profile("remote")
 @Configuration
 class AivenKafkaConfig(
     @Value("\${KAFKA_BROKERS}") private val kafkaBrokers: String,
-    @Value("\${KAFKA_SECURITY_PROTOCOL:SSL}") private val kafkaSecurityProtocol: String,
     @Value("\${KAFKA_TRUSTSTORE_PATH}") private val kafkaTruststorePath: String,
-    @Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String,
     @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String,
+    @Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String
 ) {
     private val JAVA_KEYSTORE = "JKS"
     private val PKCS12 = "PKCS12"
+    private val SSL = "SSL"
 
     fun commonConfig() = mapOf(
-        BOOTSTRAP_SERVERS_CONFIG to kafkaBrokers,
+        BOOTSTRAP_SERVERS_CONFIG to kafkaBrokers
     ) + securityConfig()
 
     private fun securityConfig() = mapOf(
-        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to kafkaSecurityProtocol,
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to SSL,
         SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG to "", // Disable server host name verification
         SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to JAVA_KEYSTORE,
         SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to PKCS12,
@@ -50,12 +51,12 @@ class AivenKafkaConfig(
         SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaCredstorePassword,
         SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to kafkaKeystorePath,
         SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to kafkaCredstorePassword,
-        SslConfigs.SSL_KEY_PASSWORD_CONFIG to kafkaCredstorePassword,
+        SslConfigs.SSL_KEY_PASSWORD_CONFIG to kafkaCredstorePassword
     )
 
     @Bean
     fun kafkaListenerContainerFactory(
-        aivenKafkaErrorHandler: AivenKafkaErrorHandler,
+        aivenKafkaErrorHandler: AivenKafkaErrorHandler
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val config = mapOf(
             ConsumerConfig.GROUP_ID_CONFIG to "aktivitetskrav-backend-group-v2",
@@ -64,7 +65,7 @@ class AivenKafkaConfig(
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
             ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "1",
-            ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to "600000",
+            ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to "600000"
         ) + commonConfig()
         val consumerFactory = DefaultKafkaConsumerFactory<String, String>(config)
 
@@ -79,13 +80,15 @@ class AivenKafkaConfig(
     fun producerFactory(): ProducerFactory<String, EsyfovarselHendelse> {
         return DefaultKafkaProducerFactory(
             commonConfig() +
-                mapOf(
+                mutableMapOf(
                     ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
                     ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonKafkaSerializer::class.java,
                     ProducerConfig.ACKS_CONFIG to "all",
-                    ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG to false,
-                    SaslConfigs.SASL_MECHANISM to "PLAIN",
-                ),
+                    ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG to false
+                ).apply {
+                    remove(SaslConfigs.SASL_MECHANISM)
+                    remove(SaslConfigs.SASL_JAAS_CONFIG)
+                }.toMap()
         )
     }
 

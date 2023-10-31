@@ -1,30 +1,32 @@
 package no.nav.syfo.kafka.producer
 
+import no.nav.syfo.kafka.config.varselBusTopic
 import no.nav.syfo.kafka.domain.EsyfovarselHendelse
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.annotation.Profile
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 import java.util.*
 
+@Profile("remote")
 @Component
 class EsyfovarselKafkaProducer @Autowired constructor(
-    @Qualifier("EsyfovarselKafkaTemplate") private val kafkaTemplate: KafkaTemplate<String, EsyfovarselHendelse>,
+    @Qualifier("EsyfovarselKafkaTemplate") private val kafkaTemplate: KafkaTemplate<String, EsyfovarselHendelse>
 ) {
 
     fun sendToEsyfovarsel(
-        esyfovarselHendelse: EsyfovarselHendelse,
+        esyfovarselHendelse: EsyfovarselHendelse
     ) {
         try {
-            log.info("[EsyfovarselAK]: Sending en event of type  ${esyfovarselHendelse.type.name} to esyfovarsel")
             kafkaTemplate.send(
                 ProducerRecord(
-                    ESYFOVARSEL_TOPIC,
+                    varselBusTopic,
                     UUID.randomUUID().toString(),
-                    esyfovarselHendelse,
-                ),
+                    esyfovarselHendelse
+                )
             ).get()
         } catch (e: Exception) {
             log.error("[EsyfovarselAK]: Exception was thrown when attempting to send varsel to esyfovarsel. ${e.message}")
@@ -33,7 +35,6 @@ class EsyfovarselKafkaProducer @Autowired constructor(
     }
 
     companion object {
-        const val ESYFOVARSEL_TOPIC = "team-esyfo.varselbus"
         private val log = LoggerFactory.getLogger(EsyfovarselKafkaProducer::class.java)
     }
 }

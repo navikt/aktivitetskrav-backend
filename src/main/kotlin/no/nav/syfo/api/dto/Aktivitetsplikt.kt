@@ -3,7 +3,7 @@ package no.nav.syfo.api.dto
 import java.time.LocalDateTime
 
 enum class AktivitetspliktStatus {
-    NY, AVVENT, UNNTAK, OPPFYLT, FORHANDSVARSEL, IKKE_OPPFYLT, IKKE_AKTUELL
+    NY, AVVENT, UNNTAK, OPPFYLT, AUTOMATISK_OPPFYLT, FORHANDSVARSEL, IKKE_OPPFYLT, IKKE_AKTUELL
 }
 
 data class Aktivitetsplikt(

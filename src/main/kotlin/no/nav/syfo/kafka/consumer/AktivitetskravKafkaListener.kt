@@ -12,15 +12,17 @@ import no.nav.syfo.metric.Metric
 import no.nav.syfo.service.AktivitetskravService
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 import kotlin.system.exitProcess
 
+@Profile("remote")
 @Component
 class AktivitetskravKafkaListener @Autowired constructor(
     private val aktivitetskravService: AktivitetskravService,
-    private val metric: Metric,
+    private val metric: Metric
 ) {
     val log = logger()
 
@@ -33,11 +35,10 @@ class AktivitetskravKafkaListener @Autowired constructor(
     @KafkaListener(topics = [aktivitetskravVarselTopic, aktivitetskravVurderingTopic])
     fun listenToTopic(
         record: ConsumerRecord<String, String>,
-        ack: Acknowledgment,
+        ack: Acknowledgment
     ) {
         val topic = record.topic()
         metric.countRecordReceived()
-        log.info("[EsyfovarselAK] Received record from topic $topic")
         try {
             when (topic) {
                 aktivitetskravVurderingTopic ->
