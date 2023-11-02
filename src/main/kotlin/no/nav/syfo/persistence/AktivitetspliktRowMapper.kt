@@ -11,7 +11,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
         val status: String = rs.getString("status")
         val arsaker: String? = rs.getString("arsaker").takeIf { it != "" }
         val sistVurdert: Timestamp? = rs.getTimestamp("sist_vurdert")
-        val fristDato: Timestamp? = rs.getTimestamp("frist")
+        val fristDato: Timestamp? = rs.getTimestamp("svarfrist")
         val journalpostId: String? = rs.getString("journalpost_id")
 
         return Aktivitetsplikt(

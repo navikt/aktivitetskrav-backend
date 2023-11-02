@@ -119,7 +119,7 @@ class AktivitetskravDAO(
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, vurdering.frist, varsel.journalpost_id
+            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.svarfrist, varsel.journalpost_id
             FROM aktivitetskrav_vurdering vurdering
             LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
