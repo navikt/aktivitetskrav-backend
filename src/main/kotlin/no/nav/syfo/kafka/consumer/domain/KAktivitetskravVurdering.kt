@@ -29,7 +29,7 @@ data class KAktivitetskravVurdering(
 private fun getHendelseType(vurdering: KAktivitetskravVurdering): HendelseType {
     return when (vurdering.status) {
         AktivitetspliktStatus.NY.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY
-        AktivitetspliktStatus.AVVENT.name -> HendelseType.AVVENT
+        AktivitetspliktStatus.AVVENT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_AVVENT
         AktivitetspliktStatus.UNNTAK.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_UNNTAK
         AktivitetspliktStatus.OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_OPPFYLT
         AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_AUTOMATISK_OPPFYLT
