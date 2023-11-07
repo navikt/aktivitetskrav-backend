@@ -12,11 +12,13 @@ import no.nav.syfo.metric.Metric
 import no.nav.syfo.service.AktivitetskravService
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 import kotlin.system.exitProcess
 
+@Profile("remote")
 @Component
 class AktivitetskravKafkaListener @Autowired constructor(
     private val aktivitetskravService: AktivitetskravService,
@@ -49,7 +51,7 @@ class AktivitetskravKafkaListener @Autowired constructor(
 
             ack.acknowledge()
         } catch (e: RuntimeException) {
-            log.error("Error during record processing from topic $topic. Shutting down application ...", e)
+            log.error("[EsyfovarselAK] Error during record processing from topic $topic. Shutting down application ...", e)
             metric.countKafkaErrorShutdown()
             exitProcess(1)
         }

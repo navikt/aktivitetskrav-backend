@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.apache.kafka.common.serialization.Serializer
 
 val objectMapper: ObjectMapper = JsonMapper.builder()
     .addModule(JavaTimeModule())
@@ -16,4 +17,7 @@ val objectMapper: ObjectMapper = JsonMapper.builder()
     .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
     .build()
 
-fun Any.serialisertTilString(): String = objectMapper.writeValueAsString(this)
+class JacksonKafkaSerializer : Serializer<Any> {
+    override fun serialize(topic: String?, data: Any?): ByteArray? = objectMapper.writeValueAsBytes(data)
+    override fun close() {}
+}
