@@ -1,7 +1,8 @@
 package no.nav.syfo.kafka.consumer.domain
 
 import no.nav.syfo.api.dto.AktivitetspliktStatus
-import no.nav.syfo.kafka.domain.HendelseType
+import no.nav.syfo.kafka.producer.VarselData
+import no.nav.syfo.kafka.producer.VarselDataAktivitetskrav
 import java.io.Serializable
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -20,23 +21,35 @@ data class KAktivitetskravVurdering(
     val sistVurdert: OffsetDateTime?,
     val frist: LocalDate?,
 ) : Serializable, VarselbusEvent {
-    override fun eventType() = getHendelseType(this)
     override fun personIdent() = personIdent
 
-    override fun varselData() = null
+    override fun varselData() = VarselData(
+        aktivitetskrav = VarselDataAktivitetskrav(
+            sendForhandsvarsel = false,
+            enableMicrofrontend = shouldEnableMikrofrontend(this),
+            extendMicrofrontendDuration = shouldExtendMicrofrontendDuration(this)
+        )
+    )
 }
 
-private fun getHendelseType(vurdering: KAktivitetskravVurdering): HendelseType {
-    return when (vurdering.status) {
-        AktivitetspliktStatus.NY.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY
-        AktivitetspliktStatus.NY_VURDERING.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY_VURDERING
-        AktivitetspliktStatus.AVVENT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_AVVENT
-        AktivitetspliktStatus.UNNTAK.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_UNNTAK
-        AktivitetspliktStatus.OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_OPPFYLT
-        AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_AUTOMATISK_OPPFYLT
-        AktivitetspliktStatus.FORHANDSVARSEL.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_FORHANDSVARSEL
-        AktivitetspliktStatus.IKKE_OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_OPPFYLT
-        AktivitetspliktStatus.IKKE_AKTUELL.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_IKKE_AKTUELL
-        else -> throw IllegalArgumentException("Ukjent AktivitetspliktStatus-type: ${vurdering.status}")
+private fun shouldEnableMikrofrontend(vurdering: KAktivitetskravVurdering) =
+    when (vurdering.status) {
+        AktivitetspliktStatus.NY.name,
+        AktivitetspliktStatus.NY_VURDERING.name,
+        AktivitetspliktStatus.FORHANDSVARSEL.name -> true
+        else -> false
     }
-}
+
+private fun shouldExtendMicrofrontendDuration(vurdering: KAktivitetskravVurdering) =
+    when (vurdering.status) {
+        AktivitetspliktStatus.NY.name,
+        AktivitetspliktStatus.NY_VURDERING.name,
+        AktivitetspliktStatus.IKKE_AKTUELL.name,
+        AktivitetspliktStatus.UNNTAK.name,
+        AktivitetspliktStatus.IKKE_OPPFYLT.name,
+        AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name,
+        AktivitetspliktStatus.AVVENT.name,
+        AktivitetspliktStatus.OPPFYLT.name,
+        AktivitetspliktStatus.FORHANDSVARSEL.name -> true
+        else -> false
+    }

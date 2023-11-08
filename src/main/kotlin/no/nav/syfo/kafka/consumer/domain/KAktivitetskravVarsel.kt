@@ -1,7 +1,7 @@
 package no.nav.syfo.kafka.consumer.domain
 
-import no.nav.syfo.kafka.domain.HendelseType
 import no.nav.syfo.kafka.producer.VarselData
+import no.nav.syfo.kafka.producer.VarselDataAktivitetskrav
 import no.nav.syfo.kafka.producer.VarselDataJournalpost
 import java.io.Serializable
 import java.time.LocalDate
@@ -34,13 +34,17 @@ data class KAktivitetskravVarsel(
     val svarfrist: LocalDate,
     val document: List<DocumentComponentDTO>
 ) : Serializable, VarselbusEvent {
-    override fun eventType() = HendelseType.SM_AKTIVITETSPLIKT_STATUS_FORHANDSVARSEL
     override fun personIdent() = personIdent
 
     override fun varselData(): VarselData = VarselData(
-        VarselDataJournalpost(
+        journalpost = VarselDataJournalpost(
             id = journalpostId,
             uuid = "$aktivitetskravUuid"
+        ),
+        aktivitetskrav = VarselDataAktivitetskrav(
+            sendForhandsvarsel = true,
+            enableMicrofrontend = true,
+            extendMicrofrontendDuration = false
         )
     )
 }

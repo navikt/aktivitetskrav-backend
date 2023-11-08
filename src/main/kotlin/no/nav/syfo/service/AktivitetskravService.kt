@@ -5,6 +5,7 @@ import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
 import no.nav.syfo.kafka.consumer.domain.VarselbusEvent
 import no.nav.syfo.kafka.domain.ArbeidstakerHendelse
+import no.nav.syfo.kafka.domain.HendelseType
 import no.nav.syfo.kafka.producer.EsyfovarselKafkaProducer
 import no.nav.syfo.logger
 import no.nav.syfo.metric.Metric
@@ -41,7 +42,7 @@ class AktivitetskravService @Autowired constructor(
     fun sendMessageToVarselbus(event: VarselbusEvent) {
         val esyfovarselHendelse =
             ArbeidstakerHendelse(
-                type = event.eventType(),
+                type = HendelseType.SM_AKTIVITETSPLIKT,
                 ferdigstill = false,
                 data = event.varselData(),
                 arbeidstakerFnr = event.personIdent(),
