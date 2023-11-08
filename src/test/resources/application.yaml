@@ -6,6 +6,7 @@ KAFKA_KEYSTORE_PATH: ""
 NAIS_CLUSTER_NAME: test
 
 ESYFO_PROXY_CLIENT_ID: "client-id"
+AKTIVITETSKRAV_FRONTEND_CLIENT_ID: "client-id"
 
 spring:
   profiles:

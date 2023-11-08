@@ -1,5 +1,6 @@
 package no.nav.syfo.api.dto
 
+import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
 import java.time.LocalDateTime
 
 enum class AktivitetspliktStatus {
@@ -11,5 +12,6 @@ data class Aktivitetsplikt(
     val arsaker: List<String>,
     val sistVurdert: LocalDateTime?,
     val fristDato: LocalDateTime?,
-    val journalpostId: String?
+    val journalpostId: String?,
+    val dokument: List<DocumentComponentDTO>?,
 )

@@ -66,3 +66,5 @@ spec:
   env:
     - name: ESYFO_PROXY_CLIENT_ID
       value: prod-gcp:team-esyfo:esyfo-proxy
+    - name: AKTIVITETSKRAV_FRONTEND_CLIENT_ID
+      value: prod-gcp:team-esyfo:aktivitetskrav-frontend
