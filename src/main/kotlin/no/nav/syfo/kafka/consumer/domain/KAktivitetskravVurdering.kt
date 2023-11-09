@@ -18,7 +18,7 @@ data class KAktivitetskravVurdering(
     val updatedBy: String?,
     val sisteVurderingUuid: UUID?,
     val sistVurdert: OffsetDateTime?,
-    val frist: LocalDate?
+    val frist: LocalDate?,
 ) : Serializable, VarselbusEvent {
     override fun eventType() = getHendelseType(this)
     override fun personIdent() = personIdent
@@ -29,6 +29,7 @@ data class KAktivitetskravVurdering(
 private fun getHendelseType(vurdering: KAktivitetskravVurdering): HendelseType {
     return when (vurdering.status) {
         AktivitetspliktStatus.NY.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY
+        AktivitetspliktStatus.NY_VURDERING.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_NY_VURDERING
         AktivitetspliktStatus.AVVENT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_AVVENT
         AktivitetspliktStatus.UNNTAK.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_UNNTAK
         AktivitetspliktStatus.OPPFYLT.name -> HendelseType.SM_AKTIVITETSPLIKT_STATUS_OPPFYLT
