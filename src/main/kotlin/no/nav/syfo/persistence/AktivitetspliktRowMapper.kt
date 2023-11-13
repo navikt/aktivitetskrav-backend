@@ -1,5 +1,6 @@
 package no.nav.syfo.persistence
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.api.dto.AktivitetspliktStatus
 import org.springframework.jdbc.core.RowMapper
@@ -13,13 +14,15 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
         val sistVurdert: Timestamp? = rs.getTimestamp("sist_vurdert")
         val fristDato: Timestamp? = rs.getTimestamp("svarfrist")
         val journalpostId: String? = rs.getString("journalpost_id")
+        val dokument: String? = rs.getString("document")
 
         return Aktivitetsplikt(
             status = AktivitetspliktStatus.valueOf(status),
             arsaker = arsaker?.split(",") ?: emptyList(),
             sistVurdert = sistVurdert?.toZonedLocalDateTime(),
             fristDato = fristDato?.toZonedLocalDateTime(),
-            journalpostId = journalpostId
+            journalpostId = journalpostId,
+            dokument = dokument?.let { jsonWriter.readValue(it) }
         )
     }
 }
