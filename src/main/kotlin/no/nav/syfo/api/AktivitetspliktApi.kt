@@ -7,6 +7,7 @@ import no.nav.syfo.TokenValidator
 import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.exception.LogLevel
 import no.nav.syfo.exception.ResourceNotFoundException
+import no.nav.syfo.logger
 import no.nav.syfo.service.AktivitetskravService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
@@ -24,9 +26,10 @@ class AktivitetspliktApi(
     @Value("\${ESYFO_PROXY_CLIENT_ID}")
     val aktivitetskravMikrofrontendClientId: String,
     val tokenValidationContextHolder: TokenValidationContextHolder,
-    val aktivitetskravService: AktivitetskravService
+    val aktivitetskravService: AktivitetskravService,
 ) {
     lateinit var tokenValidator: TokenValidator
+    private val log = logger()
 
     @PostConstruct
     fun init() {
@@ -44,7 +47,24 @@ class AktivitetspliktApi(
             message = "Ingen aktivitetskrav funnet",
             httpStatus = HttpStatus.NOT_FOUND,
             reason = "Ingen aktivitetskrav funnet",
-            loglevel = LogLevel.OFF
+            loglevel = LogLevel.OFF,
         )
+    }
+
+    @PostMapping("/aktivitetsplikt/les")
+    @ResponseBody
+    @ProtectedWithClaims(issuer = "tokenx", combineWithOr = true, claimMap = ["acr=Level4", "acr=idporten-loa-high"])
+    fun postLesHendelse(): HttpStatus {
+        val claims = tokenValidator.validerTokenXClaims()
+        val fnr = tokenValidator.fnrFraIdportenTokenX(claims)
+
+        try {
+            aktivitetskravService.sendFerdigstillToVarselbus(fnr)
+            log.info("Sent les event to varselbus: OK")
+            return HttpStatus.OK
+        } catch (e: Exception) {
+            log.error("Sent les event to varselbus failed due to exception")
+            return HttpStatus.INTERNAL_SERVER_ERROR
+        }
     }
 }
