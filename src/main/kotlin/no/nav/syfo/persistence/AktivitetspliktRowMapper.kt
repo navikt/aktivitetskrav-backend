@@ -14,7 +14,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
         val sistVurdert: Timestamp? = rs.getTimestamp("sist_vurdert")
         val fristDato: Timestamp? = rs.getTimestamp("svarfrist")
         val journalpostId: String? = rs.getString("journalpost_id")
-        val dokument: String? = rs.getString("document")
+        val document: String? = rs.getString("document")
 
         return Aktivitetsplikt(
             status = AktivitetspliktStatus.valueOf(status),
@@ -22,7 +22,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
             sistVurdert = sistVurdert?.toZonedLocalDateTime(),
             fristDato = fristDato?.toZonedLocalDateTime(),
             journalpostId = journalpostId,
-            dokument = dokument?.let { jsonWriter.readValue(it) }
+            document = document?.let { jsonWriter.readValue(it) }
         )
     }
 }
