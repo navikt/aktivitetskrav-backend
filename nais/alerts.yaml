@@ -1,18 +1,29 @@
-- alert: KAFKA PROSSESERING (VARSEL) I AKTIVITETSKRAV-BACKEND STOPPET!
-  expr: kafka_consumergroup_group_topic_sum_lag{topic="teamsykefravr.aktivitetskrav-varsel", group="aktivitetskrav-backend-group-v2"} > 0
-  for: 10m
-  annotations:
-    summary: "aktivitetskrav-backend har ukonsumerte records på topic teamsykefravr.aktivitetskrav-varsel"
-    action: "Finn ut hvorfor aktivitetskrav-backend har stoppet å konsumere fra topic"
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: aktivitetskrav-backend-alerts
+  namespace: team-esyfo
   labels:
-    namespace: team-esyfo
-    severity: critical
-- alert: KAFKA PROSSESERING (VURDERING) I AKTIVITETSKRAV-BACKEND STOPPET!
-  expr: kafka_consumergroup_group_topic_sum_lag{topic="teamsykefravr.aktivitetskrav-vurdering", group="aktivitetskrav-backend-group-v2"} > 0
-  for: 10m
-  annotations:
-    summary: "aktivitetskrav-backend har ukonsumerte records på topic teamsykefravr.aktivitetskrav-vurdering"
-    action: "Finn ut hvorfor aktivitetskrav-backend har stoppet å konsumere fra topic"
-  labels:
-    namespace: team-esyfo
-    severity: critical
+    team: team-esyfo
+spec:
+  groups:
+    - name: aktivitetskrav-backend-alerts
+      rules:
+        - alert: KAFKA PROSSESERING (VARSEL) I AKTIVITETSKRAV-BACKEND STOPPET!
+          expr: kafka_consumergroup_group_topic_sum_lag{topic="teamsykefravr.aktivitetskrav-varsel", group="aktivitetskrav-backend-group-v2"} > 0
+          for: 10m
+          annotations:
+            summary: "aktivitetskrav-backend har ukonsumerte records på topic teamsykefravr.aktivitetskrav-varsel"
+            action: "Finn ut hvorfor aktivitetskrav-backend har stoppet å konsumere fra topic"
+          labels:
+            namespace: team-esyfo
+            severity: critical
+        - alert: KAFKA PROSSESERING (VURDERING) I AKTIVITETSKRAV-BACKEND STOPPET!
+          expr: kafka_consumergroup_group_topic_sum_lag{topic="teamsykefravr.aktivitetskrav-vurdering", group="aktivitetskrav-backend-group-v2"} > 0
+          for: 10m
+          annotations:
+            summary: "aktivitetskrav-backend har ukonsumerte records på topic teamsykefravr.aktivitetskrav-vurdering"
+            action: "Finn ut hvorfor aktivitetskrav-backend har stoppet å konsumere fra topic"
+          labels:
+            namespace: team-esyfo
+            severity: critical
