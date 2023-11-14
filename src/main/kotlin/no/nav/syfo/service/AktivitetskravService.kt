@@ -24,12 +24,17 @@ class AktivitetskravService @Autowired constructor(
     private val log = logger()
 
     fun processAktivitetskravVurdering(vurdering: KAktivitetskravVurdering) {
+        log.warn("[FORHAANDSVARSEL] processAktivitetskravVurdering}")
         aktivitetskravDAO.storeAktivitetkravVurdering(vurdering)
+        if (vurdering.personIdent == "28868398975") {
+            log.warn("[FORHAANDSVARSEL] processAktivitetskravVurdering. varselData: ${vurdering.varselData()}")
+        }
         sendMessageToVarselbus(vurdering)
         metric.countAktivitetskravVurderingProcessed()
     }
 
     fun processAktivitetskravVarsel(varsel: KAktivitetskravVarsel) {
+        log.warn("[FORHAANDSVARSEL] processAktivitetskravVarsel}")
         aktivitetskravDAO.storeAktivitetkravVarsel(varsel)
         if (varsel.personIdent == "28868398975") {
             log.warn("[FORHAANDSVARSEL] processAktivitetskravVarsel. varselData: ${varsel.varselData()}")
