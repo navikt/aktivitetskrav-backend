@@ -7,7 +7,6 @@ import no.nav.syfo.kafka.consumer.domain.VarselbusEvent
 import no.nav.syfo.kafka.domain.ArbeidstakerHendelse
 import no.nav.syfo.kafka.domain.HendelseType
 import no.nav.syfo.kafka.producer.EsyfovarselKafkaProducer
-import no.nav.syfo.logger
 import no.nav.syfo.metric.Metric
 import no.nav.syfo.persistence.AktivitetskravDAO
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,9 +18,8 @@ import org.springframework.stereotype.Service
 class AktivitetskravService @Autowired constructor(
     private val aktivitetskravDAO: AktivitetskravDAO,
     private val esyfovarselKafkaProducer: EsyfovarselKafkaProducer,
-    private val metric: Metric
+    private val metric: Metric,
 ) {
-    private val log = logger()
 
     fun processAktivitetskravVurdering(vurdering: KAktivitetskravVurdering) {
         aktivitetskravDAO.storeAktivitetkravVurdering(vurdering)
@@ -39,6 +37,18 @@ class AktivitetskravService @Autowired constructor(
         return aktivitetskravDAO.getAktivitetsplikt(fnr)
     }
 
+    fun sendFerdigstillToVarselbus(arbeidstakerFnr: String) {
+        val esyfovarselHendelse =
+            ArbeidstakerHendelse(
+                type = HendelseType.SM_AKTIVITETSPLIKT,
+                ferdigstill = true,
+                data = null,
+                arbeidstakerFnr = arbeidstakerFnr,
+                orgnummer = null,
+            )
+        esyfovarselKafkaProducer.sendToEsyfovarsel(esyfovarselHendelse)
+    }
+
     fun sendMessageToVarselbus(event: VarselbusEvent) {
         val esyfovarselHendelse =
             ArbeidstakerHendelse(
@@ -46,7 +56,7 @@ class AktivitetskravService @Autowired constructor(
                 ferdigstill = false,
                 data = event.varselData(),
                 arbeidstakerFnr = event.personIdent(),
-                orgnummer = null
+                orgnummer = null,
             )
         esyfovarselKafkaProducer.sendToEsyfovarsel(esyfovarselHendelse)
     }
