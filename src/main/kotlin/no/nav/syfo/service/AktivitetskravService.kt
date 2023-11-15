@@ -7,7 +7,6 @@ import no.nav.syfo.kafka.consumer.domain.VarselbusEvent
 import no.nav.syfo.kafka.domain.ArbeidstakerHendelse
 import no.nav.syfo.kafka.domain.HendelseType
 import no.nav.syfo.kafka.producer.EsyfovarselKafkaProducer
-import no.nav.syfo.logger
 import no.nav.syfo.metric.Metric
 import no.nav.syfo.persistence.AktivitetskravDAO
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,24 +20,15 @@ class AktivitetskravService @Autowired constructor(
     private val esyfovarselKafkaProducer: EsyfovarselKafkaProducer,
     private val metric: Metric,
 ) {
-    private val log = logger()
 
     fun processAktivitetskravVurdering(vurdering: KAktivitetskravVurdering) {
-        log.warn("[FORHAANDSVARSEL] processAktivitetskravVurdering}")
         aktivitetskravDAO.storeAktivitetkravVurdering(vurdering)
-        if (vurdering.personIdent == "28868398975") {
-            log.warn("[FORHAANDSVARSEL] processAktivitetskravVurdering. varselData: ${vurdering.varselData()}")
-        }
         sendMessageToVarselbus(vurdering)
         metric.countAktivitetskravVurderingProcessed()
     }
 
     fun processAktivitetskravVarsel(varsel: KAktivitetskravVarsel) {
-        log.warn("[FORHAANDSVARSEL] processAktivitetskravVarsel}")
         aktivitetskravDAO.storeAktivitetkravVarsel(varsel)
-        if (varsel.personIdent == "28868398975") {
-            log.warn("[FORHAANDSVARSEL] processAktivitetskravVarsel. varselData: ${varsel.varselData()}")
-        }
         sendMessageToVarselbus(varsel)
         metric.countAktivitetskravVarselProcessed()
     }
