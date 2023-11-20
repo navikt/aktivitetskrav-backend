@@ -74,6 +74,12 @@ dependencies {
                 require("3.8.3")
             }
         }
+        implementation("org.xerial.snappy:snappy-java") {
+            because("CVE-2023-34454")
+            version {
+                require("1.1.10.4")
+            }
+        }
     }
 }
 
