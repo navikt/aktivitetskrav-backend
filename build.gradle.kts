@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.1.4"
-    id("io.spring.dependency-management") version "1.1.3"
+    id("org.springframework.boot") version "3.1.5"
+    id("io.spring.dependency-management") version "1.1.4"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.spring") version "1.9.10"
+    kotlin("jvm") version "1.9.20"
+    kotlin("plugin.spring") version "1.9.20"
 }
 
 group = "no.nav.syfo"
@@ -66,29 +66,44 @@ dependencies {
         exclude(module = "junit")
     }
     testImplementation("com.opentable.components:otj-pg-embedded:$postgresEmbeddedVersion")
-}
 
-tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    this.archiveFileName.set("app.jar")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "19"
-        if (System.getenv("CI") == "true") {
-            kotlinOptions.allWarningsAsErrors = true
+    constraints {
+        implementation("org.apache.zookeeper:zookeeper") {
+            because("CVE-2023-44981")
+            version {
+                require("3.8.3")
+            }
         }
     }
 }
-tasks.getByName<Jar>("jar") {
-    enabled = false
-}
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-        events("STANDARD_OUT", "STARTED", "PASSED", "FAILED", "SKIPPED")
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+tasks {
+
+    extra["snakeyaml.version"] = "2.2"
+
+    named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+        this.archiveFileName.set("app.jar")
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "19"
+            if (System.getenv("CI") == "true") {
+                kotlinOptions.allWarningsAsErrors = true
+            }
+        }
+    }
+
+    named<Jar>("jar") {
+        enabled = false
+    }
+
+    withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            events("STANDARD_OUT", "STARTED", "PASSED", "FAILED", "SKIPPED")
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
     }
 }
