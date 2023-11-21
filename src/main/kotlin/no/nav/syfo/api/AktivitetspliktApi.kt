@@ -67,4 +67,19 @@ class AktivitetspliktApi(
             return HttpStatus.INTERNAL_SERVER_ERROR
         }
     }
+
+    @GetMapping("/aktivitetsplikt/history", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @ResponseBody
+    @ProtectedWithClaims(issuer = "tokenx", combineWithOr = true, claimMap = ["acr=Level4", "acr=idporten-loa-high"])
+    fun getAktivitetspliktHistorikk(): List<Aktivitetsplikt>? {
+        val claims = tokenValidator.validerTokenXClaims()
+        val fnr = tokenValidator.fnrFraIdportenTokenX(claims)
+
+        return aktivitetskravService.getAktivitetspliktHistorikk(fnr) ?: throw ResourceNotFoundException(
+            message = "Ingen aktivitetskrav funnet",
+            httpStatus = HttpStatus.NOT_FOUND,
+            reason = "Ingen aktivitetskrav funnet",
+            loglevel = LogLevel.OFF,
+        )
+    }
 }

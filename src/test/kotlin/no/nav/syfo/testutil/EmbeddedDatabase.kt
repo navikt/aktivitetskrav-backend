@@ -19,7 +19,7 @@ class EmbeddedDatabase {
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_READ_COMMITTED"
             validate()
-        }
+        },
     )
 
     init {

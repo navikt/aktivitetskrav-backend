@@ -28,7 +28,7 @@ import java.util.*
 @Repository
 class AktivitetskravDAO(
     val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
-    val jdbcTemplate: JdbcTemplate
+    val jdbcTemplate: JdbcTemplate,
 ) {
     fun storeAktivitetkravVurdering(vurdering: KAktivitetskravVurdering): Int {
         val uuid = UUID.randomUUID()
@@ -119,7 +119,7 @@ class AktivitetskravDAO(
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.svarfrist, varsel.journalpost_id, varsel.document
+            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document
             FROM aktivitetskrav_vurdering vurdering
             LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
@@ -132,6 +132,25 @@ class AktivitetskravDAO(
 
         return try {
             namedParameterJdbcTemplate.queryForObject(query, namedParameters, AktivitetspliktRowMapper())
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
+    }
+
+    fun gethistoriskAktivitetsplikt(fnr: String): List<Aktivitetsplikt>? {
+        val query = """
+            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document
+            FROM aktivitetskrav_vurdering vurdering
+            LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            WHERE vurdering.person_ident = :person_ident
+            ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST;
+        """.trimIndent()
+
+        val namedParameters = MapSqlParameterSource()
+            .addValue("person_ident", fnr)
+
+        return try {
+            namedParameterJdbcTemplate.query(query, namedParameters, AktivitetspliktRowMapper())
         } catch (e: EmptyResultDataAccessException) {
             null
         }
@@ -152,7 +171,7 @@ class AktivitetskravDAO(
                     updatedBy = rs.getString("updated_by"),
                     sisteVurderingUuid = UUID.fromString(rs.getString("siste_vurdering_uuid")),
                     sistVurdert = rs.getTimestamp("sist_vurdert")?.toOffsetDateTime(),
-                    frist = rs.getDate("frist").toLocalDate()
+                    frist = rs.getDate("frist").toLocalDate(),
                 )
             }
 

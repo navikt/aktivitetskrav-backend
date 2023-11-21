@@ -12,6 +12,7 @@ data class Aktivitetsplikt(
     val status: AktivitetspliktStatus,
     val arsaker: List<String>,
     val sistVurdert: LocalDateTime?,
+    val createdAt: LocalDateTime?,
     val fristDato: LocalDate?,
     val journalpostId: String?,
     val document: List<DocumentComponentDTO>?,

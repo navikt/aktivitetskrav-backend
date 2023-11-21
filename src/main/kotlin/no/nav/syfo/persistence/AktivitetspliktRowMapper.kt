@@ -7,12 +7,14 @@ import org.springframework.jdbc.core.RowMapper
 import java.sql.Date
 import java.sql.ResultSet
 import java.sql.Timestamp
+import java.time.ZoneOffset
 
 class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
     override fun mapRow(rs: ResultSet, rowNum: Int): Aktivitetsplikt {
         val status: String = rs.getString("status")
         val arsaker: String? = rs.getString("arsaker").takeIf { it != "" }
         val sistVurdert: Timestamp? = rs.getTimestamp("sist_vurdert")
+        val createdAt: Timestamp? = rs.getTimestamp("created_at")
         val fristDato: Date? = rs.getDate("svarfrist")
         val journalpostId: String? = rs.getString("journalpost_id")
         val document: String? = rs.getString("document")
@@ -20,10 +22,11 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
         return Aktivitetsplikt(
             status = AktivitetspliktStatus.valueOf(status),
             arsaker = arsaker?.split(",") ?: emptyList(),
-            sistVurdert = sistVurdert?.toZonedLocalDateTime(),
+            sistVurdert = sistVurdert?.toInstant()?.atZone(ZoneOffset.UTC)?.toLocalDateTime(),
+            createdAt = createdAt?.toInstant()?.atZone(ZoneOffset.UTC)?.toLocalDateTime(),
             fristDato = fristDato?.toLocalDate(),
             journalpostId = journalpostId,
-            document = document?.let { jsonWriter.readValue(it) }
+            document = document?.let { jsonWriter.readValue(it) },
         )
     }
 }
