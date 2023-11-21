@@ -28,7 +28,7 @@ val logstashLogbackEncoderVersion = "7.4"
 val kluentVersion = "1.73"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
-val postgresEmbeddedVersion = "0.13.3"
+val postgresEmbeddedVersion = "1.0.2"
 val mockkVersion = "1.13.8"
 val kotestVersion = "5.6.2"
 val kotestExtensionsVersion = "2.0.0"
@@ -72,6 +72,12 @@ dependencies {
             because("CVE-2023-44981")
             version {
                 require("3.8.3")
+            }
+        }
+        implementation("org.xerial.snappy:snappy-java") {
+            because("CVE-2023-34454")
+            version {
+                require("1.1.10.4")
             }
         }
     }
