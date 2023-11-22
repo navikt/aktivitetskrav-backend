@@ -68,7 +68,7 @@ class AktivitetspliktApi(
         }
     }
 
-    @GetMapping("/aktivitetsplikt/history", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/aktivitetsplikt/historikk", produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     @ProtectedWithClaims(issuer = "tokenx", combineWithOr = true, claimMap = ["acr=Level4", "acr=idporten-loa-high"])
     fun getAktivitetspliktHistorikk(): List<Aktivitetsplikt>? {
