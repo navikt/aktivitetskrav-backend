@@ -5,7 +5,6 @@ import io.kotest.matchers.ints.shouldBeExactly
 import io.kotest.matchers.shouldBe
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.service.domain.AktivitetskravVurdering
-import no.nav.syfo.testutil.EmbeddedDatabase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,7 +20,6 @@ import org.springframework.test.jdbc.JdbcTestUtils
 class AktivitietskravDAOTest @Autowired constructor(
     private val aktivitetskravDAO: AktivitetskravDAO,
 ) {
-    private lateinit var database: EmbeddedDatabase
 
     @AfterEach
     fun tearDown() {
@@ -59,7 +57,7 @@ class AktivitietskravDAOTest @Autowired constructor(
         )
         nrUpdated shouldBe 3
 
-        aktivitetskravDAO.gethistoriskAktivitetsplikt(FNR_1)?.size?.shouldBeExactly(2)
+        aktivitetskravDAO.getHistoriskAktivitetsplikt(FNR_1)?.size?.shouldBeExactly(2)
     }
 }
 

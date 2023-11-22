@@ -119,7 +119,7 @@ class AktivitetskravDAO(
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document
+            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document, varsel.vurdering_uuid, vurdering.siste_vurdering_uuid
             FROM aktivitetskrav_vurdering vurdering
             LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
@@ -137,9 +137,9 @@ class AktivitetskravDAO(
         }
     }
 
-    fun gethistoriskAktivitetsplikt(fnr: String): List<Aktivitetsplikt>? {
+    fun getHistoriskAktivitetsplikt(fnr: String): List<Aktivitetsplikt>? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document
+            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document, varsel.vurdering_uuid, vurdering.siste_vurdering_uuid
             FROM aktivitetskrav_vurdering vurdering
             LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident

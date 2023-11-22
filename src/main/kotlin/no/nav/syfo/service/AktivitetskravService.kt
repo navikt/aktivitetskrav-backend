@@ -62,6 +62,6 @@ class AktivitetskravService @Autowired constructor(
     }
 
     fun getAktivitetspliktHistorikk(fnr: String): List<Aktivitetsplikt>? {
-        return aktivitetskravDAO.gethistoriskAktivitetsplikt(fnr)
+        return aktivitetskravDAO.getHistoriskAktivitetsplikt(fnr)
     }
 }
