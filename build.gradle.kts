@@ -66,6 +66,7 @@ dependencies {
         exclude(module = "junit")
     }
     testImplementation("com.opentable.components:otj-pg-embedded:$postgresEmbeddedVersion")
+    testImplementation("com.h2database:h2:2.2.224")
 
     constraints {
         implementation("org.apache.zookeeper:zookeeper") {

@@ -119,9 +119,18 @@ class AktivitetskravDAO(
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document, varsel.vurdering_uuid, vurdering.siste_vurdering_uuid
-            FROM aktivitetskrav_vurdering vurdering
-            LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            SELECT 
+            vurdering.status, 
+            vurdering.arsaker, 
+            vurdering.sist_vurdert, 
+            varsel.created_at, 
+            varsel.svarfrist, 
+            varsel.journalpost_id, 
+            varsel.document, 
+            varsel.vurdering_uuid, 
+            vurdering.siste_vurdering_uuid
+            FROM AKTIVITETSKRAV_VURDERING vurdering
+            LEFT JOIN AKTIVITETSKRAV_VARSEL varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
             ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST
             LIMIT 1;
@@ -139,18 +148,53 @@ class AktivitetskravDAO(
 
     fun getHistoriskAktivitetsplikt(fnr: String): List<Aktivitetsplikt>? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.created_at, varsel.svarfrist, varsel.journalpost_id, varsel.document, varsel.vurdering_uuid, vurdering.siste_vurdering_uuid
-            FROM aktivitetskrav_vurdering vurdering
-            LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            SELECT 
+            vurdering.status, 
+            vurdering.arsaker, 
+            vurdering.sist_vurdert,
+            vurdering.siste_vurdering_uuid, 
+            vurdering.created_at,
+            varsel.created_at, 
+            varsel.svarfrist, 
+            varsel.journalpost_id, 
+            varsel.document, 
+            varsel.vurdering_uuid 
+
+            FROM AKTIVITETSKRAV_VURDERING vurdering
+            LEFT JOIN AKTIVITETSKRAV_VARSEL varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
+            AND vurdering.vurdering_uuid = :uuid
             ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST;
+        """.trimIndent()
+
+        val uuid = getRelevantVurderingUuid(fnr)
+
+        val namedParameters = MapSqlParameterSource()
+            .addValue("person_ident", fnr)
+            .addValue("uuid", uuid)
+
+        return try {
+            namedParameterJdbcTemplate.query(query, namedParameters, AktivitetspliktRowMapper())
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
+    }
+
+    fun getRelevantVurderingUuid(fnr: String): UUID? {
+        val query = """
+            SELECT vurdering.vurdering_uuid
+            FROM AKTIVITETSKRAV_VURDERING vurdering
+            LEFT JOIN AKTIVITETSKRAV_VARSEL varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            WHERE vurdering.person_ident = :person_ident
+            ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST
+            LIMIT 1;
         """.trimIndent()
 
         val namedParameters = MapSqlParameterSource()
             .addValue("person_ident", fnr)
 
         return try {
-            namedParameterJdbcTemplate.query(query, namedParameters, AktivitetspliktRowMapper())
+            namedParameterJdbcTemplate.queryForObject(query, namedParameters, UUID::class.java)
         } catch (e: EmptyResultDataAccessException) {
             null
         }

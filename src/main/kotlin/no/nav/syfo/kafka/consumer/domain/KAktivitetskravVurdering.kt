@@ -27,8 +27,8 @@ data class KAktivitetskravVurdering(
         aktivitetskrav = VarselDataAktivitetskrav(
             sendForhandsvarsel = false,
             enableMicrofrontend = shouldEnableMikrofrontend(this),
-            extendMicrofrontendDuration = shouldExtendMicrofrontendDuration(this)
-        )
+            extendMicrofrontendDuration = shouldExtendMicrofrontendDuration(this),
+        ),
     )
 }
 
@@ -36,7 +36,8 @@ private fun shouldEnableMikrofrontend(vurdering: KAktivitetskravVurdering) =
     when (vurdering.status) {
         AktivitetspliktStatus.NY.name,
         AktivitetspliktStatus.NY_VURDERING.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name -> true
+        AktivitetspliktStatus.FORHANDSVARSEL.name,
+        -> true
         else -> false
     }
 
@@ -50,6 +51,7 @@ private fun shouldExtendMicrofrontendDuration(vurdering: KAktivitetskravVurderin
         AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name,
         AktivitetspliktStatus.AVVENT.name,
         AktivitetspliktStatus.OPPFYLT.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name -> true
+        AktivitetspliktStatus.FORHANDSVARSEL.name,
+        -> true
         else -> false
     }
