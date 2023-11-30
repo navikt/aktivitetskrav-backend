@@ -66,11 +66,6 @@ class AktivitietskravDAOTest {
         aktivitetskravDAO.storeAktivitetkravVurdering(
             generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.IKKE_AKTUELL, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"),
         )
-
-        // TODO: Test with KA varsel!
-//        nrUpdated += aktivitetskravDAO.storeAktivitetkravVarsel(
-//            generateKAktivitetkravVurdering(personIdent = FNR_2),
-//        )
         aktivitetskravDAO.fetchAktivitetkravVurderingByIdent(FNR_1).size.shouldBeExactly(4)
 
         val fetchedHistoriskAktivitetsplikt = aktivitetskravDAO.getHistoriskAktivitetsplikt(FNR_1) // ?.size?.shouldBeExactly(1)
