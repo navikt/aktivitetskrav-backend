@@ -68,7 +68,7 @@ class AktivitietskravDAOTest {
         )
         aktivitetskravDAO.fetchAktivitetkravVurderingByIdent(FNR_1).size.shouldBeExactly(4)
 
-        val fetchedHistoriskAktivitetsplikt = aktivitetskravDAO.getHistoriskAktivitetsplikt(FNR_1) // ?.size?.shouldBeExactly(1)
+        val fetchedHistoriskAktivitetsplikt = aktivitetskravDAO.getHistoriskAktivitetsplikt(FNR_1)
 
         fetchedHistoriskAktivitetsplikt?.size?.shouldBeExactly(2)
         fetchedHistoriskAktivitetsplikt?.get(0)?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.IKKE_AKTUELL))
