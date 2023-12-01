@@ -134,7 +134,7 @@ class AktivitetskravDAO(
             vurdering.status, 
             vurdering.arsaker, 
             vurdering.sist_vurdert, 
-            varsel.created_at, 
+            vurdering.created_at, 
             varsel.svarfrist, 
             varsel.journalpost_id, 
             varsel.document, 
