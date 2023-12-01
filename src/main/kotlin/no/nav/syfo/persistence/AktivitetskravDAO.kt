@@ -30,6 +30,17 @@ class AktivitetskravDAO(
     val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
     val jdbcTemplate: JdbcTemplate,
 ) {
+
+/*
+     ** Dette er sammenheng mellom de ulike UUIDene i varsel og vurdering objekter **
+    ===================================================================================================================================================================================
+       * Aktivitetskrav identifikator, felles innenfor ett aktivitetskrav. Nytt aktivitetskrav med ny uuid blir laget når veileder gjør NY_VURDERING:
+       * KAktivitetskravVarsel.aktivitetskravUuid ("aktivitetskrav_uuid" i DB) <--> KAktivitetskravVurdering.uuid ("vurdering_uuid" i DB):
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+       * KAktivitetskravVarsel.vurderingUuid ("vurdering_uuid" i DB)     <--> KAktivitetskravVurdering.sisteVurderingUuid ("siste_vurdering_uuid" i DB): selve vurderings identifikator
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+*/
+
     fun storeAktivitetkravVurdering(vurdering: KAktivitetskravVurdering): Int {
         val uuid = UUID.randomUUID()
         val lagreSql = """
