@@ -29,7 +29,6 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
         val fristDato: Date? = rs.getDate("svarfrist")
         val journalpostId: String? = rs.getString("journalpost_id")
         val document: String? = rs.getString("document")
-        val vurderingUuid: String = rs.getString("siste_vurdering_uuid")
 
         return Aktivitetsplikt(
             internUuid = internUuid,
@@ -40,7 +39,6 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
             fristDato = fristDato?.toLocalDate(),
             journalpostId = journalpostId,
             document = document?.let { jsonWriter.readValue(it) },
-            vurderingUuid = vurderingUuid,
         )
     }
 }

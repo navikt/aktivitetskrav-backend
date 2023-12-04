@@ -17,5 +17,4 @@ data class Aktivitetsplikt(
     val fristDato: LocalDate?,
     val journalpostId: String?,
     val document: List<DocumentComponentDTO>?,
-    val vurderingUuid: String,
 )

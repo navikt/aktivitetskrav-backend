@@ -138,8 +138,7 @@ class AktivitetskravDAO(
                 vurdering.created_at, 
                 varsel.svarfrist, 
                 varsel.journalpost_id, 
-                varsel.document, 
-                vurdering.siste_vurdering_uuid
+                varsel.document
             FROM AKTIVITETSKRAV_VURDERING vurdering
             LEFT JOIN AKTIVITETSKRAV_VARSEL varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
@@ -164,7 +163,6 @@ class AktivitetskravDAO(
                    vurdering.status,
                    vurdering.arsaker,
                    vurdering.sist_vurdert,
-                   vurdering.siste_vurdering_uuid,
                    vurdering.created_at,
                    varsel.svarfrist,
                    varsel.journalpost_id,
