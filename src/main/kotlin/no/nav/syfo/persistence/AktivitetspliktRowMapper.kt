@@ -21,6 +21,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
     }
 
     override fun mapRow(rs: ResultSet, rowNum: Int): Aktivitetsplikt {
+        val internUuid: String = rs.getString("uuid")
         val status: String = rs.getString("status")
         val arsaker: String? = rs.getString("arsaker").takeIf { it != "" }
         val sistVurdert: Timestamp? = rs.getTimestamp("sist_vurdert")
@@ -31,6 +32,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
         val vurderingUuid: String = rs.getString("siste_vurdering_uuid")
 
         return Aktivitetsplikt(
+            internUuid = internUuid,
             status = AktivitetspliktStatus.valueOf(status),
             arsaker = arsaker?.split(",") ?: emptyList(),
             sistVurdert = sistVurdert?.toInstant()?.atZone(ZoneOffset.UTC)?.toLocalDateTime(),
