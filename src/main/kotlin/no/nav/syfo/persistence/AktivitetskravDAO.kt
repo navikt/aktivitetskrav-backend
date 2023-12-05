@@ -28,8 +28,19 @@ import java.util.*
 @Repository
 class AktivitetskravDAO(
     val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
-    val jdbcTemplate: JdbcTemplate
+    val jdbcTemplate: JdbcTemplate,
 ) {
+
+/*
+     ** Dette er sammenheng mellom de ulike UUIDene i varsel og vurdering objekter **
+    ===================================================================================================================================================================================
+       * Aktivitetskrav identifikator, felles innenfor ett aktivitetskrav. Nytt aktivitetskrav med ny uuid blir laget når veileder gjør NY_VURDERING:
+       * KAktivitetskravVarsel.aktivitetskravUuid ("aktivitetskrav_uuid" i DB) <--> KAktivitetskravVurdering.uuid ("vurdering_uuid" i DB):
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+       * KAktivitetskravVarsel.vurderingUuid ("vurdering_uuid" i DB)     <--> KAktivitetskravVurdering.sisteVurderingUuid ("siste_vurdering_uuid" i DB): selve vurderings identifikator
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+*/
+
     fun storeAktivitetkravVurdering(vurdering: KAktivitetskravVurdering): Int {
         val uuid = UUID.randomUUID()
         val lagreSql = """
@@ -119,9 +130,17 @@ class AktivitetskravDAO(
 
     fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
         val query = """
-            SELECT vurdering.status, vurdering.arsaker, vurdering.sist_vurdert, varsel.svarfrist, varsel.journalpost_id, varsel.document
-            FROM aktivitetskrav_vurdering vurdering
-            LEFT JOIN aktivitetskrav_varsel varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            SELECT 
+                vurdering.uuid,
+                vurdering.status, 
+                vurdering.arsaker, 
+                vurdering.sist_vurdert, 
+                vurdering.created_at, 
+                varsel.svarfrist, 
+                varsel.journalpost_id, 
+                varsel.document
+            FROM AKTIVITETSKRAV_VURDERING vurdering
+            LEFT JOIN AKTIVITETSKRAV_VARSEL varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
             WHERE vurdering.person_ident = :person_ident
             ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST
             LIMIT 1;
@@ -132,6 +151,37 @@ class AktivitetskravDAO(
 
         return try {
             namedParameterJdbcTemplate.queryForObject(query, namedParameters, AktivitetspliktRowMapper())
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
+    }
+
+    fun getHistoriskAktivitetsplikt(fnr: String): List<Aktivitetsplikt>? {
+        val query = """
+            SELECT 
+                   vurdering.uuid,
+                   vurdering.status,
+                   vurdering.arsaker,
+                   vurdering.sist_vurdert,
+                   vurdering.created_at,
+                   varsel.svarfrist,
+                   varsel.journalpost_id,
+                   varsel.document
+            FROM AKTIVITETSKRAV_VURDERING vurdering
+            LEFT JOIN AKTIVITETSKRAV_VARSEL varsel ON vurdering.siste_vurdering_uuid = varsel.vurdering_uuid
+            WHERE vurdering.vurdering_uuid = (SELECT vurdering_uuid
+                                              FROM AKTIVITETSKRAV_VURDERING
+                                              WHERE person_ident = :person_ident
+                                              ORDER BY created_at desc, sist_vurdert desc NULLS LAST
+                                              LIMIT 1)
+            ORDER BY vurdering.created_at desc, vurdering.sist_vurdert desc NULLS LAST;
+        """.trimIndent()
+
+        val namedParameters = MapSqlParameterSource()
+            .addValue("person_ident", fnr)
+
+        return try {
+            namedParameterJdbcTemplate.query(query, namedParameters, AktivitetspliktRowMapper())
         } catch (e: EmptyResultDataAccessException) {
             null
         }
@@ -152,7 +202,7 @@ class AktivitetskravDAO(
                     updatedBy = rs.getString("updated_by"),
                     sisteVurderingUuid = UUID.fromString(rs.getString("siste_vurdering_uuid")),
                     sistVurdert = rs.getTimestamp("sist_vurdert")?.toOffsetDateTime(),
-                    frist = rs.getDate("frist").toLocalDate()
+                    frist = rs.getDate("frist").toLocalDate(),
                 )
             }
 

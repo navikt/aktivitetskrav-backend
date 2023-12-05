@@ -9,9 +9,11 @@ enum class AktivitetspliktStatus {
 }
 
 data class Aktivitetsplikt(
+    val internUuid: String,
     val status: AktivitetspliktStatus,
     val arsaker: List<String>,
     val sistVurdert: LocalDateTime?,
+    val createdAt: LocalDateTime,
     val fristDato: LocalDate?,
     val journalpostId: String?,
     val document: List<DocumentComponentDTO>?,

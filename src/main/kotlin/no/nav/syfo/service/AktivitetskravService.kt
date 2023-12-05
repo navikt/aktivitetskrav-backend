@@ -60,4 +60,8 @@ class AktivitetskravService @Autowired constructor(
             )
         esyfovarselKafkaProducer.sendToEsyfovarsel(esyfovarselHendelse)
     }
+
+    fun getAktivitetspliktHistorikk(fnr: String): List<Aktivitetsplikt>? {
+        return aktivitetskravDAO.getHistoriskAktivitetsplikt(fnr)
+    }
 }

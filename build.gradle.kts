@@ -28,7 +28,6 @@ val logstashLogbackEncoderVersion = "7.4"
 val kluentVersion = "1.73"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
-val postgresEmbeddedVersion = "1.0.2"
 val mockkVersion = "1.13.8"
 val kotestVersion = "5.6.2"
 val kotestExtensionsVersion = "2.0.0"
@@ -65,7 +64,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-    testImplementation("com.opentable.components:otj-pg-embedded:$postgresEmbeddedVersion")
+    testImplementation("com.h2database:h2:2.2.224")
 
     constraints {
         implementation("org.apache.zookeeper:zookeeper") {

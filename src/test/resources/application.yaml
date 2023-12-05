@@ -12,11 +12,14 @@ spring:
     active: test
   flyway:
     enabled: true
-    datasource: "jdbc:postgresql://localhost:5432/postgres"
+    datasource: 'jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false'
+    baselineOnMigrate: true
+    locations: 'classpath:db/migration/common'
   datasource:
-    url: "jdbc:postgresql://localhost:5432/postgres"
-    username: postgres
-    password: postgres
+    url: 'jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false'
+    username: SA
+    password:
+    driver-class-name: 'org.h2.Driver'
     hikari:
       minimum-idle: 1
       maximum-pool-size: 3
@@ -24,6 +27,9 @@ spring:
     consumer:
       bootstrap-servers: "localhost:9092"
       group-id: "test-consumer-group"
+  h2.console:
+    enabled: true
+    path: '/h2'
 
 DITT_SYKEFRAVAER_FRONTEND_CLIENT_ID: frontend-client-id
 
