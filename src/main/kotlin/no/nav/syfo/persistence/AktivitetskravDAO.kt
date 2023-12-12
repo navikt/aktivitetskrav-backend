@@ -28,7 +28,7 @@ import java.util.*
 @Repository
 class AktivitetskravDAO(
     val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
-    val jdbcTemplate: JdbcTemplate,
+    val jdbcTemplate: JdbcTemplate
 ) {
 
 /*
@@ -202,7 +202,7 @@ class AktivitetskravDAO(
                     updatedBy = rs.getString("updated_by"),
                     sisteVurderingUuid = UUID.fromString(rs.getString("siste_vurdering_uuid")),
                     sistVurdert = rs.getTimestamp("sist_vurdert")?.toOffsetDateTime(),
-                    frist = rs.getDate("frist").toLocalDate(),
+                    frist = rs.getDate("frist").toLocalDate()
                 )
             }
 

@@ -38,7 +38,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
             createdAt = createdAt.toInstant().atZone(ZoneOffset.UTC).toLocalDateTime(),
             fristDato = fristDato?.toLocalDate(),
             journalpostId = journalpostId,
-            document = document?.let { jsonWriter.readValue(it) },
+            document = document?.let { jsonWriter.readValue(it) }
         )
     }
 }

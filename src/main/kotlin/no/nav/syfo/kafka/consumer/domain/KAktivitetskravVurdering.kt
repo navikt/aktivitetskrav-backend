@@ -19,7 +19,7 @@ data class KAktivitetskravVurdering(
     val updatedBy: String?,
     val sisteVurderingUuid: UUID?,
     val sistVurdert: OffsetDateTime?,
-    val frist: LocalDate?,
+    val frist: LocalDate?
 ) : Serializable, VarselbusEvent {
     override fun personIdent() = personIdent
 
@@ -27,8 +27,8 @@ data class KAktivitetskravVurdering(
         aktivitetskrav = VarselDataAktivitetskrav(
             sendForhandsvarsel = false,
             enableMicrofrontend = shouldEnableMikrofrontend(this),
-            extendMicrofrontendDuration = shouldExtendMicrofrontendDuration(this),
-        ),
+            extendMicrofrontendDuration = shouldExtendMicrofrontendDuration(this)
+        )
     )
 }
 
@@ -36,7 +36,7 @@ private fun shouldEnableMikrofrontend(vurdering: KAktivitetskravVurdering) =
     when (vurdering.status) {
         AktivitetspliktStatus.NY.name,
         AktivitetspliktStatus.NY_VURDERING.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name,
+        AktivitetspliktStatus.FORHANDSVARSEL.name
         -> true
         else -> false
     }
@@ -51,7 +51,7 @@ private fun shouldExtendMicrofrontendDuration(vurdering: KAktivitetskravVurderin
         AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name,
         AktivitetspliktStatus.AVVENT.name,
         AktivitetspliktStatus.OPPFYLT.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name,
+        AktivitetspliktStatus.FORHANDSVARSEL.name
         -> true
         else -> false
     }
