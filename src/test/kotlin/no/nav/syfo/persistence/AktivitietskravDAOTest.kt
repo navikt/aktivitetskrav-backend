@@ -36,13 +36,13 @@ class AktivitietskravDAOTest {
     @Test
     fun testInsertAndFetch() {
         var nrUpdated = aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY)
         )
         nrUpdated += aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT)
         )
         nrUpdated += aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_2, status = AktivitetspliktStatus.NY),
+            generateKAktivitetkravVurdering(personIdent = FNR_2, status = AktivitetspliktStatus.NY)
         )
         nrUpdated shouldBe 3
 
@@ -54,17 +54,17 @@ class AktivitietskravDAOTest {
     @Test
     fun testOnlyFetchLastAktivitetskrav() {
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY)
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT)
         )
 
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY_VURDERING, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY_VURDERING, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85")
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.IKKE_AKTUELL, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.IKKE_AKTUELL, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85")
         )
         aktivitetskravDAO.fetchAktivitetkravVurderingByIdent(FNR_1).size.shouldBeExactly(4)
 
@@ -79,19 +79,19 @@ class AktivitietskravDAOTest {
     fun testFetchVurderingerOgVarsler() {
         val VURDERING_UUID_2 = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY)
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_2, status = AktivitetspliktStatus.NY),
+            generateKAktivitetkravVurdering(personIdent = FNR_2, status = AktivitetspliktStatus.NY)
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT)
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY_VURDERING, uuid = VURDERING_UUID_2),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY_VURDERING, uuid = VURDERING_UUID_2)
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.FORHANDSVARSEL, uuid = VURDERING_UUID_2),
+            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.FORHANDSVARSEL, uuid = VURDERING_UUID_2)
         )
         aktivitetskravDAO.storeAktivitetkravVarsel(generateKAktivitetkravVarsel(personIdent = FNR_1, aktivitetskravUuid = VURDERING_UUID_2))
 

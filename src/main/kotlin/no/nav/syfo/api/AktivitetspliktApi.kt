@@ -26,7 +26,7 @@ class AktivitetspliktApi(
     @Value("\${ESYFO_PROXY_CLIENT_ID}")
     val aktivitetskravMikrofrontendClientId: String,
     val tokenValidationContextHolder: TokenValidationContextHolder,
-    val aktivitetskravService: AktivitetskravService,
+    val aktivitetskravService: AktivitetskravService
 ) {
     lateinit var tokenValidator: TokenValidator
     private val log = logger()
@@ -47,7 +47,7 @@ class AktivitetspliktApi(
             message = "Ingen aktivitetskrav funnet",
             httpStatus = HttpStatus.NOT_FOUND,
             reason = "Ingen aktivitetskrav funnet",
-            loglevel = LogLevel.OFF,
+            loglevel = LogLevel.OFF
         )
     }
 
@@ -79,7 +79,7 @@ class AktivitetspliktApi(
             message = "Ingen aktivitetskrav funnet",
             httpStatus = HttpStatus.NOT_FOUND,
             reason = "Ingen aktivitetskrav funnet",
-            loglevel = LogLevel.OFF,
+            loglevel = LogLevel.OFF
         )
     }
 }

@@ -1,10 +1,7 @@
 package no.nav.syfo.persistence
 
 import no.nav.syfo.api.dto.AktivitetspliktStatus
-import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
-import no.nav.syfo.kafka.consumer.domain.DocumentComponentType
-import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
-import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
+import no.nav.syfo.kafka.consumer.domain.*
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.*
@@ -26,7 +23,7 @@ fun generateKAktivitetkravVurdering(personIdent: String = FNR_1, status: Aktivit
         updatedBy = "oppdatert av",
         sisteVurderingUuid = UUID.fromString(SISTE_VURDERING_UUID),
         sistVurdert = OffsetDateTime.now(),
-        frist = LocalDate.now().plusDays(7L),
+        frist = LocalDate.now().plusDays(7L)
     )
 
 fun generateKAktivitetkravVarsel(personIdent: String, aktivitetskravUuid: String): KAktivitetskravVarsel =
@@ -39,6 +36,7 @@ fun generateKAktivitetkravVarsel(personIdent: String, aktivitetskravUuid: String
         journalpostId = "123",
         svarfrist = LocalDate.now().plusDays(14),
         document = listOf(
-            DocumentComponentDTO(type = DocumentComponentType.HEADER_H1, key = "key", title = "title", texts = listOf("text1", "text2")),
+            DocumentComponentDTO(type = DocumentComponentType.HEADER_H1, key = "key", title = "title", texts = listOf("text1", "text2"))
         ),
+        type = AktivitetskravVarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER.name
     )

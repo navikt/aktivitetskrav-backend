@@ -12,7 +12,7 @@ data class DocumentComponentDTO(
     val type: DocumentComponentType,
     val key: String? = null,
     val title: String?,
-    val texts: List<String>,
+    val texts: List<String>
 ) : Serializable
 
 enum class DocumentComponentType {
@@ -21,7 +21,7 @@ enum class DocumentComponentType {
     HEADER_H3,
     PARAGRAPH,
     BULLET_POINTS,
-    LINK,
+    LINK
 }
 
 data class KAktivitetskravVarsel(
@@ -33,18 +33,23 @@ data class KAktivitetskravVarsel(
     val journalpostId: String,
     val svarfrist: LocalDate,
     val document: List<DocumentComponentDTO>,
+    val type: String
 ) : Serializable, VarselbusEvent {
     override fun personIdent() = personIdent
 
     override fun varselData(): VarselData = VarselData(
         journalpost = VarselDataJournalpost(
             id = journalpostId,
-            uuid = "$aktivitetskravUuid",
+            uuid = "$aktivitetskravUuid"
         ),
         aktivitetskrav = VarselDataAktivitetskrav(
             sendForhandsvarsel = true,
             enableMicrofrontend = true,
-            extendMicrofrontendDuration = false,
-        ),
+            extendMicrofrontendDuration = false
+        )
     )
+}
+
+enum class AktivitetskravVarselType {
+    FORHANDSVARSEL_STANS_AV_SYKEPENGER
 }

@@ -13,8 +13,8 @@ import org.springframework.kafka.test.context.EmbeddedKafka
     partitions = 1,
     topics = [
         aktivitetskravVarselTopic,
-        aktivitetskravVurderingTopic,
-    ],
+        aktivitetskravVurderingTopic
+    ]
 )
 class LocalApplication {
     fun main(args: Array<String>) {

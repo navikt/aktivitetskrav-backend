@@ -15,7 +15,7 @@ data class ArbeidstakerHendelse(
     override val ferdigstill: Boolean?,
     override var data: Any?,
     val arbeidstakerFnr: String,
-    val orgnummer: String?,
+    val orgnummer: String?
 ) : EsyfovarselHendelse
 
 enum class HendelseType {
