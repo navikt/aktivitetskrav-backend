@@ -122,7 +122,7 @@ class AktivitetskravDAO(
             .addValue("varsel_uuid", varsel.varselUuid)
             .addValue("created_at", varsel.createdAt.toTimestamp())
             .addValue("journalpost_id", varsel.journalpostId)
-            .addValue("svarfrist", varsel.svarfrist.toDate())
+            .addValue("svarfrist", varsel.svarfrist!!.toDate())
             .addValue("document", varsel.document.documentsToStr())
             .addValue("vurdering_uuid", varsel.vurderingUuid)
         return namedParameterJdbcTemplate.update(lagreSql, mapLagreSql)
