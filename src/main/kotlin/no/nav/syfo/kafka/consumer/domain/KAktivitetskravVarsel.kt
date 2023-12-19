@@ -31,7 +31,7 @@ data class KAktivitetskravVarsel(
     val varselUuid: UUID,
     val createdAt: OffsetDateTime,
     val journalpostId: String,
-    val svarfrist: LocalDate,
+    val svarfrist: LocalDate?,
     val document: List<DocumentComponentDTO>,
     val type: String
 ) : Serializable, VarselbusEvent {
@@ -51,5 +51,8 @@ data class KAktivitetskravVarsel(
 }
 
 enum class AktivitetskravVarselType {
-    FORHANDSVARSEL_STANS_AV_SYKEPENGER
+    FORHANDSVARSEL_STANS_AV_SYKEPENGER,
+    UNNTAK,
+    OPPFYLT,
+    IKKE_AKTUELL,
 }
