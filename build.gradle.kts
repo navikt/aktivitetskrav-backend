@@ -29,7 +29,7 @@ val kluentVersion = "1.73"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
 val mockkVersion = "1.13.8"
-val kotestVersion = "5.6.2"
+val kotestVersion = "5.8.0"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "5.0.1"
 
