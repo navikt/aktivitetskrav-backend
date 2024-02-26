@@ -11,7 +11,7 @@ plugins {
 group = "no.nav.syfo"
 version = "1.0.0"
 description = "aktivitetskrav-backend"
-java.sourceCompatibility = JavaVersion.VERSION_19
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 ext["okhttp3.version"] = "4.11.0"
 
@@ -93,7 +93,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "19"
+            jvmTarget = "21"
             if (System.getenv("CI") == "true") {
                 kotlinOptions.allWarningsAsErrors = true
             }
