@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.1.5"
+    id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
     kotlin("jvm") version "1.9.22"
@@ -11,7 +11,7 @@ plugins {
 group = "no.nav.syfo"
 version = "1.0.0"
 description = "aktivitetskrav-backend"
-java.sourceCompatibility = JavaVersion.VERSION_19
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 ext["okhttp3.version"] = "4.11.0"
 
@@ -23,7 +23,7 @@ repositories {
 }
 
 val testContainersVersion = "1.19.0"
-val tokenSupportVersion = "3.1.5"
+val tokenSupportVersion = "4.1.3"
 val logstashLogbackEncoderVersion = "7.4"
 val kluentVersion = "1.73"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
@@ -93,7 +93,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "19"
+            jvmTarget = "21"
             if (System.getenv("CI") == "true") {
                 kotlinOptions.allWarningsAsErrors = true
             }

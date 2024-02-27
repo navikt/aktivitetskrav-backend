@@ -54,5 +54,5 @@ enum class AktivitetskravVarselType {
     FORHANDSVARSEL_STANS_AV_SYKEPENGER,
     UNNTAK,
     OPPFYLT,
-    IKKE_AKTUELL,
+    IKKE_AKTUELL
 }

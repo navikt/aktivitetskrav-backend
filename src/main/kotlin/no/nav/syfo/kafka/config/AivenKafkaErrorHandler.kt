@@ -1,9 +1,9 @@
 package no.nav.syfo.kafka.config
 
-import no.nav.syfo.logger
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.ConsumerRecords
+import org.slf4j.LoggerFactory
 import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.listener.MessageListenerContainer
 import org.springframework.stereotype.Component
@@ -17,7 +17,7 @@ class AivenKafkaErrorHandler : DefaultErrorHandler(
         it.maxInterval = 60_000L * 8
     }
 ) {
-    private val log = logger()
+    private val log = LoggerFactory.getLogger(AivenKafkaErrorHandler::class.qualifiedName)
 
     override fun handleRemaining(
         thrownException: Exception,
