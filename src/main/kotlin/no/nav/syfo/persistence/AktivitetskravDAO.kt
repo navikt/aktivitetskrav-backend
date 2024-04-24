@@ -8,6 +8,7 @@ import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVurdering
+import no.nav.syfo.logger
 import no.nav.syfo.service.domain.AktivitetskravVurdering
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
@@ -31,16 +32,18 @@ class AktivitetskravDAO(
     val jdbcTemplate: JdbcTemplate
 ) {
 
-/*
-     ** Dette er sammenheng mellom de ulike UUIDene i varsel og vurdering objekter **
-    ===================================================================================================================================================================================
-       * Aktivitetskrav identifikator, felles innenfor ett aktivitetskrav. Nytt aktivitetskrav med ny uuid blir laget når veileder gjør NY_VURDERING:
-       * KAktivitetskravVarsel.aktivitetskravUuid ("aktivitetskrav_uuid" i DB) <--> KAktivitetskravVurdering.uuid ("vurdering_uuid" i DB):
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-       * KAktivitetskravVarsel.vurderingUuid ("vurdering_uuid" i DB)     <--> KAktivitetskravVurdering.sisteVurderingUuid ("siste_vurdering_uuid" i DB): selve vurderings identifikator
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-*/
+    private val log = logger()
 
+    /*
+     ** Dette er sammenhengen mellom de ulike UUIDene i varsel- og vurderingsobjekter **
+     * Aktivitetskrav identifikator, felles innenfor ett aktivitetskrav. Et nytt aktivitetskrav
+     * med en ny uuid blir laget når veileder gjør NY_VURDERING:
+     * KAktivitetskravVarsel.aktivitetskravUuid ("aktivitetskrav_uuid" i DB) <-->
+     * KAktivitetskravVurdering.uuid ("vurdering_uuid" i DB):
+     * KAktivitetskravVarsel.vurderingUuid ("vurdering_uuid" i DB) <-->
+     * KAktivitetskravVurdering.sisteVurderingUuid ("siste_vurdering_uuid" i DB):
+     * den faktiske vurderingsidentifikatoren
+     */
     fun storeAktivitetkravVurdering(vurdering: KAktivitetskravVurdering): Int {
         val uuid = UUID.randomUUID()
         val lagreSql = """
@@ -152,6 +155,7 @@ class AktivitetskravDAO(
         return try {
             namedParameterJdbcTemplate.queryForObject(query, namedParameters, AktivitetspliktRowMapper())
         } catch (e: EmptyResultDataAccessException) {
+            log.debug("Failed to get Aktivitetsplikt", e)
             null
         }
     }
@@ -183,6 +187,7 @@ class AktivitetskravDAO(
         return try {
             namedParameterJdbcTemplate.query(query, namedParameters, AktivitetspliktRowMapper())
         } catch (e: EmptyResultDataAccessException) {
+            log.debug("Failed to get historisk aktivitetsplikt", e)
             null
         }
     }
@@ -212,11 +217,12 @@ class AktivitetskravDAO(
 
         private fun Timestamp.toOffsetDateTime() = this.toInstant().atOffset(ZoneOffset.UTC)
 
-        val jsonWriter = ObjectMapper().apply {
+        private val jsonWriter = ObjectMapper().apply {
             registerKotlinModule()
             registerModule(JavaTimeModule())
             configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         }
+
         fun List<String>.toStr() = this.joinToString(separator = ",").trim()
 
         fun List<DocumentComponentDTO>.documentsToStr() = jsonWriter.writeValueAsString(this)

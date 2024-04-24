@@ -1,7 +1,7 @@
 package no.nav.syfo
 
-import no.nav.syfo.kafka.config.aktivitetskravVarselTopic
-import no.nav.syfo.kafka.config.aktivitetskravVurderingTopic
+import no.nav.syfo.kafka.config.AKTIVITETSKRAV_VARSEL_TOPIC
+import no.nav.syfo.kafka.config.AKTIVITETSKRAV_VURDERING_TOPIC
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.kafka.annotation.EnableKafka
@@ -12,8 +12,8 @@ import org.springframework.kafka.test.context.EmbeddedKafka
 @EmbeddedKafka(
     partitions = 1,
     topics = [
-        aktivitetskravVarselTopic,
-        aktivitetskravVurderingTopic
+        AKTIVITETSKRAV_VARSEL_TOPIC,
+        AKTIVITETSKRAV_VURDERING_TOPIC
     ]
 )
 class LocalApplication {

@@ -5,6 +5,7 @@ import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.TokenValidator
 import no.nav.syfo.api.dto.Aktivitetsplikt
+import no.nav.syfo.exception.FailedSendingToEsyfovarselException
 import no.nav.syfo.exception.LogLevel
 import no.nav.syfo.exception.ResourceNotFoundException
 import no.nav.syfo.logger
@@ -58,13 +59,15 @@ class AktivitetspliktApi(
         val claims = tokenValidator.validerTokenXClaims()
         val fnr = tokenValidator.fnrFraIdportenTokenX(claims)
 
-        try {
+        return try {
             aktivitetskravService.sendFerdigstillToVarselbus(fnr)
             log.info("Sent les event to varselbus: OK")
-            return HttpStatus.OK
-        } catch (e: Exception) {
-            log.error("Sent les event to varselbus failed due to exception")
-            return HttpStatus.INTERNAL_SERVER_ERROR
+            HttpStatus.OK
+        } catch (e: FailedSendingToEsyfovarselException) {
+            log.error(
+                "FailedSendingToEsyfovarselException: Sent les event to varselbus failed. ${e.message}"
+            )
+            HttpStatus.INTERNAL_SERVER_ERROR
         }
     }
 

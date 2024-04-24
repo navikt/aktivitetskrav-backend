@@ -22,9 +22,9 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.listener.ContainerProperties
 
-const val aktivitetskravVarselTopic = "teamsykefravr.aktivitetskrav-varsel"
-const val aktivitetskravVurderingTopic = "teamsykefravr.aktivitetskrav-vurdering"
-const val varselBusTopic = "team-esyfo.varselbus"
+const val AKTIVITETSKRAV_VARSEL_TOPIC = "teamsykefravr.aktivitetskrav-varsel"
+const val AKTIVITETSKRAV_VURDERING_TOPIC = "teamsykefravr.aktivitetskrav-vurdering"
+const val VARSELBUS_TOPIC = "team-esyfo.varselbus"
 
 @Profile("remote")
 @Configuration
@@ -34,19 +34,19 @@ class AivenKafkaConfig(
     @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String,
     @Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String
 ) {
-    private val JAVA_KEYSTORE = "JKS"
-    private val PKCS12 = "PKCS12"
-    private val SSL = "SSL"
+    private val javaKeystore = "JKS"
+    private val pkcs12 = "PKCS12"
+    private val ssl = "SSL"
 
     fun commonConfig() = mapOf(
         BOOTSTRAP_SERVERS_CONFIG to kafkaBrokers
     ) + securityConfig()
 
     private fun securityConfig() = mapOf(
-        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to SSL,
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to ssl,
         SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG to "", // Disable server host name verification
-        SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to JAVA_KEYSTORE,
-        SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to PKCS12,
+        SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to javaKeystore,
+        SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to pkcs12,
         SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to kafkaTruststorePath,
         SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaCredstorePassword,
         SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to kafkaKeystorePath,
@@ -93,7 +93,9 @@ class AivenKafkaConfig(
     }
 
     @Bean("EsyfovarselKafkaTemplate")
-    fun kafkaTemplate(@Qualifier("EsyfovarselProducerFactory") producerFactory: ProducerFactory<String, EsyfovarselHendelse>): KafkaTemplate<String, EsyfovarselHendelse> {
+    fun kafkaTemplate(
+        @Qualifier("EsyfovarselProducerFactory") producerFactory: ProducerFactory<String, EsyfovarselHendelse>
+    ): KafkaTemplate<String, EsyfovarselHendelse> {
         return KafkaTemplate(producerFactory)
     }
 }

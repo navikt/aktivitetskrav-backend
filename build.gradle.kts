@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.6"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
 }
@@ -32,6 +32,7 @@ val mockkVersion = "1.13.10"
 val kotestVersion = "5.8.1"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "5.1.0"
+val detektVersion = "1.23.6"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -65,6 +66,8 @@ dependencies {
         exclude(module = "junit")
     }
     testImplementation("com.h2database:h2:2.2.224")
+
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
     constraints {
         implementation("org.apache.zookeeper:zookeeper") {
@@ -111,4 +114,9 @@ tasks {
             exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
         }
     }
+}
+
+detekt {
+    config.from("detekt-config.yml")
+    buildUponDefaultConfig = true
 }

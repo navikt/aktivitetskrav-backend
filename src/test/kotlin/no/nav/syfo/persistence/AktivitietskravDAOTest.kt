@@ -61,23 +61,35 @@ class AktivitietskravDAOTest {
         )
 
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY_VURDERING, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85")
+            generateKAktivitetkravVurdering(
+                personIdent = FNR_1,
+                status = AktivitetspliktStatus.NY_VURDERING,
+                uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"
+            )
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.IKKE_AKTUELL, uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85")
+            generateKAktivitetkravVurdering(
+                personIdent = FNR_1,
+                status = AktivitetspliktStatus.IKKE_AKTUELL,
+                uuid = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"
+            )
         )
         aktivitetskravDAO.fetchAktivitetkravVurderingByIdent(FNR_1).size.shouldBeExactly(4)
 
         val fetchedHistoriskAktivitetsplikt = aktivitetskravDAO.getHistoriskAktivitetsplikt(FNR_1)
 
         fetchedHistoriskAktivitetsplikt?.size?.shouldBeExactly(2)
-        fetchedHistoriskAktivitetsplikt?.get(0)?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.IKKE_AKTUELL))
-        fetchedHistoriskAktivitetsplikt?.get(1)?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.IKKE_AKTUELL))
+        fetchedHistoriskAktivitetsplikt?.get(
+            0
+        )?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.IKKE_AKTUELL))
+        fetchedHistoriskAktivitetsplikt?.get(
+            1
+        )?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.IKKE_AKTUELL))
     }
 
     @Test
     fun testFetchVurderingerOgVarsler() {
-        val VURDERING_UUID_2 = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"
+        val vurderingUuid2 = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c85"
         aktivitetskravDAO.storeAktivitetkravVurdering(
             generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY)
         )
@@ -88,21 +100,39 @@ class AktivitietskravDAOTest {
             generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.AVVENT)
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.NY_VURDERING, uuid = VURDERING_UUID_2)
+            generateKAktivitetkravVurdering(
+                personIdent = FNR_1,
+                status = AktivitetspliktStatus.NY_VURDERING,
+                uuid = vurderingUuid2
+            )
         )
         aktivitetskravDAO.storeAktivitetkravVurdering(
-            generateKAktivitetkravVurdering(personIdent = FNR_1, status = AktivitetspliktStatus.FORHANDSVARSEL, uuid = VURDERING_UUID_2)
+            generateKAktivitetkravVurdering(
+                personIdent = FNR_1,
+                status = AktivitetspliktStatus.FORHANDSVARSEL,
+                uuid = vurderingUuid2
+            )
         )
-        aktivitetskravDAO.storeAktivitetkravVarsel(generateKAktivitetkravVarsel(personIdent = FNR_1, aktivitetskravUuid = VURDERING_UUID_2))
+        aktivitetskravDAO.storeAktivitetkravVarsel(
+            generateKAktivitetkravVarsel(personIdent = FNR_1, aktivitetskravUuid = vurderingUuid2)
+        )
 
         val fetchedHistoriskAktivitetsplikt = aktivitetskravDAO.getHistoriskAktivitetsplikt(FNR_1)
 
         fetchedHistoriskAktivitetsplikt?.size?.shouldBeExactly(2)
-        fetchedHistoriskAktivitetsplikt?.get(0)?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.FORHANDSVARSEL))
-        fetchedHistoriskAktivitetsplikt?.get(1)?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.FORHANDSVARSEL))
+        fetchedHistoriskAktivitetsplikt?.get(
+            0
+        )?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.FORHANDSVARSEL))
+        fetchedHistoriskAktivitetsplikt?.get(
+            1
+        )?.status?.shouldBeIn(listOf(AktivitetspliktStatus.NY_VURDERING, AktivitetspliktStatus.FORHANDSVARSEL))
     }
 }
 
 fun AktivitetskravDAO.fetchAktivitetkravVurderingByIdent(personIdent: String): List<AktivitetskravVurdering> {
-    return jdbcTemplate.query("SELECT * FROM AKTIVITETSKRAV_VURDERING WHERE person_ident = ?", AktivitetskravDAO.aktivitetskravVurderingRowMapper, personIdent)
+    return jdbcTemplate.query(
+        "SELECT * FROM AKTIVITETSKRAV_VURDERING WHERE person_ident = ?",
+        AktivitetskravDAO.aktivitetskravVurderingRowMapper,
+        personIdent
+    )
 }

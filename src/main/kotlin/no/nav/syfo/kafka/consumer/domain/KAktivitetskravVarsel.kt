@@ -13,7 +13,11 @@ data class DocumentComponentDTO(
     val key: String? = null,
     val title: String?,
     val texts: List<String>
-) : Serializable
+) : Serializable {
+    companion object {
+        private const val serialVersionUID = 1L
+    }
+}
 
 enum class DocumentComponentType {
     HEADER_H1,
@@ -35,6 +39,9 @@ data class KAktivitetskravVarsel(
     val document: List<DocumentComponentDTO>,
     val type: String
 ) : Serializable, VarselbusEvent {
+    companion object {
+        private const val serialVersionUID = 1L
+    }
     override fun personIdent() = personIdent
 
     override fun varselData(): VarselData = VarselData(
