@@ -17,6 +17,7 @@ val objectMapper: ObjectMapper = JsonMapper.builder()
     .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
     .build()
 
+@Suppress("EmptyFunctionBlock")
 class JacksonKafkaSerializer : Serializer<Any> {
     override fun serialize(topic: String?, data: Any?): ByteArray? = objectMapper.writeValueAsBytes(data)
     override fun close() {}

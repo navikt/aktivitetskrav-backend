@@ -1,0 +1,19 @@
+formatting:
+  active: true
+  NoWildcardImports:
+    active: false
+style:
+  MagicNumber:
+    active: false
+  WildcardImport:
+    active: false
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+    excludePackageStatements: true
+    excludeImportStatements: true
+    excludeCommentStatements: false
+    excludeRawStrings: true
+config:
+  validation: true
+  warningsAsErrors: true

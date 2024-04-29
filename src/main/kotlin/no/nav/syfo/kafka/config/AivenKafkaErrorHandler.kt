@@ -27,7 +27,8 @@ class AivenKafkaErrorHandler : DefaultErrorHandler(
     ) {
         records.forEach { record ->
             log.error(
-                "Feil i prossesseringen av record med offset: ${record.offset()}, key: ${record.key()} på topic ${record.topic()}",
+                "Feil i prossesseringen av record med offset: ${record.offset()}, " +
+                    "key: ${record.key()} på topic ${record.topic()}",
                 thrownException
             )
         }
@@ -47,7 +48,8 @@ class AivenKafkaErrorHandler : DefaultErrorHandler(
     ) {
         data.forEach { record ->
             log.error(
-                "Feil i prossesseringen av record med offset: ${record.offset()}, key: ${record.key()} på topic ${record.topic()}",
+                "Feil i prossesseringen av record med offset: ${record.offset()}, " +
+                    "key: ${record.key()} på topic ${record.topic()}",
                 thrownException
             )
         }

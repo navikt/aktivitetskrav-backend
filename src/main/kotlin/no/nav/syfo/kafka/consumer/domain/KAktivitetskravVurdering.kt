@@ -21,6 +21,9 @@ data class KAktivitetskravVurdering(
     val sistVurdert: OffsetDateTime?,
     val frist: LocalDate?
 ) : Serializable, VarselbusEvent {
+    companion object {
+        private const val serialVersionUID = 1L
+    }
     override fun personIdent() = personIdent
 
     override fun varselData() = VarselData(

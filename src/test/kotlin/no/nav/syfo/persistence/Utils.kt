@@ -11,7 +11,11 @@ const val FNR_2 = "23456789012"
 const val VURDERING_UUID_1 = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c84"
 const val SISTE_VURDERING_UUID = "ee3f5b44-b6e3-4220-9afc-f8fc1f627c86"
 
-fun generateKAktivitetkravVurdering(personIdent: String = FNR_1, status: AktivitetspliktStatus, uuid: String = VURDERING_UUID_1) =
+fun generateKAktivitetkravVurdering(
+    personIdent: String = FNR_1,
+    status: AktivitetspliktStatus,
+    uuid: String = VURDERING_UUID_1
+) =
     KAktivitetskravVurdering(
         uuid = UUID.fromString(uuid), //  vil være felles innenfor ett aktivitetskrav, aktivitetskravUuid i varsel
         personIdent = personIdent,
@@ -36,7 +40,12 @@ fun generateKAktivitetkravVarsel(personIdent: String, aktivitetskravUuid: String
         journalpostId = "123",
         svarfrist = LocalDate.now().plusDays(14),
         document = listOf(
-            DocumentComponentDTO(type = DocumentComponentType.HEADER_H1, key = "key", title = "title", texts = listOf("text1", "text2"))
+            DocumentComponentDTO(
+                type = DocumentComponentType.HEADER_H1,
+                key = "key",
+                title = "title",
+                texts = listOf("text1", "text2")
+            )
         ),
         type = AktivitetskravVarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER.name
     )
