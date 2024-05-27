@@ -50,6 +50,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
     implementation("org.hibernate.validator:hibernate-validator")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
 
