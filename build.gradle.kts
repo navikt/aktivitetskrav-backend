@@ -32,7 +32,7 @@ val mockkVersion = "1.13.12"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "5.1.0"
-val detektVersion = "1.23.6"
+val detektVersion = "1.23.7"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
