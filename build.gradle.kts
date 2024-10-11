@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.3.2"
+    id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
     kotlin("jvm") version "1.9.23"
@@ -23,16 +23,16 @@ repositories {
 }
 
 val testContainersVersion = "1.19.0"
-val tokenSupportVersion = "5.0.2"
-val logstashLogbackEncoderVersion = "8.0"
+val tokenSupportVersion = "5.0.5"
+val logstashLogbackEncoderVersion = "7.4"
 val kluentVersion = "1.73"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
-val mockkVersion = "1.13.12"
+val mockkVersion = "1.13.13"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
-val hikariVersion = "5.1.0"
-val detektVersion = "1.23.6"
+val hikariVersion = "6.0.0"
+val detektVersion = "1.23.7"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
