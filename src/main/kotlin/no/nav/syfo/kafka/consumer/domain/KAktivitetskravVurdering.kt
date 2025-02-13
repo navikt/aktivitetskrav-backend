@@ -21,9 +21,7 @@ data class KAktivitetskravVurdering(
     val sistVurdert: OffsetDateTime?,
     val frist: LocalDate?
 ) : Serializable, VarselbusEvent {
-    companion object {
-        private const val serialVersionUID = 1L
-    }
+
     override fun personIdent() = personIdent
 
     override fun varselData() = VarselData(
@@ -33,13 +31,17 @@ data class KAktivitetskravVurdering(
             extendMicrofrontendDuration = shouldExtendMicrofrontendDuration(this)
         )
     )
+
+    companion object {
+        private const val serialVersionUID = 1L
+    }
 }
 
 private fun shouldEnableMikrofrontend(vurdering: KAktivitetskravVurdering) =
     when (vurdering.status) {
         AktivitetspliktStatus.NY.name,
         AktivitetspliktStatus.NY_VURDERING.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name
+        AktivitetspliktStatus.FORHANDSVARSEL.name,
         -> true
         else -> false
     }
