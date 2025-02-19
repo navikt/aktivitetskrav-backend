@@ -39,9 +39,7 @@ data class KAktivitetskravVarsel(
     val document: List<DocumentComponentDTO>,
     val type: String
 ) : Serializable, VarselbusEvent {
-    companion object {
-        private const val serialVersionUID = 1L
-    }
+
     override fun personIdent() = personIdent
 
     override fun varselData(): VarselData = VarselData(
@@ -55,11 +53,11 @@ data class KAktivitetskravVarsel(
             extendMicrofrontendDuration = false
         )
     )
+    companion object {
+        private const val serialVersionUID = 1L
+    }
 }
 
 enum class AktivitetskravVarselType {
     FORHANDSVARSEL_STANS_AV_SYKEPENGER,
-    UNNTAK,
-    OPPFYLT,
-    IKKE_AKTUELL
 }
