@@ -24,6 +24,7 @@ class AktivitetskravService @Autowired constructor(
 
     fun processAktivitetskravVurdering(vurdering: KAktivitetskravVurdering) {
         aktivitetskravDAO.storeAktivitetkravVurdering(vurdering)
+        sendFerdigstillToVarselbus(vurdering.personIdent)
         sendMessageToVarselbus(vurdering)
         metric.countAktivitetskravVurderingProcessed()
     }
