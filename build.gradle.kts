@@ -31,7 +31,7 @@ val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
 val mockkVersion = "1.13.14"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
-val hikariVersion = "6.2.1"
+val hikariVersion = "6.3.0"
 val detektVersion = "1.23.8"
 
 dependencies {
