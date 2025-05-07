@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.4.1"
+    id("org.springframework.boot") version "3.4.5"
     id("io.spring.dependency-management") version "1.1.7"
-    id("io.gitlab.arturbosch.detekt") version "1.23.6"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
+    id("io.gitlab.arturbosch.detekt") version "1.23.8"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.spring") version "2.0.21"
 }
 
 group = "no.nav.syfo"
@@ -32,7 +32,7 @@ val mockkVersion = "1.13.14"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "6.2.1"
-val detektVersion = "1.23.7"
+val detektVersion = "1.23.8"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
