@@ -52,7 +52,7 @@ spec:
         - application: esyfo-proxy
   gcp:
     sqlInstances:
-      - type: POSTGRES_14
+      - type: POSTGRES_17
         tier: db-custom-1-3840
         diskType: SSD
         highAvailability: true
