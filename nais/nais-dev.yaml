@@ -38,9 +38,9 @@ spec:
     - "https://aktivitetskrav-backend.intern.dev.nav.no"
   resources:
     limits:
-      memory: 800Mi
+      memory: 700Mi
     requests:
-      memory: 800Mi
+      memory: 700Mi
   kafka:
     pool: nav-dev
   tokenx:
