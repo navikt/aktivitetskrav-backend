@@ -68,21 +68,6 @@ dependencies {
     testImplementation("com.h2database:h2:2.3.232")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
-
-    constraints {
-        implementation("org.apache.zookeeper:zookeeper") {
-            because("CVE-2023-44981")
-            version {
-                require("3.8.3")
-            }
-        }
-        implementation("org.xerial.snappy:snappy-java") {
-            because("CVE-2023-34454")
-            version {
-                require("1.1.10.4")
-            }
-        }
-    }
 }
 
 tasks {
