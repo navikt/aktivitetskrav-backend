@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.5.0"
+    id("org.springframework.boot") version "3.5.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     kotlin("jvm") version "2.0.21"
@@ -23,7 +23,7 @@ repositories {
     }
 }
 
-val tokenSupportVersion = "5.0.14"
+val tokenSupportVersion = "5.0.34"
 val logstashLogbackEncoderVersion = "7.4"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
