@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.5.0"
+    id("org.springframework.boot") version "3.5.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     kotlin("jvm") version "2.0.21"
@@ -23,14 +23,14 @@ repositories {
     }
 }
 
-val tokenSupportVersion = "5.0.14"
+val tokenSupportVersion = "5.0.34"
 val logstashLogbackEncoderVersion = "7.4"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
 val mockkVersion = "1.13.14"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
-val hikariVersion = "6.3.0"
+val hikariVersion = "6.3.2"
 val detektVersion = "1.23.8"
 
 dependencies {
@@ -68,21 +68,6 @@ dependencies {
     testImplementation("com.h2database:h2:2.3.232")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
-
-    constraints {
-        implementation("org.apache.zookeeper:zookeeper") {
-            because("CVE-2023-44981")
-            version {
-                require("3.8.3")
-            }
-        }
-        implementation("org.xerial.snappy:snappy-java") {
-            because("CVE-2023-34454")
-            version {
-                require("1.1.10.4")
-            }
-        }
-    }
 }
 
 tasks {
