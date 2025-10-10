@@ -5,8 +5,8 @@ plugins {
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
-    kotlin("jvm") version "2.0.21"
-    kotlin("plugin.spring") version "2.0.21"
+    kotlin("jvm") version "2.2.20"
+    kotlin("plugin.spring") version "2.2.20"
 }
 
 group = "no.nav.syfo"
@@ -24,13 +24,13 @@ repositories {
 }
 
 val tokenSupportVersion = "5.0.37"
-val logstashLogbackEncoderVersion = "7.4"
+val logstashLogbackEncoderVersion = "8.1"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
 val mockkVersion = "1.14.6"
-val kotestVersion = "5.9.1"
+val kotestVersion = "6.0.3"
 val kotestExtensionsVersion = "2.0.0"
-val hikariVersion = "6.3.2"
+val hikariVersion = "7.0.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")

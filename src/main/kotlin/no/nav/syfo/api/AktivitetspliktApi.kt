@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 @RequestMapping("/api/v1")
 class AktivitetspliktApi(
-    @Value("\${ESYFO_PROXY_CLIENT_ID}")
+    @param:Value("\${ESYFO_PROXY_CLIENT_ID}")
     val aktivitetskravMikrofrontendClientId: String,
     val tokenValidationContextHolder: TokenValidationContextHolder,
     val aktivitetskravService: AktivitetskravService

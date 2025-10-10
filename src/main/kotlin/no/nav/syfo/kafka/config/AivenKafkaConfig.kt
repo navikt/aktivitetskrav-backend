@@ -29,10 +29,10 @@ const val VARSELBUS_TOPIC = "team-esyfo.varselbus"
 @Profile("remote")
 @Configuration
 class AivenKafkaConfig(
-    @Value("\${KAFKA_BROKERS}") private val kafkaBrokers: String,
-    @Value("\${KAFKA_TRUSTSTORE_PATH}") private val kafkaTruststorePath: String,
-    @Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String,
-    @Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String
+    @param:Value("\${KAFKA_BROKERS}") private val kafkaBrokers: String,
+    @param:Value("\${KAFKA_TRUSTSTORE_PATH}") private val kafkaTruststorePath: String,
+    @param:Value("\${KAFKA_KEYSTORE_PATH}") private val kafkaKeystorePath: String,
+    @param:Value("\${KAFKA_CREDSTORE_PASSWORD}") private val kafkaCredstorePassword: String
 ) {
     private val javaKeystore = "JKS"
     private val pkcs12 = "PKCS12"
