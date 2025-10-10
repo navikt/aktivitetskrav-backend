@@ -30,7 +30,7 @@ val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
 val mockkVersion = "1.14.6"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
-val hikariVersion = "6.3.2"
+val hikariVersion = "7.0.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
