@@ -38,7 +38,8 @@ data class KAktivitetskravVarsel(
     val svarfrist: LocalDate?,
     val document: List<DocumentComponentDTO>,
     val type: String
-) : Serializable, VarselbusEvent {
+) : Serializable,
+    VarselbusEvent {
 
     override fun personIdent() = personIdent
 

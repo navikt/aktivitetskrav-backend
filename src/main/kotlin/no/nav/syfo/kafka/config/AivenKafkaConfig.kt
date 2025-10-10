@@ -77,25 +77,21 @@ class AivenKafkaConfig(
     }
 
     @Bean("EsyfovarselProducerFactory")
-    fun producerFactory(): ProducerFactory<String, EsyfovarselHendelse> {
-        return DefaultKafkaProducerFactory(
-            commonConfig() +
-                mutableMapOf(
-                    ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-                    ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonKafkaSerializer::class.java,
-                    ProducerConfig.ACKS_CONFIG to "all",
-                    ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG to false
-                ).apply {
-                    remove(SaslConfigs.SASL_MECHANISM)
-                    remove(SaslConfigs.SASL_JAAS_CONFIG)
-                }.toMap()
-        )
-    }
+    fun producerFactory(): ProducerFactory<String, EsyfovarselHendelse> = DefaultKafkaProducerFactory(
+        commonConfig() +
+            mutableMapOf(
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonKafkaSerializer::class.java,
+                ProducerConfig.ACKS_CONFIG to "all",
+                ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG to false
+            ).apply {
+                remove(SaslConfigs.SASL_MECHANISM)
+                remove(SaslConfigs.SASL_JAAS_CONFIG)
+            }.toMap()
+    )
 
     @Bean("EsyfovarselKafkaTemplate")
     fun kafkaTemplate(
         @Qualifier("EsyfovarselProducerFactory") producerFactory: ProducerFactory<String, EsyfovarselHendelse>
-    ): KafkaTemplate<String, EsyfovarselHendelse> {
-        return KafkaTemplate(producerFactory)
-    }
+    ): KafkaTemplate<String, EsyfovarselHendelse> = KafkaTemplate(producerFactory)
 }

@@ -35,10 +35,7 @@ class AktivitetskravKafkaListener @Autowired constructor(
     }
 
     @KafkaListener(topics = [AKTIVITETSKRAV_VARSEL_TOPIC, AKTIVITETSKRAV_VURDERING_TOPIC])
-    fun listenToTopic(
-        record: ConsumerRecord<String, String>,
-        ack: Acknowledgment
-    ) {
+    fun listenToTopic(record: ConsumerRecord<String, String>, ack: Acknowledgment) {
         val topic = record.topic()
         metric.countRecordReceived()
         try {

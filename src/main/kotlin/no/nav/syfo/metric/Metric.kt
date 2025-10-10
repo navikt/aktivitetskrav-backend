@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class Metric @Autowired constructor(
-    private val registry: MeterRegistry
-) {
+class Metric @Autowired constructor(private val registry: MeterRegistry) {
     fun countKafkaErrorShutdown() = countEvent("shutdown_due_to_kafka_error")
 
     fun countRecordReceived() = countEvent("kafka_record_received")
@@ -24,6 +22,5 @@ class Metric @Autowired constructor(
         ).increment()
     }
 
-    private fun metricPrefix(name: String) =
-        "aktivitetskrav_backend_$name"
+    private fun metricPrefix(name: String) = "aktivitetskrav_backend_$name"
 }

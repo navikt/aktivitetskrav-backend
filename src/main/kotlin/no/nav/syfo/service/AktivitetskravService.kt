@@ -36,9 +36,7 @@ class AktivitetskravService @Autowired constructor(
         }
     }
 
-    fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? {
-        return aktivitetskravDAO.getAktivitetsplikt(fnr)
-    }
+    fun getAktivitetsplikt(fnr: String): Aktivitetsplikt? = aktivitetskravDAO.getAktivitetsplikt(fnr)
 
     fun sendFerdigstillToVarselbus(arbeidstakerFnr: String) {
         val esyfovarselHendelse =
@@ -64,9 +62,8 @@ class AktivitetskravService @Autowired constructor(
         esyfovarselKafkaProducer.sendToEsyfovarsel(esyfovarselHendelse)
     }
 
-    fun getAktivitetspliktHistorikk(fnr: String): List<Aktivitetsplikt>? {
-        return aktivitetskravDAO.getHistoriskAktivitetsplikt(fnr)
-    }
+    fun getAktivitetspliktHistorikk(fnr: String): List<Aktivitetsplikt>? =
+        aktivitetskravDAO.getHistoriskAktivitetsplikt(fnr)
 
     private fun KAktivitetskravVarsel.isForhandsvarselType() =
         this.type == AktivitetskravVarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER.name

@@ -149,10 +149,9 @@ class AktivitietskravDAOTest {
     }
 }
 
-fun AktivitetskravDAO.fetchAktivitetkravVurderingByIdent(personIdent: String): List<AktivitetskravVurdering> {
-    return jdbcTemplate.query(
+fun AktivitetskravDAO.fetchAktivitetkravVurderingByIdent(personIdent: String): List<AktivitetskravVurdering> =
+    jdbcTemplate.query(
         "SELECT * FROM AKTIVITETSKRAV_VURDERING WHERE person_ident = ?",
         AktivitetskravDAO.aktivitetskravVurderingRowMapper,
         personIdent
     )
-}

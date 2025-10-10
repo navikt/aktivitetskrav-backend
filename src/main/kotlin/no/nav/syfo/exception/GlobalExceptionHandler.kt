@@ -16,25 +16,23 @@ class GlobalExceptionHandler {
     private val log = logger()
 
     @ExceptionHandler(java.lang.Exception::class)
-    fun handleException(ex: Exception, request: HttpServletRequest): ResponseEntity<Any> {
-        return when (ex) {
-            is AbstractApiError -> {
-                when (ex.loglevel) {
-                    LogLevel.WARN -> log.warn(ex.message, ex)
-                    LogLevel.ERROR -> log.error(ex.message, ex)
-                    LogLevel.OFF -> {
-                    }
+    fun handleException(ex: Exception, request: HttpServletRequest): ResponseEntity<Any> = when (ex) {
+        is AbstractApiError -> {
+            when (ex.loglevel) {
+                LogLevel.WARN -> log.warn(ex.message, ex)
+                LogLevel.ERROR -> log.error(ex.message, ex)
+                LogLevel.OFF -> {
                 }
+            }
 
-                ResponseEntity(ApiError(ex.reason), ex.httpStatus)
-            }
-            is JwtTokenInvalidClaimException -> skapResponseEntity(HttpStatus.UNAUTHORIZED)
-            is JwtTokenUnauthorizedException -> skapResponseEntity(HttpStatus.UNAUTHORIZED)
-            is HttpMediaTypeNotAcceptableException -> skapResponseEntity(HttpStatus.NOT_ACCEPTABLE)
-            else -> {
-                log.error("Internal server error - ${ex.message} - ${request.method}: ${request.requestURI}", ex)
-                skapResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
-            }
+            ResponseEntity(ApiError(ex.reason), ex.httpStatus)
+        }
+        is JwtTokenInvalidClaimException -> skapResponseEntity(HttpStatus.UNAUTHORIZED)
+        is JwtTokenUnauthorizedException -> skapResponseEntity(HttpStatus.UNAUTHORIZED)
+        is HttpMediaTypeNotAcceptableException -> skapResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+        else -> {
+            log.error("Internal server error - ${ex.message} - ${request.method}: ${request.requestURI}", ex)
+            skapResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 }
@@ -53,5 +51,7 @@ abstract class AbstractApiError(
 ) : RuntimeException(message, grunn)
 
 enum class LogLevel {
-    WARN, ERROR, OFF
+    WARN,
+    ERROR,
+    OFF
 }

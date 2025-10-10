@@ -20,7 +20,8 @@ data class KAktivitetskravVurdering(
     val sisteVurderingUuid: UUID?,
     val sistVurdert: OffsetDateTime?,
     val frist: LocalDate?
-) : Serializable, VarselbusEvent {
+) : Serializable,
+    VarselbusEvent {
 
     override fun personIdent() = personIdent
 
@@ -37,26 +38,24 @@ data class KAktivitetskravVurdering(
     }
 }
 
-private fun shouldEnableMikrofrontend(vurdering: KAktivitetskravVurdering) =
-    when (vurdering.status) {
-        AktivitetspliktStatus.NY.name,
-        AktivitetspliktStatus.NY_VURDERING.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name,
-        -> true
-        else -> false
-    }
+private fun shouldEnableMikrofrontend(vurdering: KAktivitetskravVurdering) = when (vurdering.status) {
+    AktivitetspliktStatus.NY.name,
+    AktivitetspliktStatus.NY_VURDERING.name,
+    AktivitetspliktStatus.FORHANDSVARSEL.name,
+    -> true
+    else -> false
+}
 
-private fun shouldExtendMicrofrontendDuration(vurdering: KAktivitetskravVurdering) =
-    when (vurdering.status) {
-        AktivitetspliktStatus.NY.name,
-        AktivitetspliktStatus.NY_VURDERING.name,
-        AktivitetspliktStatus.IKKE_AKTUELL.name,
-        AktivitetspliktStatus.UNNTAK.name,
-        AktivitetspliktStatus.IKKE_OPPFYLT.name,
-        AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name,
-        AktivitetspliktStatus.AVVENT.name,
-        AktivitetspliktStatus.OPPFYLT.name,
-        AktivitetspliktStatus.FORHANDSVARSEL.name
-        -> true
-        else -> false
-    }
+private fun shouldExtendMicrofrontendDuration(vurdering: KAktivitetskravVurdering) = when (vurdering.status) {
+    AktivitetspliktStatus.NY.name,
+    AktivitetspliktStatus.NY_VURDERING.name,
+    AktivitetspliktStatus.IKKE_AKTUELL.name,
+    AktivitetspliktStatus.UNNTAK.name,
+    AktivitetspliktStatus.IKKE_OPPFYLT.name,
+    AktivitetspliktStatus.AUTOMATISK_OPPFYLT.name,
+    AktivitetspliktStatus.AVVENT.name,
+    AktivitetspliktStatus.OPPFYLT.name,
+    AktivitetspliktStatus.FORHANDSVARSEL.name
+    -> true
+    else -> false
+}

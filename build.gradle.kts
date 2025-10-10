@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
-    id("io.gitlab.arturbosch.detekt") version "1.23.8"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.spring") version "2.0.21"
 }
@@ -31,7 +31,6 @@ val mockkVersion = "1.14.6"
 val kotestVersion = "5.9.1"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "6.3.2"
-val detektVersion = "1.23.8"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -66,8 +65,6 @@ dependencies {
         exclude(module = "junit")
     }
     testImplementation("com.h2database:h2:2.4.240")
-
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 }
 
 tasks {
@@ -92,6 +89,10 @@ tasks {
         enabled = false
     }
 
+    named("check") {
+        dependsOn("ktlintCheck")
+    }
+
     withType<Test> {
         useJUnitPlatform()
         testLogging {
@@ -99,9 +100,4 @@ tasks {
             exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
         }
     }
-}
-
-detekt {
-    config.from("detekt-config.yml")
-    buildUponDefaultConfig = true
 }

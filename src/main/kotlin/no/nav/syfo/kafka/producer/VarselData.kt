@@ -5,10 +5,7 @@ data class VarselData(
     val aktivitetskrav: VarselDataAktivitetskrav? = null
 )
 
-data class VarselDataJournalpost(
-    val uuid: String,
-    val id: String?
-)
+data class VarselDataJournalpost(val uuid: String, val id: String?)
 
 data class VarselDataAktivitetskrav(
     val sendForhandsvarsel: Boolean,

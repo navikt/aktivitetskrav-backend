@@ -15,20 +15,19 @@ fun generateKAktivitetkravVurdering(
     personIdent: String = FNR_1,
     status: AktivitetspliktStatus,
     uuid: String = VURDERING_UUID_1
-) =
-    KAktivitetskravVurdering(
-        uuid = UUID.fromString(uuid), //  vil være felles innenfor ett aktivitetskrav, aktivitetskravUuid i varsel
-        personIdent = personIdent,
-        createdAt = OffsetDateTime.now(),
-        status = status.name,
-        beskrivelse = "beskrivelse",
-        arsaker = listOf("arsak1", "arsak2"),
-        stoppunktAt = LocalDate.now(),
-        updatedBy = "oppdatert av",
-        sisteVurderingUuid = UUID.fromString(SISTE_VURDERING_UUID),
-        sistVurdert = OffsetDateTime.now(),
-        frist = LocalDate.now().plusDays(7L)
-    )
+) = KAktivitetskravVurdering(
+    uuid = UUID.fromString(uuid), //  vil være felles innenfor ett aktivitetskrav, aktivitetskravUuid i varsel
+    personIdent = personIdent,
+    createdAt = OffsetDateTime.now(),
+    status = status.name,
+    beskrivelse = "beskrivelse",
+    arsaker = listOf("arsak1", "arsak2"),
+    stoppunktAt = LocalDate.now(),
+    updatedBy = "oppdatert av",
+    sisteVurderingUuid = UUID.fromString(SISTE_VURDERING_UUID),
+    sistVurdert = OffsetDateTime.now(),
+    frist = LocalDate.now().plusDays(7L)
+)
 
 fun generateKAktivitetkravVarsel(personIdent: String, aktivitetskravUuid: String): KAktivitetskravVarsel =
     KAktivitetskravVarsel(

@@ -27,10 +27,7 @@ import java.util.*
 
 @Transactional
 @Repository
-class AktivitetskravDAO(
-    val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
-    val jdbcTemplate: JdbcTemplate
-) {
+class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTemplate, val jdbcTemplate: JdbcTemplate) {
 
     private val log = logger()
 
