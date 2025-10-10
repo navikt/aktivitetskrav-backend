@@ -28,7 +28,7 @@ val logstashLogbackEncoderVersion = "7.4"
 val inntektsmeldingKontraktVersion = "2023.09.21-02-30-3f310"
 val sykepengesoknadKafkaVersion = "2023.09.27-13.04-8327d8dd"
 val mockkVersion = "1.14.6"
-val kotestVersion = "5.9.1"
+val kotestVersion = "6.0.3"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "6.3.2"
 
