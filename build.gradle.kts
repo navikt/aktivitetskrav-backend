@@ -89,6 +89,10 @@ tasks {
         enabled = false
     }
 
+    named("check") {
+        dependsOn("ktlintCheck")
+    }
+
     withType<Test> {
         useJUnitPlatform()
         testLogging {
