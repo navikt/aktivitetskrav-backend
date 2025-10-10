@@ -20,9 +20,7 @@ class EsyfovarselKafkaProducer @Autowired constructor(
     @Qualifier("EsyfovarselKafkaTemplate") private val kafkaTemplate: KafkaTemplate<String, EsyfovarselHendelse>
 ) {
 
-    fun sendToEsyfovarsel(
-        esyfovarselHendelse: EsyfovarselHendelse
-    ) {
+    fun sendToEsyfovarsel(esyfovarselHendelse: EsyfovarselHendelse) {
         try {
             kafkaTemplate.send(
                 ProducerRecord(
