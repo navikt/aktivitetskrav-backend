@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException
 @Profile("remote")
 @Component
 class EsyfovarselKafkaProducer @Autowired constructor(
-    @Qualifier("EsyfovarselKafkaTemplate") private val kafkaTemplate: KafkaTemplate<String, EsyfovarselHendelse>
+    @param:Qualifier("EsyfovarselKafkaTemplate") private val kafkaTemplate: KafkaTemplate<String, EsyfovarselHendelse>
 ) {
 
     fun sendToEsyfovarsel(esyfovarselHendelse: EsyfovarselHendelse) {
