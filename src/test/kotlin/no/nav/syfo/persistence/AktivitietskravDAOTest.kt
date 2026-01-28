@@ -7,9 +7,7 @@ import io.kotest.matchers.shouldBe
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.api.dto.AktivitetspliktStatus
 import no.nav.syfo.service.domain.AktivitetskravVurdering
-import org.flywaydb.core.Flyway
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,14 +26,6 @@ class AktivitietskravDAOTest {
 
     @Autowired
     private lateinit var aktivitetskravDAO: AktivitetskravDAO
-
-    @Autowired
-    private lateinit var flyway: Flyway
-
-    @BeforeEach
-    fun setup() {
-        flyway.migrate()
-    }
 
     @AfterEach
     fun cleanup() {
