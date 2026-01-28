@@ -1,24 +1,22 @@
 package no.nav.syfo.persistence
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.api.dto.AktivitetspliktStatus
+import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
 import org.springframework.jdbc.core.RowMapper
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinModule
+import tools.jackson.module.kotlin.readValue
 import java.sql.Date
 import java.sql.ResultSet
 import java.sql.Timestamp
 import java.time.ZoneOffset
 
 class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
-    val jsonWriter = ObjectMapper().apply {
-        registerKotlinModule()
-        registerModule(JavaTimeModule())
-        configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-    }
+    private val jsonWriter: ObjectMapper = JsonMapper.builder()
+        .addModule(KotlinModule.Builder().build())
+        .build()
 
     override fun mapRow(rs: ResultSet, rowNum: Int): Aktivitetsplikt {
         val internUuid: String = rs.getString("uuid")
@@ -38,7 +36,7 @@ class AktivitetspliktRowMapper : RowMapper<Aktivitetsplikt> {
             createdAt = createdAt.toInstant().atZone(ZoneOffset.UTC).toLocalDateTime(),
             fristDato = fristDato?.toLocalDate(),
             journalpostId = journalpostId,
-            document = document?.let { jsonWriter.readValue(it) }
+            document = document?.let { jsonWriter.readValue<List<DocumentComponentDTO>>(it) }
         )
     }
 }
