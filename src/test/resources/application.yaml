@@ -12,7 +12,8 @@ spring:
     active: test
   flyway:
     enabled: true
-    datasource: 'jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false'
+    # Use the same datasource as Spring uses for `spring.datasource.*`.
+    # (Avoid `spring.flyway.datasource` which isn't interpreted as a JDBC URL here.)
     baselineOnMigrate: true
     locations: 'classpath:db/migration/common'
   datasource:
