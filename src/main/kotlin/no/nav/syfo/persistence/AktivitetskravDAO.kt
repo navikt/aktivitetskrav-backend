@@ -1,9 +1,5 @@
 package no.nav.syfo.persistence
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.syfo.api.dto.Aktivitetsplikt
 import no.nav.syfo.kafka.consumer.domain.DocumentComponentDTO
 import no.nav.syfo.kafka.consumer.domain.KAktivitetskravVarsel
@@ -17,6 +13,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinModule
 import java.sql.Date
 import java.sql.ResultSet
 import java.sql.Timestamp
@@ -214,11 +213,9 @@ class AktivitetskravDAO(val namedParameterJdbcTemplate: NamedParameterJdbcTempla
 
         private fun Timestamp.toOffsetDateTime() = this.toInstant().atOffset(ZoneOffset.UTC)
 
-        private val jsonWriter = ObjectMapper().apply {
-            registerKotlinModule()
-            registerModule(JavaTimeModule())
-            configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        }
+        private val jsonWriter: ObjectMapper = JsonMapper.builder()
+            .addModule(KotlinModule.Builder().build())
+            .build()
 
         fun List<String>.toStr() = this.joinToString(separator = ",").trim()
 
