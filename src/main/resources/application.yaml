@@ -31,6 +31,10 @@ management:
     livenessstate.enabled: true
     readinessState.enabled: true
 
+logging:
+  level:
+    org.hibernate.orm.connections.pooling: WARN
+
 logging.config: "classpath:logback.xml"
 nais.cluster: ${NAIS_CLUSTER_NAME}
 
