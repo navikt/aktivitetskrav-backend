@@ -1,8 +1,10 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 ---
 applyTo: "**/*.kt"
 ---
+<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
+     For repo-specific customizations, create your own files without this header. -->
+
+> Framework-specific patterns for Spring Boot. These extend (and where overlapping, take precedence over) the base kotlin.instructions.md.
 
 # Spring Boot Framework Patterns
 
@@ -97,6 +99,20 @@ spring:
     password: ${DB_PASSWORD}
   flyway:
     enabled: true
+```
+
+## Structured Logging
+
+```kotlin
+// Check existing log statements in the repo to match the established pattern
+// SLF4J placeholder format (always available)
+logger.info("Processing event: eventId={}", eventId)
+
+// If logstash-logback-encoder is on the classpath:
+// logger.info("Processing event {}", kv("event_id", eventId))
+
+// Spring request-scoped MDC via filter
+MDC.put("x_request_id", request.getHeader("X-Request-ID"))
 ```
 
 ## Testing

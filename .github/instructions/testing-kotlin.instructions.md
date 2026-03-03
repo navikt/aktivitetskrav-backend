@@ -1,8 +1,8 @@
+---
+applyTo: "**/*.test.kt,**/*.spec.kt,**/*Test.kt,**/*Spec.kt,**/*Spek.kt"
+---
 <!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
      For repo-specific customizations, create your own files without this header. -->
----
-applyTo: "**/*.{test,spec}.kt,**/*Test.kt,**/*Spec.kt"
----
 
 # Testing Standards (Kotlin)
 
@@ -13,8 +13,8 @@ applyTo: "**/*.{test,spec}.kt,**/*Test.kt,**/*Spec.kt"
 - Arrange → Act → Assert pattern
 
 ## Kotest + MockK
-- Use Context7 to check Kotest version and API
-- Use `should` matchers for assertions
+- Check build.gradle.kts for the Kotest version and available test dependencies (verify with Context7 if available)
+- Use `should` matchers for assertions (Kotest or Kluent `shouldBeEqualTo`)
 - **Check existing tests first** — follow the repo's established test style for consistency
 - For new test suites without existing patterns, prefer Kotest DescribeSpec
 - Use MockK for mocking — prefer `coEvery` for suspend functions
