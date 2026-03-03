@@ -1,8 +1,8 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 ---
 applyTo: "**/.nais/**/*.yaml,**/.nais/**/*.yml,**/nais/**/*.yaml,**/nais/**/*.yml,**/nais.yaml,**/nais.yml"
 ---
+<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
+     For repo-specific customizations, create your own files without this header. -->
 
 # NAIS Platform Standards
 
@@ -44,7 +44,7 @@ spec:
 ```yaml
 gcp:
   sqlInstances:
-    - type: POSTGRES_15
+    - type: POSTGRES_15  # Check repo's existing manifests for actual version
       databases:
         - name: myapp-db
           envVarPrefix: DB

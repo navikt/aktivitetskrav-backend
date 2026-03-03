@@ -1,8 +1,8 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 ---
 applyTo: "**/db/migration/**/*.sql"
 ---
+<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
+     For repo-specific customizations, create your own files without this header. -->
 
 # Database Migration Standards (Flyway)
 

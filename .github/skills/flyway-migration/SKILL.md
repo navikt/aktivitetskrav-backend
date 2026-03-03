@@ -1,8 +1,8 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 ---
 description: Create a Flyway database migration with proper conventions
 ---
+<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
+     For repo-specific customizations, create your own files without this header. -->
 
 # Flyway Migration
 

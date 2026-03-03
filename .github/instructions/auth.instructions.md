@@ -1,8 +1,8 @@
+---
+applyTo: "**/*"
+---
 <!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
      For repo-specific customizations, create your own files without this header. -->
----
-applyTo: "**/*.kt,**/*.ts,**/*.tsx"
----
 
 # Authentication Standards
 
@@ -49,11 +49,11 @@ maskinporten:
 
 ## Approach
 1. Read NAIS manifest to identify which auth mechanisms are configured
-2. Use Context7 to look up current JWT validation patterns for the framework in use
+2. Search codebase for existing JWT validation setup and follow the same pattern (verify with Context7 if available)
 3. Search codebase for existing auth implementations and follow them
 
 ## Testing
-Use `no.nav.security:mock-oauth2-server` for Kotlin or equivalent mock server for testing JWT validation.
+Use the appropriate mock auth server for your framework (search the codebase for existing test auth setup before adding new dependencies).
 
 ## Boundaries
 
