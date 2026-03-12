@@ -1,8 +1,8 @@
+---
+applyTo: "**/*"
+---
 <!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
      For repo-specific customizations, create your own files without this header. -->
----
-applyTo: "**/*.kt,**/*.ts,**/*.tsx"
----
 
 # Security Standards
 
@@ -27,8 +27,8 @@ applyTo: "**/*.kt,**/*.ts,**/*.tsx"
 ### Priority 3: Secure Development
 - Chainguard/Distroless base images
 - Validate all input
-- No sensitive data in logs (FNR, JWT tokens)
-- Use OAuth for M2M (not service users)
+- No sensitive data in logs (FNR, JWT tokens, database connection strings)
+- Prefer OAuth/Maskinporten for new M2M integrations (service users are legacy — avoid in new code)
 
 ## Network Policies
 ```yaml
@@ -70,5 +70,5 @@ accessPolicy:
 ### 🚫 Never
 - Bypass security controls
 - Commit secrets to git
-- Log FNR, JWT tokens, or passwords
+- Log FNR, JWT tokens, passwords, or database connection strings
 - Skip input validation

@@ -1,8 +1,8 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 ---
 applyTo: "**/*Kafka*.kt,**/*Consumer*.kt,**/*Producer*.kt,**/*Listener*.kt,**/*Event*.kt"
 ---
+<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
+     For repo-specific customizations, create your own files without this header. -->
 
 # Kafka — Spring Kafka Patterns
 
