@@ -11,7 +11,7 @@ Aktivitetskrav-backend er en backend-tjeneste som håndterer **aktivitetskrav** 
 - **Eksponerer REST API** (beskyttet med TokenX) slik at sykmeldte kan se sin aktivitetsplikt-status via `esyfo-proxy`
 - **Produserer events** til `team-esyfo.varselbus` for å vise varsler/dokumenter i brukerens mikrofrontend
 
-Viktige statuser: NY, AVVENT, UNNTAK, OPPFYLT, FORHANDSVARSEL, IKKE_OPPFYLT, INNSTILLING_OM_STANS, LUKKET m.fl.
+Mulige statuser er definert i [`AktivitetspliktStatus`](src/main/kotlin/no/nav/syfo/api/dto/Aktivitetsplikt.kt).
 
 ```mermaid
 flowchart LR
@@ -21,7 +21,7 @@ flowchart LR
         C["team-esyfo.varselbus"]
     end
 
-    subgraph aktivitetskrav-backend
+    subgraph "Aktivitetskrav backend"
         D[Kafka Consumer]
         E[(PostgreSQL)]
         F[REST API]
@@ -66,7 +66,7 @@ Testene bruker H2 in-memory database (PostgreSQL-kompatibilitetsmodus) og MockOA
 > ℹ️ Appen kan ikke kjøres lokalt uten videre — den krever PostgreSQL, Kafka (Aiven) og TokenX som kun er tilgjengelig i NAIS-miljøet.
 
 
-### 🧹 Code style and formatting
+### 🧹 Kodeformatering
 
 Vi bruker **Ktlint** (`intellij_idea`-stil) for å sikre konsistent Kotlin-formatering.
 
