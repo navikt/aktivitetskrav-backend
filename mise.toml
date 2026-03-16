@@ -1,0 +1,22 @@
+[tools]
+java = "21"
+
+[tasks.build]
+description = "Build the project"
+run = './gradlew build'
+
+[tasks.test]
+description = "Run tests"
+run = './gradlew test'
+
+[tasks.lint]
+description = "Run ktlint check"
+run = './gradlew ktlintCheck'
+
+[tasks.format]
+description = "Format code with ktlint"
+run = './gradlew ktlintFormat'
+
+[tasks.verify]
+description = "Run lint and tests"
+depends = ["lint", "test"]
