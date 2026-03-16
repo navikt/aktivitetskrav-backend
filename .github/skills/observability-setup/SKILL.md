@@ -1,8 +1,8 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 ---
 description: Set up observability (metrics, logging, tracing) for a NAV application
 ---
+<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
+     For repo-specific customizations, create your own files without this header. -->
 
 # Observability Setup
 
@@ -12,7 +12,7 @@ Configure metrics, structured logging, and tracing for a NAV application.
 
 1. Read NAIS manifest to check current observability config and endpoint paths
 2. Check `build.gradle.kts` or `package.json` for existing observability dependencies
-3. Use Context7 to look up the metrics library API (Micrometer, prom-client, etc.)
+3. Check existing code for metrics library patterns (Micrometer, prom-client, etc.).
 4. Search codebase for existing metric definitions, logging patterns, and health endpoints
 
 ## Backend (Kotlin)

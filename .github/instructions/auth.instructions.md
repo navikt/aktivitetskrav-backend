@@ -1,14 +1,14 @@
+---
+applyTo: "**/*"
+---
 <!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
      For repo-specific customizations, create your own files without this header. -->
----
-applyTo: "**/*.kt,**/*.ts,**/*.tsx"
----
 
 # Authentication Standards
 
 ## Authentication Types in NAV
 
-### 1. Azure AD (Internal NAV Users)
+### 1. Azure AD / Entra ID (Internal NAV Users)
 ```yaml
 azure:
   application:
@@ -48,19 +48,21 @@ maskinporten:
 ```
 
 ## Approach
-1. Read NAIS manifest to identify which auth mechanisms are configured
-2. Use Context7 to look up current JWT validation patterns for the framework in use
-3. Search codebase for existing auth implementations and follow them
 
-## Testing
-Use `no.nav.security:mock-oauth2-server` for Kotlin or equivalent mock server for testing JWT validation.
+1. Les NAIS-manifest for å identifisere hvilke auth-mekanismer som er konfigurert
+2. Søk i kodebasen etter eksisterende auth-oppsett og følg samme mønster
+3. Se språkspesifikke auth-instruksjoner for bibliotekdetaljer
+
+## Referanse
+
+Komplett auth-dokumentasjon: https://doc.nais.io/auth/
 
 ## Boundaries
 
 ### ✅ Always
 - Validate JWT issuer, audience, expiration, and signature
 - Use HTTPS only for token transmission
-- Define explicit `accessPolicy`
+- Define explicit `accessPolicy` in NAIS manifest
 - Use env vars from NAIS (never hardcode)
 
 ### ⚠️ Ask First
@@ -69,6 +71,6 @@ Use `no.nav.security:mock-oauth2-server` for Kotlin or equivalent mock server fo
 
 ### 🚫 Never
 - Hardcode client secrets or tokens
-- Log full JWT tokens
+- Log full JWT tokens (or any part of token payload containing PII)
 - Skip token validation
 - Store tokens in localStorage
