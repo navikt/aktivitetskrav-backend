@@ -1,6 +1,10 @@
 # Aktivitetskrav backendapp
 
-[![Build](https://github.com/navikt/aktivitetskrav-backend/actions/workflows/build-and-deploy.yaml/badge.svg)](https://github.com/navikt/aktivitetskrav-backend/actions/workflows/build-and-deploy.yaml) [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot) [![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org/) [![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka&logoColor=white)](https://kafka.apache.org/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Build](https://github.com/navikt/aktivitetskrav-backend/actions/workflows/build-and-deploy.yaml/badge.svg)](https://github.com/navikt/aktivitetskrav-backend/actions/workflows/build-and-deploy.yaml)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
 ## Formålet med appen
 
@@ -51,33 +55,12 @@ Alle endepunkter krever TokenX-autentisering og er kun tilgjengelig via `esyfo-p
 
 ## Utvikling
 
-### Forutsetninger
-
-- JDK 21
-
-### Kjøre tester
-
-```bash
-./gradlew test
-```
+Kjør `mise verify` for å sjekke alt (lint + tester).
 
 Testene bruker H2 in-memory database (PostgreSQL-kompatibilitetsmodus) og MockOAuth2Server.
 
 > ℹ️ Appen kan ikke kjøres lokalt uten videre — den krever PostgreSQL, Kafka (Aiven) og TokenX som kun er tilgjengelig i NAIS-miljøet.
 
-
-### 🧹 Kodeformatering
-
-Vi bruker **Ktlint** (`intellij_idea`-stil) for å sikre konsistent Kotlin-formatering.
-
-👉 Installer **Ktlint**-plugin i IntelliJ:
-- Gå til *Preferences → Plugins → Marketplace → søk etter "Ktlint" → Install*
-- Aktiver deretter **"Format on Save"**
-
-Alternativt kan du alltid kjøre:
-```bash
-./gradlew ktlintFormat
-```
 
 ## Henvendelser
 
