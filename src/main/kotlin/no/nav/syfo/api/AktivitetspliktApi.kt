@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody
 @RequestMapping("/api/v1")
 class AktivitetspliktApi(
     @param:Value("\${ESYFO_PROXY_CLIENT_ID}")
-    val aktivitetskravMikrofrontendClientId: String,
+    val esyfoProxyClientId: String,
+    @param:Value("\${AKTIVITETSKRAV_FRONTEND_CLIENT_ID}")
+    val aktivitetskravFrontendClientId: String,
     val tokenValidationContextHolder: TokenValidationContextHolder,
     val aktivitetskravService: AktivitetskravService
 ) {
@@ -34,7 +36,10 @@ class AktivitetspliktApi(
 
     @PostConstruct
     fun init() {
-        tokenValidator = TokenValidator(tokenValidationContextHolder, aktivitetskravMikrofrontendClientId)
+        tokenValidator = TokenValidator(
+            tokenValidationContextHolder,
+            setOf(esyfoProxyClientId, aktivitetskravFrontendClientId)
+        )
     }
 
     @GetMapping("/aktivitetsplikt", produces = [MediaType.APPLICATION_JSON_VALUE])
