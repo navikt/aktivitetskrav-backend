@@ -1,24 +1,36 @@
 ---
-applyTo: "**/.nais/**/*.yaml,**/.nais/**/*.yml,**/nais/**/*.yaml,**/nais/**/*.yml,**/nais.yaml,**/nais.yml"
+description: Generer og vedlikehold NAIS-manifest — spec, database, Kafka, auth, accessPolicy, ressurser
 ---
 <!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
      For repo-specific customizations, create your own files without this header. -->
 
-# NAIS Platform Standards
+# NAIS-manifest
 
-## NAIS Manifest Structure
+Bruk denne skillen når du skal lage eller oppdatere et komplett NAIS-manifest for en applikasjon i team-esyfo.
+
+## Fremgangsmåte
+
+1. Les eksisterende NAIS-manifester i `.nais/` eller `nais/` for å forstå hvordan applikasjonen er satt opp i dag.
+2. Avklar om applikasjonen er backend (Kotlin) eller frontend (Node.js), siden port, health paths og observability-oppsett kan variere.
+3. Kartlegg hvilke ressurser applikasjonen trenger, for eksempel database, Kafka, auth, ingress og scaling.
+4. Gjenbruk eksisterende stier for health, readiness og metrics fra nåværende manifester.
+5. Bruk miljøspesifikke manifester (`app-dev.yaml`, `app-prod.yaml`) når repoet allerede følger det mønsteret.
+
+## Manifest-mal
+
+Generer manifestet med denne strukturen:
 
 ```yaml
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-  name: app-name
+  name: {app-name}
   namespace: team-esyfo
   labels:
     team: team-esyfo
 spec:
   image: {{ image }}
-  port: 8080  # Check existing manifests — varies per repo (e.g. 3000 for frontend)
+  port: 8080  # Check existing manifests — varies per repo (for example 3000 for frontend)
 
   # Paths vary per repo — check existing manifests for actual values
   prometheus:
@@ -39,7 +51,11 @@ spec:
       memory: 512Mi
 ```
 
-## Adding PostgreSQL Database
+**Viktig**: Sjekk alltid eksisterende NAIS-manifester for korrekt `port`, `prometheus.path`, `liveness.path` og `readiness.path`. Disse varierer mellom repoer.
+
+## PostgreSQL Database
+
+Legg til PostgreSQL når applikasjonen trenger database:
 
 ```yaml
 gcp:
@@ -50,16 +66,20 @@ gcp:
           envVarPrefix: DB
 ```
 
-Provides: `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+Dette gir typisk følgende miljøvariabler: `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
 
-## Configuring Kafka
+## Kafka
+
+Legg til Kafka når applikasjonen produserer eller konsumerer meldinger:
 
 ```yaml
 kafka:
   pool: nav-dev  # or nav-prod
 ```
 
-## Azure AD Authentication
+## Azure AD
+
+Bruk Azure AD når applikasjonen trenger autentisering eller validering av tokens fra Azure AD:
 
 ```yaml
 azure:
@@ -68,12 +88,22 @@ azure:
     tenant: nav.no
 ```
 
-## TokenX for Service-to-Service
+## TokenX (on-behalf-of)
+
+Bruk TokenX når applikasjonen skal gjøre kall på vegne av en innlogget bruker.
 
 ```yaml
 tokenx:
   enabled: true
+```
 
+For ren maskin-til-maskin-kommunikasjon, bruk Maskinporten.
+
+## accessPolicy
+
+Definer eksplisitt nettverkstilgang for alle tjenester:
+
+```yaml
 accessPolicy:
   inbound:
     rules:
@@ -87,6 +117,8 @@ accessPolicy:
 
 ## Ingress
 
+Legg til `ingresses` ved behov, og gjenbruk etablerte URL-mønstre i repoet:
+
 ```yaml
 ingresses:
   - https://myapp.intern.dev.nav.no   # Internal dev
@@ -94,6 +126,8 @@ ingresses:
 ```
 
 ## Scaling
+
+Bruk eksisterende mønstre for `replicas`, og vær forsiktig med endringer i produksjon:
 
 ```yaml
 replicas:
@@ -103,6 +137,8 @@ replicas:
 ```
 
 ## Auto-Instrumentation (Observability)
+
+Aktiver NAIS auto-instrumentation når applikasjonen skal eksponere tracing og standard observability-signaler:
 
 ```yaml
 spec:
