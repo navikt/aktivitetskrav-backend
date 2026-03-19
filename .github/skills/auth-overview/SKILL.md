@@ -49,6 +49,12 @@ maskinporten:
       - name: "nav:example/scope"
 ```
 
+### 5. Systembruker via Maskinporten (Altinn 3)
+
+Systembruker er en mekanisme i Altinn 3 der eksterne virksomheter oppretter en systembruker som gir tilgang til Nav-tjenester via Maskinporten. Brukes blant annet i syfo-dokumentporten.
+
+Se [Altinn 3 systembruker-dokumentasjon](https://docs.altinn.studio/authentication/what-do-you-get/systemuser/) for oppsett.
+
 ## Tilnærming
 
 1. Les NAIS-manifest for å identifisere hvilke auth-mekanismer som er konfigurert

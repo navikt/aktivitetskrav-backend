@@ -60,7 +60,7 @@ Legg til PostgreSQL når applikasjonen trenger database:
 ```yaml
 gcp:
   sqlInstances:
-    - type: POSTGRES_15  # Check repo's existing manifests for actual version
+    - type: POSTGRES_17  # Check repo's existing manifests for actual version
       databases:
         - name: myapp-db
           envVarPrefix: DB
@@ -97,7 +97,7 @@ tokenx:
   enabled: true
 ```
 
-For ren maskin-til-maskin-kommunikasjon, bruk Maskinporten.
+For ren maskin-til-maskin-kommunikasjon, bruk Maskinporten. Systembrukere er legacy — bruk Maskinporten/OAuth for nye M2M-integrasjoner.
 
 ## accessPolicy
 
@@ -122,7 +122,7 @@ Legg til `ingresses` ved behov, og gjenbruk etablerte URL-mønstre i repoet:
 ```yaml
 ingresses:
   - https://myapp.intern.dev.nav.no   # Internal dev
-  - https://myapp.dev.nav.no          # External dev
+  - https://myapp.ekstern.dev.nav.no  # External dev
 ```
 
 ## Scaling
