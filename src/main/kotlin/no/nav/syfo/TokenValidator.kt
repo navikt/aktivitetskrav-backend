@@ -10,13 +10,13 @@ import org.springframework.http.HttpStatus
 class TokenValidator(
     @param:Autowired
     private val tokenValidationContextHolder: TokenValidationContextHolder,
-    private val expectedClientId: String
+    private val expectedClientIds: Set<String>
 ) {
     fun validerTokenXClaims(): JwtTokenClaims {
         val context = tokenValidationContextHolder.getTokenValidationContext()
         val claims = context.getClaims("tokenx")
         val clientId = claims.getStringClaim("client_id")
-        if (clientId != expectedClientId) {
+        if (clientId !in expectedClientIds) {
             throw IngenTilgang("Uventet client id $clientId")
         }
         return claims
