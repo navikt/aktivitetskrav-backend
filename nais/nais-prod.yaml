@@ -51,6 +51,7 @@ spec:
       rules:
         - application: esyfo-proxy
         - application: aktivitetskrav-frontend
+        - application: esyfo-microfrontends
   gcp:
     sqlInstances:
       - type: POSTGRES_17
