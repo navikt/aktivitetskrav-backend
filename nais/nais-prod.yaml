@@ -51,7 +51,7 @@ spec:
       rules:
         - application: esyfo-proxy
         - application: aktivitetskrav-frontend
-        - application: esyfo-microfrontends
+        - application: aktivitetskrav-microfrontend
   gcp:
     sqlInstances:
       - type: POSTGRES_17
@@ -78,3 +78,5 @@ spec:
       value: prod-gcp:team-esyfo:esyfo-proxy
     - name: AKTIVITETSKRAV_FRONTEND_CLIENT_ID
       value: prod-gcp:team-esyfo:aktivitetskrav-frontend
+    - name: AKTIVITETSKRAV_MICRO_FRONTEND_CLIENT_ID
+      value: prod-gcp:team-esyfo:aktivitetskrav-microfrontend

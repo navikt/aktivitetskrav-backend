@@ -28,6 +28,8 @@ class AktivitetspliktApi(
     val esyfoProxyClientId: String,
     @param:Value("\${AKTIVITETSKRAV_FRONTEND_CLIENT_ID}")
     val aktivitetskravFrontendClientId: String,
+    @param:Value("\${AKTIVITETSKRAV_MICRO_FRONTEND_CLIENT_ID}")
+    val aktivitetskravMicroFrontendClientId: String,
     val tokenValidationContextHolder: TokenValidationContextHolder,
     val aktivitetskravService: AktivitetskravService
 ) {
@@ -38,7 +40,7 @@ class AktivitetspliktApi(
     fun init() {
         tokenValidator = TokenValidator(
             tokenValidationContextHolder,
-            setOf(esyfoProxyClientId, aktivitetskravFrontendClientId)
+            setOf(esyfoProxyClientId, aktivitetskravFrontendClientId, aktivitetskravMicroFrontendClientId)
         )
     }
 
