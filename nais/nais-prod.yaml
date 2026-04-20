@@ -49,7 +49,6 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: esyfo-proxy
         - application: aktivitetskrav-frontend
         - application: aktivitetskrav-microfrontend
   gcp:
@@ -74,8 +73,6 @@ spec:
           - name: cloudsql.logical_decoding
             value: "on"
   env:
-    - name: ESYFO_PROXY_CLIENT_ID
-      value: prod-gcp:team-esyfo:esyfo-proxy
     - name: AKTIVITETSKRAV_FRONTEND_CLIENT_ID
       value: prod-gcp:team-esyfo:aktivitetskrav-frontend
     - name: AKTIVITETSKRAV_MICRO_FRONTEND_CLIENT_ID
