@@ -12,7 +12,7 @@ Aktivitetskrav-backend er en backend-tjeneste som håndterer **aktivitetskrav** 
 
 - **Konsumerer Kafka-events** fra `teamsykefravr` (vurderinger og varsler om aktivitetskrav)
 - **Lagrer data** i PostgreSQL (vurderinger med status, frister og begrunnelser, samt varsler med dokumentkomponenter)
-- **Eksponerer REST API** (beskyttet med TokenX) slik at sykmeldte kan se sin aktivitetsplikt-status via `esyfo-proxy`
+- **Eksponerer REST API** (beskyttet med TokenX) slik at sykmeldte kan se sin aktivitetsplikt-status via `aktivitetskrav-frontend` og `aktivitetskrav-microfrontend`
 - **Produserer events** til `team-esyfo.varselbus` for å vise varsler/dokumenter i brukerens mikrofrontend
 
 Mulige statuser er definert i [`AktivitetspliktStatus`](src/main/kotlin/no/nav/syfo/api/dto/Aktivitetsplikt.kt).
@@ -32,13 +32,15 @@ flowchart LR
         G[Kafka Producer]
     end
 
-    H[esyfo-proxy]
+    H[aktivitetskrav-frontend]
+    I[aktivitetskrav-microfrontend]
 
     A -->|vurdering| D
     B -->|varsel| D
     D --> E
     E --> F
-    F -->|TokenX| H
+    H -->|TokenX| F
+    I -->|TokenX| F
     D --> G
     G -->|SM_AKTIVITETSPLIKT| C
 ```
@@ -51,7 +53,7 @@ flowchart LR
 | `POST` | `/api/v1/aktivitetsplikt/les` | Marker aktivitetskrav som lest |
 | `GET` | `/api/v1/aktivitetsplikt/historikk` | Hent historikk for aktivitetskrav |
 
-Alle endepunkter krever TokenX-autentisering og er kun tilgjengelig via `esyfo-proxy`.
+Alle endepunkter krever TokenX-autentisering og er tilgjengelige for `aktivitetskrav-frontend` og `aktivitetskrav-microfrontend`.
 
 ## Utvikling
 
