@@ -87,7 +87,10 @@ class TokenValidatorTest {
 
     @Test
     fun `should extract fnr from idporten tokenx claims`() {
-        val expectedClientIds = setOf("dev-gcp:team-esyfo:aktivitetskrav-frontend")
+        val expectedClientIds = setOf(
+            "dev-gcp:team-esyfo:aktivitetskrav-frontend",
+            "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+        )
         val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
         val expectedFnr = "12345678910"
 
