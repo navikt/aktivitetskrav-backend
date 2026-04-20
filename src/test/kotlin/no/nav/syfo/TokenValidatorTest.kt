@@ -16,22 +16,11 @@ class TokenValidatorTest {
     private val jwtTokenClaims = mockk<JwtTokenClaims>()
 
     @Test
-    fun `should accept token with first expected client id`() {
-        val expectedClientIds = setOf("dev-gcp:team-esyfo:esyfo-proxy", "dev-gcp:team-esyfo:aktivitetskrav-frontend")
-        val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
-
-        every { tokenValidationContextHolder.getTokenValidationContext() } returns tokenValidationContext
-        every { tokenValidationContext.getClaims("tokenx") } returns jwtTokenClaims
-        every { jwtTokenClaims.getStringClaim("client_id") } returns "dev-gcp:team-esyfo:esyfo-proxy"
-
-        val claims = tokenValidator.validerTokenXClaims()
-
-        claims shouldBe jwtTokenClaims
-    }
-
-    @Test
-    fun `should accept token with second expected client id`() {
-        val expectedClientIds = setOf("dev-gcp:team-esyfo:esyfo-proxy", "dev-gcp:team-esyfo:aktivitetskrav-frontend")
+    fun `should accept token with aktivitetskrav frontend client id`() {
+        val expectedClientIds = setOf(
+            "dev-gcp:team-esyfo:aktivitetskrav-frontend",
+            "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+        )
         val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
 
         every { tokenValidationContextHolder.getTokenValidationContext() } returns tokenValidationContext
@@ -44,8 +33,28 @@ class TokenValidatorTest {
     }
 
     @Test
+    fun `should accept token with aktivitetskrav microfrontend client id`() {
+        val expectedClientIds = setOf(
+            "dev-gcp:team-esyfo:aktivitetskrav-frontend",
+            "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+        )
+        val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
+
+        every { tokenValidationContextHolder.getTokenValidationContext() } returns tokenValidationContext
+        every { tokenValidationContext.getClaims("tokenx") } returns jwtTokenClaims
+        every { jwtTokenClaims.getStringClaim("client_id") } returns "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+
+        val claims = tokenValidator.validerTokenXClaims()
+
+        claims shouldBe jwtTokenClaims
+    }
+
+    @Test
     fun `should reject token with unexpected client id`() {
-        val expectedClientIds = setOf("dev-gcp:team-esyfo:esyfo-proxy", "dev-gcp:team-esyfo:aktivitetskrav-frontend")
+        val expectedClientIds = setOf(
+            "dev-gcp:team-esyfo:aktivitetskrav-frontend",
+            "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+        )
         val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
 
         every { tokenValidationContextHolder.getTokenValidationContext() } returns tokenValidationContext
@@ -61,7 +70,10 @@ class TokenValidatorTest {
 
     @Test
     fun `should reject token with null client_id claim`() {
-        val expectedClientIds = setOf("dev-gcp:team-esyfo:esyfo-proxy", "dev-gcp:team-esyfo:aktivitetskrav-frontend")
+        val expectedClientIds = setOf(
+            "dev-gcp:team-esyfo:aktivitetskrav-frontend",
+            "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+        )
         val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
 
         every { tokenValidationContextHolder.getTokenValidationContext() } returns tokenValidationContext
@@ -75,7 +87,10 @@ class TokenValidatorTest {
 
     @Test
     fun `should extract fnr from idporten tokenx claims`() {
-        val expectedClientIds = setOf("dev-gcp:team-esyfo:esyfo-proxy")
+        val expectedClientIds = setOf(
+            "dev-gcp:team-esyfo:aktivitetskrav-frontend",
+            "dev-gcp:team-esyfo:aktivitetskrav-microfrontend"
+        )
         val tokenValidator = TokenValidator(tokenValidationContextHolder, expectedClientIds)
         val expectedFnr = "12345678910"
 

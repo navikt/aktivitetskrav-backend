@@ -5,8 +5,6 @@ KAFKA_KEYSTORE_PATH: ""
 
 NAIS_CLUSTER_NAME: test
 
-ESYFO_PROXY_CLIENT_ID: "client-id"
-
 spring:
   profiles:
     active: test
@@ -32,7 +30,8 @@ spring:
     enabled: true
     path: '/h2'
 
-DITT_SYKEFRAVAER_FRONTEND_CLIENT_ID: frontend-client-id
+AKTIVITETSKRAV_FRONTEND_CLIENT_ID: dev-gcp:team-esyfo:aktivitetskrav-frontend
+AKTIVITETSKRAV_MICRO_FRONTEND_CLIENT_ID: dev-gcp:team-esyfo:aktivitetskrav-microfrontend
 
 management:
   endpoint.prometheus.enabled: true
