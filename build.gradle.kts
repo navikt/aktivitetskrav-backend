@@ -31,6 +31,9 @@ val mockkVersion = "1.14.9"
 val kotestVersion = "6.1.11"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "7.0.2"
+val tomcatVersion = "11.0.22"
+
+extra["tomcat.version"] = tomcatVersion
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
