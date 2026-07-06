@@ -1,3 +1,4 @@
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -12,8 +13,16 @@ plugins {
 group = "no.nav.syfo"
 version = "1.0.0"
 description = "aktivitetskrav-backend"
-java.sourceCompatibility = JavaVersion.VERSION_21
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+kotlin {
+    jvmToolchain(25)
+}
 ext["okhttp3.version"] = "4.11.0"
 
 repositories {
@@ -83,7 +92,7 @@ tasks {
     withType<KotlinCompile> {
         compilerOptions {
             freeCompilerArgs.set(listOf("-Xjsr305=strict"))
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_25)
             if (System.getenv("CI") == "true") {
                 compilerOptions.allWarningsAsErrors.set(true)
             }
