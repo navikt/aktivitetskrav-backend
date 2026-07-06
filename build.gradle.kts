@@ -23,9 +23,6 @@ java {
 kotlin {
     jvmToolchain(25)
 }
-
-java.sourceCompatibility = JavaVersion.VERSION_25
-
 ext["okhttp3.version"] = "4.11.0"
 
 repositories {
