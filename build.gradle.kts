@@ -1,6 +1,6 @@
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
     id("org.springframework.boot") version "4.1.0"
