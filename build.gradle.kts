@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
     id("org.springframework.boot") version "4.1.0"
@@ -12,6 +13,17 @@ plugins {
 group = "no.nav.syfo"
 version = "1.0.0"
 description = "aktivitetskrav-backend"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+kotlin {
+    jvmToolchain(25)
+}
+
 java.sourceCompatibility = JavaVersion.VERSION_25
 
 ext["okhttp3.version"] = "4.11.0"
