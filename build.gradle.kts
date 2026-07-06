@@ -12,7 +12,7 @@ plugins {
 group = "no.nav.syfo"
 version = "1.0.0"
 description = "aktivitetskrav-backend"
-java.sourceCompatibility = JavaVersion.VERSION_21
+java.sourceCompatibility = JavaVersion.VERSION_25
 
 ext["okhttp3.version"] = "4.11.0"
 
@@ -83,7 +83,7 @@ tasks {
     withType<KotlinCompile> {
         compilerOptions {
             freeCompilerArgs.set(listOf("-Xjsr305=strict"))
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_25)
             if (System.getenv("CI") == "true") {
                 compilerOptions.allWarningsAsErrors.set(true)
             }
