@@ -1,6 +1,25 @@
-<!-- Managed by esyfo-cli. Do not edit manually. Changes will be overwritten.
-     For repo-specific customizations, create your own files without this header. -->
 # aktivitetskrav-backend
+
+## Documentation
+
+Keep temporary notes outside the repository unless an existing ignored workspace is configured.
+Maintain durable service documentation in `README.md` and any established domain documentation as
+part of the authorized change. Record an ADR for a lasting architectural
+tradeoff or a change to an earlier architectural decision, following existing
+ADR paths and numbering when present. The task scope determines which docs
+need updating; ask only when a material decision or authority is missing.
+
+## Repository guidance
+
+This repository owns `.github/copilot-instructions.md`, applicable files under
+`.github/instructions/`, and retained local agents and skills. Update affected
+repository guidance together with an authorized change, preserving service
+facts, build commands, data rules, and operational constraints.
+
+Portable agents and task workflows come from the selected nav-pilot package.
+Use the exact component identities offered by the active session. Check local
+and user components for name collisions when a skill is missing or resolves to
+unexpected content.
 
 ## Team
 - **Team**: team-esyfo, NAV IT
