@@ -144,5 +144,5 @@ fun DependencyConstraintHandlerScope.lockConstraintToVersion(
     }
 }
 
-fun springBootVersion():String = org.springframework.boot.gradle.plugin.SpringBootPlugin::class.java
+fun springBootVersion(): String = org.springframework.boot.gradle.plugin.SpringBootPlugin::class.java
     .`package`.implementationVersion
