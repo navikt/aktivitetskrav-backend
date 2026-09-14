@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "4.1.1"
-    id("io.spring.dependency-management") version "1.1.7"
     id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
     kotlin("jvm") version "2.4.10"
     kotlin("plugin.spring") version "2.4.10"
@@ -23,7 +22,6 @@ java {
 kotlin {
     jvmToolchain(25)
 }
-ext["okhttp3.version"] = "4.11.0"
 
 repositories {
     mavenCentral()
@@ -40,11 +38,25 @@ val mockkVersion = "1.14.11"
 val kotestVersion = "6.2.4"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "7.1.0"
-val tomcatVersion = "11.0.22"
-
-extra["tomcat.version"] = tomcatVersion
+val tomcatVersion = "11.0.25"
 
 dependencies {
+    implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+
+    constraints {
+        lockConstraintToVersion(dependencyVersion = springBootVersion(), lockToVersion = "4.1.1") {
+            implementation("org.apache.tomcat.embed:tomcat-embed-core:$tomcatVersion") {
+                because("CVE in lower versions")
+            }
+            implementation("org.apache.tomcat.embed:tomcat-embed-el:$tomcatVersion") {
+                because("CVE in lower versions")
+            }
+            implementation("org.apache.tomcat.embed:tomcat-embed-websocket:$tomcatVersion") {
+                because("CVE in lower versions")
+            }
+        }
+    }
+
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -115,3 +127,22 @@ tasks {
         }
     }
 }
+
+fun DependencyConstraintHandlerScope.lockConstraintToVersion(
+    dependencyVersion: String,
+    lockToVersion: String,
+    block: DependencyConstraintHandlerScope.() -> Unit
+) {
+    if (dependencyVersion == lockToVersion) {
+        block()
+    } else {
+        throw GradleException(
+            "Dependency locked to: $lockToVersion. " +
+                "Current version: $dependencyVersion. " +
+                "Remove override or bump locked version.",
+        )
+    }
+}
+
+fun springBootVersion(): String = org.springframework.boot.gradle.plugin.SpringBootPlugin::class.java
+    .`package`.implementationVersion
