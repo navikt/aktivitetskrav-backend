@@ -90,7 +90,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-    testImplementation("com.h2database:h2:2.5.250")
+    testImplementation("com.h2database:h2:2.5.252")
 }
 
 tasks {
