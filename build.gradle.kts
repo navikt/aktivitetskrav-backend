@@ -38,7 +38,7 @@ val mockkVersion = "1.14.12"
 val kotestVersion = "6.2.7"
 val kotestExtensionsVersion = "2.0.0"
 val hikariVersion = "7.1.0"
-val tomcatVersion = "11.0.27"
+val tomcatVersion = "11.0.29"
 
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
