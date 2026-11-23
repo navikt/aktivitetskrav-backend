@@ -44,7 +44,7 @@ dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 
     constraints {
-        lockConstraintToVersion(dependencyVersion = springBootVersion(), lockToVersion = "4.1.1") {
+        lockConstraintToVersion(dependencyVersion = springBootVersion(), lockToVersion = "4.1.2") {
             implementation("org.apache.tomcat.embed:tomcat-embed-core:$tomcatVersion") {
                 because("CVE in lower versions")
             }
